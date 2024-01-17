@@ -1,0 +1,33 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+license = "MIT License"
+
+[[mods]]
+modId = "cobblemon_sizes"
+version = "0.0.1"
+displayName = "Cobblemon Sizes"
+authors = "Gormottian"
+description = '''
+Randomize the sizes of pokemon based on json
+'''
+
+[[dependencies.cobblemon_sizes]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1]"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.cobblemon_sizes]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.cobblemon_sizes]]
+modId = "cobblemon"
+mandatory = true
+versionRange = "[1.4.0,)"
+ordering = "NONE"
+side = "BOTH"
