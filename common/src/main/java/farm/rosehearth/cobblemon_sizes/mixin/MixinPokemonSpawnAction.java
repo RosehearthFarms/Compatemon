@@ -30,8 +30,10 @@ abstract class MixinPokemonSpawnAction extends SpawnAction<PokemonEntity> {
     @Inject(method = "createEntity()Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;", at = @At("RETURN"))
     private void adjustEntitySizing(CallbackInfoReturnable<PokemonEntity> cir) {
        // CustomPokemonProperty.Companion.getProperties();
-        CobblemonSizes.LOGGER.debug("Adjusting size of " + cir.getReturnValue().getSpecies().toString());
-        ScaleUtils.setScaleOnSpawn(cir.getReturnValue(),2.5f);
+        float size_scale = CobblemonSizes.getSizeModifier();
+        float weight_scale = CobblemonSizes.getWeightModifier();
+        CobblemonSizes.LOGGER.debug("Adjusting size of " + cir.getReturnValue().getPokemon().getDisplayName() + " to " + size_scale);
+        ScaleUtils.setScaleOnSpawn(cir.getReturnValue(),size_scale);
 
     }
 
