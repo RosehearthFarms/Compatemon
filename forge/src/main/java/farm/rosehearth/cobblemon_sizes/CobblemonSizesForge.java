@@ -7,23 +7,25 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+
 @Mod(CobblemonSizes.MODID)
 @Mod.EventBusSubscriber
 public class CobblemonSizesForge {
 
     public CobblemonSizesForge() {
-        //CobblemonSizes.init((pokemonEntity, priority, goal) -> pokemonEntity.goalSelector.addGoal(priority, goal));
+        CobblemonSizes.LOGGER.debug("In CobblemonSizesForge.init()");
+        CobblemonSizes.init();
     }
-    @SubscribeEvent
-    public static void onEntityJoined(EntityJoinLevelEvent event) {
-        //LOGGER.info("onEntityJoined");
+    //@SubscribeEvent
+    //public static void onEntityJoined(EntityJoinLevelEvent event) {
+    //    //LOGGER.info("onEntityJoined");
 
-        if (event.getEntity() instanceof PokemonEntity) {
-            PokemonEntity pokemonEntity = (PokemonEntity)event.getEntity();
+     //   if (event.getEntity() instanceof PokemonEntity) {
+     //       PokemonEntity pokemonEntity = (PokemonEntity)event.getEntity();
 
-            //CobblemonSizes.addPokemonGoal(pokemonEntity);
-        }
-    }
+//        }
+//    }
+
     //    @SubscribeEvent
 //    public static void onEntityAttributes(EntityAttributeModificationEvent event){
 //        LOGGER.info("onEntityAttributes");

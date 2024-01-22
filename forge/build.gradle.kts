@@ -27,9 +27,9 @@ loom {
     enableTransitiveAccessWideners.set(true)
     silentMojangMappingsLicense()
 
-
-    mixin {
-        defaultRefmapName.set("mixins.${project.name}.refmap.json")
+    forge {
+        mixinConfig ("${project.properties["mod_id"]}-common.mixins.json")
+        mixinConfig ("${project.properties["mod_id"]}.mixins.json")
     }
 }
 
@@ -58,13 +58,10 @@ dependencies {
 
     include(modApi("me.shedaniel.cloth:cloth-config-forge:${project.properties["cloth_config_version"]}")!!)
 
-
-    // Cobblemon Sizes Dependencies
-
+// Cobblemon Sizes Dependencies
     //Pehkui
-    //implementation("com.github.Virtuoel:Pehkui:${project.properties["pehkui_version"]}-${minecraft_version}")
-    modApi("com.github.Virtuoel:Pehkui:${project.properties["pehkui_version"]}-${minecraft_version}-forge")
-    //Jade, JEI, and EMI
+     // modApi("com.github.Virtuoel:Pehkui:${project.properties["pehkui_version"]}-${minecraft_version}-forge")
+//Jade, JEI, and EMI
    // modImplementation ("curse.maven:jade-forge-324717:${project.properties["jade_forge_version"]}")
   // modImplementation ("curse.maven:jei-forge-238222:${project.properties["jei_version}"]}")
   //  compileOnly ("dev.emi:emi-forge:${project.properties["emi_version"]}+$minecraft_version:api")
@@ -75,9 +72,12 @@ tasks {
     base.archivesName.set(base.archivesName.get() + "-forge")
     processResources {
         inputs.property("version", project.version)
-
         filesMatching("META-INF/mods.toml") {
             expand(mapOf("version" to project.version))
+            expand(mapOf("modId" to project.properties["mod_id"]))
+            expand(mapOf("displayName" to project.properties["mod_name"]))
+            expand(mapOf("authors" to project.properties["mod_authors"]))
+            expand(mapOf("description" to project.properties["mod_description"]))
         }
     }
 
