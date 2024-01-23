@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "cobblemon_sizes",
+  "id": "compatemon",
   "version": "0.0.1",
   "name": "Cobblemon Sizes Fabric",
   "description": "Makes Cobblemon run away or fight back in response to a player attack or failed capture.",
@@ -12,15 +12,15 @@
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
   "license": "MIT License",
-  "icon": "assets/cobblemon_sizes/icon.png",
+  "icon": "assets/compatemon/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "farm.rosehearth.cobblemon_sizes.CobblemonSizesFabric"
+      "farm.rosehearth.compatemon.CobblemonSizesFabric"
     ]
   },
   "mixins": [
-    "cobblemon_sizes.mixins.json"
+    "compatemon.mixins.json"
   ],
   "depends": {
     "java": ">=17",

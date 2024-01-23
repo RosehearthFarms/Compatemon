@@ -1,8 +1,7 @@
-package farm.rosehearth.cobblemon_sizes.api.cobblemon.properties
+package farm.rosehearth.compatemon.api.cobblemon.properties
 
 
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 
 open class FloatProperty (val key: String,

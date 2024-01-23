@@ -1,4 +1,4 @@
-rootProject.name = "cobblemon_sizes"
+rootProject.name = "compatemon"
 
 pluginManagement.repositories {
     maven("https://maven.fabricmc.net/")

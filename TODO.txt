@@ -1,0 +1,21 @@
+scale for weight
+data saving to nbt
+Stat logic
+refactor mod name to CobbleCompatemon
+more compat?
+- apotheosis
+    . enchants and gems
+    . unique Pokémon spawns via bosses
+- quark
+    . not sure yet
+- valkyrian skies
+    . Mass - integrate with pehkui too!
+- botanis?
+- forbidden
+- create
+- farmer's delight
+- all other c9bblemods
+- curios
+- serene seasons
+- irons
+- all major game play mods

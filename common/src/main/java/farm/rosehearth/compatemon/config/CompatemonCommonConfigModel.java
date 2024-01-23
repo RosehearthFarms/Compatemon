@@ -1,14 +1,12 @@
-package farm.rosehearth.cobblemon_sizes.config;
+package farm.rosehearth.compatemon.config;
 
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
-import java.math.BigDecimal;
-
-@Config(name = "cobblemon_sizes")
-public class CobblemonSizesCommonConfigModel implements ConfigData {
+@Config(name = "compatemon")
+public class CompatemonCommonConfigModel implements ConfigData {
 
     @ConfigEntry.Category("Debug")
     @Comment("\nShould jsons be generated for all loaded species? Default values will be loaded when not provided.")

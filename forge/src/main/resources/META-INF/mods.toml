@@ -3,7 +3,7 @@ loaderVersion = "[47,)"
 license = "MIT License"
 
 [[mods]]
-modId = "cobblemon_sizes"
+modId = "compatemon"
 version = "0.0.1"
 displayName = "Cobblemon Sizes"
 authors = "Gormottian"
@@ -11,21 +11,21 @@ description = '''
 Randomize the sizes of pokemon based on json
 '''
 
-[[dependencies.cobblemon_sizes]]
+[[dependencies.compatemon]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.20.1]"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.cobblemon_sizes]]
+[[dependencies.compatemon]]
 modId = "forge"
 mandatory = true
 versionRange = "[47,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.cobblemon_sizes]]
+[[dependencies.compatemon]]
 modId = "cobblemon"
 mandatory = true
 versionRange = "[1.4.0,)"

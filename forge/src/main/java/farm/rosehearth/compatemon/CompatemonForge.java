@@ -1,20 +1,15 @@
-package farm.rosehearth.cobblemon_sizes;
+package farm.rosehearth.compatemon;
 
 import net.minecraftforge.fml.common.Mod;
 
 
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-
-
-@Mod(CobblemonSizes.MODID)
+@Mod(Compatemon.MODID)
 @Mod.EventBusSubscriber
-public class CobblemonSizesForge {
+public class CompatemonForge {
 
-    public CobblemonSizesForge() {
-        CobblemonSizes.LOGGER.debug("In CobblemonSizesForge.init()");
-        CobblemonSizes.init();
+    public CompatemonForge() {
+        Compatemon.LOGGER.debug("In CobblemonSizesForge.init()");
+        Compatemon.init();
     }
     //@SubscribeEvent
     //public static void onEntityJoined(EntityJoinLevelEvent event) {

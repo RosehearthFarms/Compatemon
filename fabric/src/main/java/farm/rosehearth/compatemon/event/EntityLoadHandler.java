@@ -1,7 +1,6 @@
-package farm.rosehearth.cobblemon_sizes.event;
+package farm.rosehearth.compatemon.event;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import farm.rosehearth.cobblemon_sizes.CobblemonSizes;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
