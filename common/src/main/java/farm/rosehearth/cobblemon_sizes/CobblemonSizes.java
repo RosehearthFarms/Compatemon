@@ -1,12 +1,15 @@
 package farm.rosehearth.cobblemon_sizes;
 
+import com.cobblemon.mod.common.api.properties.CustomPokemonProperty;
 import farm.rosehearth.cobblemon_sizes.config.CobblemonSizesCommonConfigModel;
+import farm.rosehearth.cobblemon_sizes.api.cobblemon.properties.SizeScaleProperty;
 import com.cobblemon.mod.common.api.Priority;
 import com.cobblemon.mod.common.api.events.CobblemonEvents;
 import com.cobblemon.mod.common.api.events.entity.SpawnEvent;
 import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.data.CobblemonDataProvider;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -46,6 +49,9 @@ public class CobblemonSizes {
 		AutoConfig.register(CobblemonSizesCommonConfigModel.class, JanksonConfigSerializer::new);
 		config = AutoConfig.getConfigHolder(CobblemonSizesCommonConfigModel.class).getConfig();
 		r = new Random();
+		CobblemonSizesKotlin.INSTANCE.initialize();
+		//CustomPokemonProperty.Companion.register(SizeScaleProperty.INSTANCE);
+
 	}
 
 	public static float getSizeModifier(){
