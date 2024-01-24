@@ -2,7 +2,6 @@ package farm.rosehearth.compatemon;
 
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty;
 import farm.rosehearth.compatemon.config.CompatemonCommonConfigModel;
-import farm.rosehearth.compatemon.api.cobblemon.properties.SizeScaleProperty;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import org.slf4j.Logger;
@@ -28,7 +27,6 @@ public class Compatemon {
 		config = AutoConfig.getConfigHolder(CompatemonCommonConfigModel.class).getConfig();
 		r = new Random();
 		CompatemonKotlin.INSTANCE.initialize();
-		//CustomPokemonProperty.Companion.register(SizeScaleProperty.INSTANCE);
 
 	}
 
