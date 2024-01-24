@@ -27,8 +27,8 @@ public class Compatemon {
 		AutoConfig.register(CompatemonCommonConfigModel.class, JanksonConfigSerializer::new);
 		config = AutoConfig.getConfigHolder(CompatemonCommonConfigModel.class).getConfig();
 		r = new Random();
-		//CompatemonKotlin.INSTANCE.initialize();
-		CustomPokemonProperty.Companion.register(SizeScaleProperty.INSTANCE);
+		CompatemonKotlin.INSTANCE.initialize();
+		//CustomPokemonProperty.Companion.register(SizeScaleProperty.INSTANCE);
 
 	}
 

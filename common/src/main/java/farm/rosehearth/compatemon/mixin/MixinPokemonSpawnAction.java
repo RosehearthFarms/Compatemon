@@ -13,6 +13,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import farm.rosehearth.compatemon.utils.CustomPropertyAdder;
+
+
+import com.cobblemon.mod.common.util.*;
 import farm.rosehearth.compatemon.Compatemon;
 
 import virtuoel.pehkui.util.ScaleUtils;
@@ -36,10 +40,14 @@ abstract class MixinPokemonSpawnAction extends SpawnAction<PokemonEntity> {
         ScaleUtils.setScaleOnSpawn(cir.getReturnValue(),size_scale);
        // props.customProperties.add(PokemonProperties.Companion.parse("CS_SizeScale=" + size_scale," ","="))
        // var p = props.getCustomProperties();
-        var p = PokemonProperties.Companion.parse("CS_SizeScale=\"" + size_scale + "\""," ","=").getCustomProperties();
+        String s = "\"" + size_scale + "\"";
+        Compatemon.LOGGER.debug(s);
+        CustomPropertyAdder.Companion.addPropertyToPokemon(s,cir.getReturnValue());
+       // var p = PokemonProperties.Companion.parse(s," ","=").getCustomProperties();
+     //  Compatemon.LOGGER.debug("Got here at least - tried to add custom property : " + p.size());
+      // cir.getReturnValue().getPokemon().getCustomProperties().addAll(p);
 
-       // Compatemon.LOGGER.debug(p.get(1).toString());
-        props.setCustomProperties(p);
+        //props.setCustomProperties(p);
        // props.setCustomProperties(PokemonProperties.Companion.parse("CS_SizeScale=" + size_scale," ","="));
 
     }

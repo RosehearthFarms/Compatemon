@@ -1,7 +1,7 @@
+TODO
 scale for weight
 data saving to nbt
 Stat logic
-refactor mod name to CobbleCompatemon
 more compat?
 - apotheosis
     . enchants and gems
@@ -10,12 +10,17 @@ more compat?
     . not sure yet
 - valkyrian skies
     . Mass - integrate with pehkui too!
-- botanis?
-- forbidden
+- botania?
+- forbidden and arcanus
 - create
 - farmer's delight
-- all other c9bblemods
+- all other cobblemods
 - curios
 - serene seasons
 - irons
 - all major game play mods
+
+
+
+DONE
+~refactor mod name to CobbleCompatemon~
