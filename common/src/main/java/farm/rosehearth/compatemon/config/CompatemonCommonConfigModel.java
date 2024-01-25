@@ -19,12 +19,12 @@ public class CompatemonCommonConfigModel implements ConfigData {
     @Comment("\nIf not provided in the species jsons, should Pokemon sizes be randomized?")
     public boolean size_do_unprovided = true;
     @Comment("The standard deviation of unprovided pokemon sizes")
-    public float size_dev = .20f;
+    public float size_dev = .21f;
     @Comment("The average size of most pokemon. Change to modify the scaling across the board!")
     public float size_scale = 1.0f;
-    @Comment("The max size percentage for unprovided pokemon sizes, where 1.0 is standard size.")
+    @Comment("The max size percentage for unprovided pokemon sizes, where 1.0 is 100% of the size scale.")
     public float size_max_percentage = 1.5f;
-    @Comment("The min size percentage for unprovided pokemon sizes, where 1.0 is standard size.")
+    @Comment("The min size percentage for unprovided pokemon sizes, where 1.0 is 100% of the size scale.")
     public float size_min_percentage = 0.25f;
 
 @ConfigEntry.Category("Default Weight Variation")
@@ -32,7 +32,7 @@ public class CompatemonCommonConfigModel implements ConfigData {
     public boolean weight_do_unprovided = true;
     @Comment("The standard deviation of unprovided pokemon sizes")
     public float weight_dev = //BigDecimal.valueOf(
-            0.2f
+            0.21f
    // ).setScale(2).floatValue()
             ;
     @Comment("The average size of most pokemon. Change to modify the scaling across the board!")
