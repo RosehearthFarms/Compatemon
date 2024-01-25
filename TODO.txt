@@ -1,26 +1,48 @@
 TODO
 scale for weight
-data saving to nbt
 Stat logic
-more compat?
+    - Config for whether stat is affected by size/weight
+    - "Proportional", "Inverse", "N/A"
+
+Planned Mod Integrations
 - apotheosis
-    . enchants and gems
-    . unique Pokémon spawns via bosses
+    . Pokemon Specific Gems
+        - Affect Catch Rate
+        - Affect Spawning Amount
+    . New Effect
+        - Repel
+    . Unique Pokémon spawns via bosses
+        - Uncatchable?
+        > Pehkui Size is larger and thus has better stats
+        > config list
 - quark
     . not sure yet
+- supplementaries
+    . also not sure
 - valkyrian skies
-    . Mass - integrate with pehkui too!
+    . Pokemon mass should affect physics
 - botania?
+    . Legendary Summoning? Grass Types?
 - forbidden and arcanus
+    . blood? Specific Pokemon Rituals? Legendary Summoning!
 - create
 - farmer's delight
 - all other cobblemods
+    > Cobblemounts
+    > Fight Or Flight
+    > Loot Balls
+    > TMs
+    > Mass Outbreaks
+    > Integrations
 - curios
 - serene seasons
+    > season spawning! Temperature of world affects spawn rates of various types/egg groups
 - irons
+    . Spells relating to Pokemon? Turn into a pokemon?
 - all major game play mods
 
 
 
 DONE
-~refactor mod name to CobbleCompatemon~
+~refactor mod name to Compatemon~
+data saving to nbt

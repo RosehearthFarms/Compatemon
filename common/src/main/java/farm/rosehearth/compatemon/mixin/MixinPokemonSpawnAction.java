@@ -36,16 +36,10 @@ abstract class MixinPokemonSpawnAction extends SpawnAction<PokemonEntity> {
         // Get the modifiers based on config
         float size_scale = Compatemon.getSizeModifier();
         float weight_scale = Compatemon.getWeightModifier();
-
+        Compatemon.LOGGER.debug("In the injection for createEntity()");
         // Actually set the scale of the spawning pokemonEntity. Will eventually add a new scale type for weight.
-        CompatemonScaleUtils.Companion.setScale(cir.getReturnValue(), ScaleTypes.BASE, size_scale);
+        CompatemonScaleUtils.Companion.setScale(cir.getReturnValue(), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, size_scale);
 
-        // Add the new scales to the pokemonEntity's PersistentData
-        CompoundTag compatemonData = new CompoundTag();
-        compatemonData.put(MOD_ID_COMPATEMON,new CompoundTag());
-        compatemonData.getCompound(MOD_ID_COMPATEMON).putFloat(MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE,size_scale);
-        compatemonData.getCompound(MOD_ID_COMPATEMON).putFloat(MOD_ID_COMPATEMON + ":" + COMPAT_SCALE_WEIGHT,weight_scale);
-        cir.getReturnValue().getPokemon().getPersistentData().merge(compatemonData);
 
     }
 

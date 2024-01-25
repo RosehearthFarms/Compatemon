@@ -6,12 +6,14 @@ import farm.rosehearth.compatemon.events.CompatemonEvents;
 import farm.rosehearth.compatemon.events.entity.*;
 import net.minecraft.nbt.CompoundTag;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Pokemon.class)
 abstract class MixinPokemonSaveLoadEvents {
+
     @Inject(method = "saveToNBT", at = @At("RETURN"), remap = false)
     private void addNBTSavingEvent(CompoundTag nbt, CallbackInfoReturnable<CompoundTag> pokemon) {
         CompatemonEvents.POKEMON_NBT_SAVED.postThen(new PokemonNbtSavedEvent((Pokemon)((Object)this), nbt),savedEvent -> null,savedEvent -> {

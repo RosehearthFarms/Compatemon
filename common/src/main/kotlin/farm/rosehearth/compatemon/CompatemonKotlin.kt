@@ -11,6 +11,7 @@ import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_JSON_SAVED
 import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_NBT_LOADED
 import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_NBT_SAVED
 import farm.rosehearth.compatemon.utils.CompatemonDataKeys.COMPAT_SCALE_SIZE
+import farm.rosehearth.compatemon.utils.CompatemonDataKeys.COMPAT_SCALE_WEIGHT
 import farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_COMPATEMON
 import farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_PEHKUI
 import farm.rosehearth.compatemon.utils.pehkui.CompatemonScaleUtils
@@ -37,20 +38,6 @@ object CompatemonKotlin {
         }
         POKEMON_NBT_LOADED.subscribe{event ->
 
-           // LOGGER.debug("--------------------------------------------------------------")
-           // LOGGER.debug("--------------------------------------------------------------")
-           // LOGGER.debug(event.pokemon.showdownId())
-           // LOGGER.debug("")
-           // LOGGER.debug("Keys inside the event")
-           // event.nbt.allKeys.forEach{
-           //     LOGGER.debug("    " + it)
-           //     LOGGER.debug("        " + event.nbt.get(it).toString())
-           // }
-            //var baseScale = (((event.nbt["PersistentData"] as CompoundTag)["Compatemon"] as CompoundTag)["pehkui"] as CompoundTag).getFloat("sizeScale");
-
-           // LOGGER.info("POKEMON_NBT_LOADED let out the pokemon and scale to $baseScale")
-
-            //event.pokemon.entity?.let { CompatemonScaleUtils.setScale(it,ScaleTypes.BASE,baseScale) }
         }
         POKEMON_ENTITY_LOAD.subscribe{ event ->
             LOGGER.debug("--------------------------------------------------------------")
@@ -62,12 +49,17 @@ object CompatemonKotlin {
                 LOGGER.debug("    " + it)
                 LOGGER.debug("        " + event.nbt.get(it).toString())
             }
-            var baseScale:Float? = event.pokemonEntity.pokemon.persistentData?.getCompound(MOD_ID_COMPATEMON)?.getFloat(MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE)
-            if(baseScale == null)
+            var sizeScale:Float? = event.pokemonEntity.pokemon.persistentData?.getCompound(MOD_ID_COMPATEMON)?.getFloat("$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE")
+            var weightScale:Float? = event.pokemonEntity.pokemon.persistentData?.getCompound(MOD_ID_COMPATEMON)?.getFloat("$MOD_ID_COMPATEMON:$COMPAT_SCALE_WEIGHT")
+            if(sizeScale == null)
             {
-                baseScale = Compatemon.getSizeModifier();
+                sizeScale = Compatemon.getSizeModifier()
+                weightScale = Compatemon.getWeightModifier()
+
+                LOGGER.debug("Updated the default size and weight of " + event.pokemonEntity.pokemon.showdownId())
             }
-            CompatemonScaleUtils.setScale(event.pokemonEntity, ScaleTypes.BASE, baseScale)
+            CompatemonScaleUtils.setScale(event.pokemonEntity, ScaleTypes.BASE,"$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE", sizeScale)
+            LOGGER.debug("Scaled the size of " + event.pokemonEntity.pokemon.showdownId() + " to $sizeScale")
         }
 
         POKEMON_SENT_PRE.subscribe{ event ->
