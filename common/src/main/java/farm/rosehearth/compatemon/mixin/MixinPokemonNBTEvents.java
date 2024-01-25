@@ -16,12 +16,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Pokemon.class)
 abstract class MixinPokemonNBTEvents {
 
-    @Shadow
-    abstract public PokemonEntity getEntity();
+
     @Inject(method = "saveToNBT", at = @At("RETURN"))
     private void addSavingEvent(CompoundTag nbt, CallbackInfoReturnable<CompoundTag> pokemon) {
 
-        CompatemonEvents.POKEMON_NBT_SAVED.postThen(new PokemonNbtSavedEvent(getEntity(), nbt),savedEvent -> null,savedEvent -> {
+        CompatemonEvents.POKEMON_NBT_SAVED.postThen(new PokemonNbtSavedEvent((Pokemon)((Object)this), nbt),savedEvent -> null,savedEvent -> {
             Compatemon.LOGGER.info("NBT Saved!");
             return null;
         });
@@ -29,7 +28,7 @@ abstract class MixinPokemonNBTEvents {
     @Inject(method = "loadFromNBT", at = @At("RETURN"))
     private void addLoadingEvent(CompoundTag nbt, CallbackInfoReturnable<Pokemon> pokemon) {
 
-        CompatemonEvents.POKEMON_NBT_LOADED.post(new PokemonNbtLoadedEvent[]{new PokemonNbtLoadedEvent(getEntity(), nbt)}, loadedEvent -> {
+        CompatemonEvents.POKEMON_NBT_LOADED.post(new PokemonNbtLoadedEvent[]{new PokemonNbtLoadedEvent(pokemon.getReturnValue(), nbt)}, loadedEvent -> {
 
             Compatemon.LOGGER.info("NBT Loaded!");
             return null;
