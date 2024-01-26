@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "id": "compatemon",
-  "version": "0.0.1",
-  "name": "Cobblemon Sizes Fabric",
-  "description": "Makes Cobblemon run away or fight back in response to a player attack or failed capture.",
+  "version": "0.0.2",
+  "name": "Compatemon Fabric",
+  "description": "Compatability Mod between Cobblemon and Other mods!",
   "authors": [
-    "rufia"
+    "Gormottian"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
@@ -16,7 +16,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "farm.rosehearth.compatemon.CobblemonSizesFabric"
+      "farm.rosehearth.compatemon.CompatemonFabric"
     ]
   },
   "mixins": [
