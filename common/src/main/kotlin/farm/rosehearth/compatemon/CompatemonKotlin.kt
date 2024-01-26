@@ -46,15 +46,16 @@ object CompatemonKotlin {
             LOGGER.debug("")
             LOGGER.debug("Keys inside the event")
             event.nbt.allKeys.forEach{
-                LOGGER.debug("    " + it)
+                LOGGER.debug("    $it")
                 LOGGER.debug("        " + event.nbt.get(it).toString())
             }
+
             var sizeScale:Float? = event.pokemonEntity.pokemon.persistentData?.getCompound(MOD_ID_COMPATEMON)?.getFloat("$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE")
             var weightScale:Float? = event.pokemonEntity.pokemon.persistentData?.getCompound(MOD_ID_COMPATEMON)?.getFloat("$MOD_ID_COMPATEMON:$COMPAT_SCALE_WEIGHT")
             if(sizeScale == null)
             {
-                sizeScale = Compatemon.getSizeModifier()
-                weightScale = Compatemon.getWeightModifier()
+                sizeScale = CompatemonScaleUtils.getScale("$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE")
+                weightScale = CompatemonScaleUtils.getScale("$MOD_ID_COMPATEMON:$COMPAT_SCALE_WEIGHT")
 
                 LOGGER.debug("Updated the default size and weight of " + event.pokemonEntity.pokemon.showdownId())
             }

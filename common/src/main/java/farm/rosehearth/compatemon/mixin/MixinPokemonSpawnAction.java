@@ -34,8 +34,9 @@ abstract class MixinPokemonSpawnAction extends SpawnAction<PokemonEntity> {
     @Inject(method = "createEntity()Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;", at = @At("RETURN"))
     private void adjustEntitySizing(CallbackInfoReturnable<PokemonEntity> cir) {
         // Get the modifiers based on config
-        float size_scale = Compatemon.getSizeModifier();
-        float weight_scale = Compatemon.getWeightModifier();
+        float size_scale = CompatemonScaleUtils.Companion.getScale(MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE);
+        float weight_scale = CompatemonScaleUtils.Companion.getScale(MOD_ID_COMPATEMON + ":" + COMPAT_SCALE_WEIGHT);
+
         Compatemon.LOGGER.debug("In the injection for createEntity()");
         // Actually set the scale of the spawning pokemonEntity. Will eventually add a new scale type for weight.
         CompatemonScaleUtils.Companion.setScale(cir.getReturnValue(), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, size_scale);

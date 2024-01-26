@@ -5,7 +5,7 @@ Stat logic
     - "Proportional", "Inverse", "N/A"
 
 Planned Mod Integrations
-- apotheosis
+- Apotheosis
     . Pokemon Specific Gems
         - Affect Catch Rate
         - Affect Spawning Amount
@@ -15,29 +15,34 @@ Planned Mod Integrations
         - Uncatchable?
         > Pehkui Size is larger and thus has better stats
         > config list
-- quark
-    . not sure yet
-- supplementaries
+- Quark
+    . Probably Something
+- Botania
+    > Legendary Summoning for grass types
+- Supplementaries
     . also not sure
-- valkyrian skies
+- Valkyrian Skies/Eureka
     . Pokemon mass should affect physics
-- botania?
-    . Legendary Summoning? Grass Types?
-- forbidden and arcanus
-    . blood? Specific Pokemon Rituals? Legendary Summoning!
-- create
-- farmer's delight
-- all other cobblemods
+- Forbidden and Arcanus
+    > Legendary Summoning Rituals
+    > Other unknown, haven't played with F&A much
+- Create
+    > Recipes for Mechancial Crafter larger than 3x3
+- Farmer's Delight
+- Various Cobblemods
     > Cobblemounts
     > Fight Or Flight
     > Loot Balls
     > TMs
     > Mass Outbreaks
     > Integrations
-- curios
-- serene seasons
-    > season spawning! Temperature of world affects spawn rates of various types/egg groups
-- irons
+- Curios
+    > Give Hold Items Curios Support and effects
+- Serene Seasons
+    > Pokemon Spawning based on species files
+        - Alternatively and more simply, set defaults by type/egg group
+    > Berry Growth could be affected by seasons
+- Irons Spellbook
     . Spells relating to Pokemon? Turn into a pokemon?
 - all major game play mods
 

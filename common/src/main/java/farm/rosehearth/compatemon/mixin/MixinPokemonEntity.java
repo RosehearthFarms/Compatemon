@@ -11,10 +11,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import virtuoel.pehkui.api.ScaleTypes;
 
-import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.COMPAT_SCALE_SIZE;
-import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_PEHKUI;
+import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.*;
 
 @Mixin(PokemonEntity.class)
 abstract class MixinPokemonEntity extends Entity {
@@ -27,10 +28,10 @@ abstract class MixinPokemonEntity extends Entity {
 
 
     @Inject(method = "<init>", at = @At("RETURN"), remap = false)
-    public void onInit(){
+    public void onInit(Level world, Pokemon pokemon, EntityType entityType, CallbackInfo cir){
        // ((PokemonEntity)((Object)this))
-        float size_scale = Compatemon.getSizeModifier();
-        float weight_scale = Compatemon.getWeightModifier();
+        float size_scale = CompatemonScaleUtils.Companion.getScale(MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE);
+        float weight_scale = CompatemonScaleUtils.Companion.getScale(MOD_ID_COMPATEMON + ":" + COMPAT_SCALE_WEIGHT);
         Compatemon.LOGGER.debug("In the constructor injection for pokemonEntity");
         CompatemonScaleUtils.Companion.setScale(((PokemonEntity)((Object)this)), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, size_scale);
     }
