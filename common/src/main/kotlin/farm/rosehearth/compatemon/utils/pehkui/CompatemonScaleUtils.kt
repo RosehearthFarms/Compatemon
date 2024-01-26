@@ -30,19 +30,20 @@ open class CompatemonScaleUtils {
             }
         }
 
-        fun retrieveScale(pokemon: Pokemon, scaleName: String):Float{
-            if(!pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).contains(scaleName)){
-                return getScale(scaleName)
+        fun getScale(pokemon: Pokemon, scaleName: String):Float{
+            if(!pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).contains(scaleName)) {
+                LOGGER.debug("Updated the default $scaleName of " + pokemon.showdownId())
+                return getNewScale(scaleName)
             }
-            return 1.0f
+            return pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).getFloat(scaleName)
         }
 
         /*
-         * function getScale(String scaleName)
+         * function getNewScale(String scaleName)
          * @return Float: randomized value of the scaleName based on config. If the scale isn't in the config, will return 1.0f
          *
          */
-        fun getScale(scaleName: String):Float{
+        fun getNewScale(scaleName: String):Float{
             if(scaleName == "${CompatemonDataKeys.MOD_ID_PEHKUI}:${CompatemonDataKeys.COMPAT_SCALE_SIZE}") {
                 if (!Compatemon.config().size_do_unprovided) return 1.0f
                 var new_size = Compatemon.config().size_scale +

@@ -41,24 +41,19 @@ object CompatemonKotlin {
         }
         POKEMON_ENTITY_LOAD.subscribe{ event ->
             LOGGER.debug("--------------------------------------------------------------")
-            LOGGER.debug("--------------------------------------------------------------")
-            LOGGER.debug(event.pokemonEntity.pokemon.showdownId())
-            LOGGER.debug("")
-            LOGGER.debug("Keys inside the event")
-            event.nbt.allKeys.forEach{
-                LOGGER.debug("    $it")
-                LOGGER.debug("        " + event.nbt.get(it).toString())
-            }
+            LOGGER.debug("In POKEMON_ENTITY_LOAD")
+           // LOGGER.debug("--------------------------------------------------------------")
+           // LOGGER.debug(event.pokemonEntity.pokemon.showdownId())
+           // LOGGER.debug("")
+           // LOGGER.debug("Keys inside the event")
+            //event.nbt.allKeys.forEach{
+            //    LOGGER.debug("    $it")
+           //     LOGGER.debug("        " + event.nbt.get(it).toString())
+           // }
 
-            var sizeScale:Float? = event.pokemonEntity.pokemon.persistentData?.getCompound(MOD_ID_COMPATEMON)?.getFloat("$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE")
-            var weightScale:Float? = event.pokemonEntity.pokemon.persistentData?.getCompound(MOD_ID_COMPATEMON)?.getFloat("$MOD_ID_COMPATEMON:$COMPAT_SCALE_WEIGHT")
-            if(sizeScale == null)
-            {
-                sizeScale = CompatemonScaleUtils.getScale("$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE")
-                weightScale = CompatemonScaleUtils.getScale("$MOD_ID_COMPATEMON:$COMPAT_SCALE_WEIGHT")
+            var sizeScale:Float = CompatemonScaleUtils.getScale(event.pokemonEntity.pokemon,"$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE")
+            var weightScale:Float = CompatemonScaleUtils.getScale(event.pokemonEntity.pokemon,"$MOD_ID_COMPATEMON:$COMPAT_SCALE_WEIGHT")
 
-                LOGGER.debug("Updated the default size and weight of " + event.pokemonEntity.pokemon.showdownId())
-            }
             CompatemonScaleUtils.setScale(event.pokemonEntity, ScaleTypes.BASE,"$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE", sizeScale)
             LOGGER.debug("Scaled the size of " + event.pokemonEntity.pokemon.showdownId() + " to $sizeScale")
         }
