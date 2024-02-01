@@ -16,14 +16,14 @@ public class CompatemonCommonConfigModel implements ConfigData {
     public boolean do_generate_pokemon_json = false;
 
 @ConfigEntry.Category("Default Size Variation")
-    @Comment("\nIf not provided in the species jsons, should Pokemon sizes be randomized?")
+    @Comment("\nIf not provided in the species jsons, should Pokemon sizes be randomized? - Currently does not work. All are randomized anyway.")
     public boolean size_do_unprovided = true;
     @Comment("The standard deviation of unprovided pokemon sizes")
-    public float size_dev = .21f;
+    public float size_dev = .200f;
     @Comment("The average size of most pokemon. Change to modify the scaling across the board!")
     public float size_scale = 1.0f;
     @Comment("The max size percentage for unprovided pokemon sizes, where 1.0 is 100% of the size scale.")
-    public float size_max_percentage = 1.5f;
+    public float size_max_percentage = 1.75f;
     @Comment("The min size percentage for unprovided pokemon sizes, where 1.0 is 100% of the size scale.")
     public float size_min_percentage = 0.25f;
 
@@ -43,11 +43,11 @@ public class CompatemonCommonConfigModel implements ConfigData {
     public float weight_min_percentage = 0.25f;
 
 @ConfigEntry.Category("\n\nAttribute Scaling")
-    @Comment("\nShould a pokemon's atk and sp atk scale with size?")
+    @Comment("Should a pokemon's atk and sp atk scale with size?")
         public boolean size_do_atk_scaling = true;
     @Comment("Should a pokemon's atk and sp atk scale with weight?")
         public boolean weight_do_atk_scaling = true;
-    @Comment("\nShould a pokemon's def and sp def scale with size?")
+    @Comment("Should a pokemon's def and sp def scale with size?")
         public boolean size_do_def_scaling = true;
     @Comment("Should a pokemon's def and sp def scale with weight?")
         public boolean weight_do_def_scaling = true;

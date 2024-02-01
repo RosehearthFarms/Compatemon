@@ -1,5 +1,7 @@
 TODO
+Update Config?
 scale for weight
+
 Stat logic
     - Config for whether stat is affected by size/weight
     - "Proportional", "Inverse", "N/A"
@@ -25,6 +27,7 @@ Planned Mod Integrations
     . also not sure
 - Valkyrian Skies/Eureka
     . Pokemon mass should affect physics
+    . Pokemon Pathfinding breaks aboard boats
 - Forbidden and Arcanus
     > Legendary Summoning Rituals
     > Other unknown, haven't played with F&A much

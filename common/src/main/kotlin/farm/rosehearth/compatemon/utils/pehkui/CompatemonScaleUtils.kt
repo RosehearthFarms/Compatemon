@@ -3,7 +3,6 @@ package farm.rosehearth.compatemon.utils.pehkui
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import farm.rosehearth.compatemon.Compatemon
-import farm.rosehearth.compatemon.Compatemon.LOGGER
 import farm.rosehearth.compatemon.utils.CompatemonDataKeys
 import net.minecraft.nbt.CompoundTag
 import virtuoel.pehkui.api.ScaleType
@@ -20,8 +19,6 @@ open class CompatemonScaleUtils {
                 // Call Pehkui's setScale function
                 scaleType.getScaleData(entity).setScale(scale)
 
-                LOGGER.debug("Setting $scaleName of " + entity.pokemon.showdownId() + " to $scale")
-
                 // Add the new scale to the pokemonEntity's PersistentData
                 val compatemonData = CompoundTag()
                 compatemonData.put(CompatemonDataKeys.MOD_ID_COMPATEMON, CompoundTag())
@@ -32,7 +29,6 @@ open class CompatemonScaleUtils {
 
         fun getScale(pokemon: Pokemon, scaleName: String):Float{
             if(!pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).contains(scaleName)) {
-                LOGGER.debug("Updated the default $scaleName of " + pokemon.showdownId())
                 return getNewScale(scaleName)
             }
             return pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).getFloat(scaleName)
@@ -55,7 +51,7 @@ open class CompatemonScaleUtils {
 
                 return BigDecimal.valueOf(new_size).setScale(2, RoundingMode.UP).toFloat()
             }
-            else if (scaleName == "${CompatemonDataKeys.MOD_ID_PEHKUI}:${CompatemonDataKeys.COMPAT_SCALE_WEIGHT}") {
+            else if (scaleName == "${CompatemonDataKeys.MOD_ID_COMPATEMON}:${CompatemonDataKeys.COMPAT_SCALE_WEIGHT}") {
                 if (!Compatemon.config().weight_do_unprovided) return 1.0f
                 var new_weight = Compatemon.config().weight_scale +
                         (rand.nextGaussian() * Compatemon.config().weight_dev)
