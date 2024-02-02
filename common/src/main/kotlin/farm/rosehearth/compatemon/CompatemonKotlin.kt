@@ -41,8 +41,8 @@ object CompatemonKotlin {
 
         }
         POKEMON_ENTITY_LOAD.subscribe{ event ->
-            LOGGER.debug("--------------------------------------------------------------")
-            LOGGER.debug("In POKEMON_ENTITY_LOAD")
+            //LOGGER.debug("--------------------------------------------------------------")
+           // LOGGER.debug("In POKEMON_ENTITY_LOAD")
            // LOGGER.debug("--------------------------------------------------------------")
            // LOGGER.debug(event.pokemonEntity.pokemon.showdownId())
            // LOGGER.debug("")
@@ -56,7 +56,7 @@ object CompatemonKotlin {
             var weightScale:Float = CompatemonScaleUtils.getScale(event.pokemonEntity.pokemon,"$MOD_ID_COMPATEMON:$COMPAT_SCALE_WEIGHT")
 
             CompatemonScaleUtils.setScale(event.pokemonEntity, ScaleTypes.BASE,"$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE", sizeScale)
-            LOGGER.debug("Scaled the size of " + event.pokemonEntity.pokemon.showdownId() + " to $sizeScale")
+          //  LOGGER.debug("Scaled the size of " + event.pokemonEntity.pokemon.showdownId() + " to $sizeScale")
 
             //LOGGER.debug(event.pokemonEntity.pokemon.saveToJSON(JsonObject()).toString())
         }

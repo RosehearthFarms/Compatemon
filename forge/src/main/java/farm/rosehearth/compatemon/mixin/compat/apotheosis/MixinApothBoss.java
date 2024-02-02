@@ -38,24 +38,30 @@ public class MixinApothBoss {
 	@Shadow(remap=false)
 	protected @Nullable CompoundTag nbt;
 	
-	@Inject(method = "createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;FLdev/shadowsoffire/apotheosis/adventure/loot/LootRarity;)Lnet/minecraft/world/entity/Mob;", at = @At("HEAD"), remap = false)
-	public void compatemon$dodifferentLogic(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity, CallbackInfoReturnable<Mob> boss){
+	@Inject(at = @At("HEAD"), method = "createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;FLdev/shadowsoffire/apotheosis/adventure/loot/LootRarity;)Lnet/minecraft/world/entity/Mob;", remap = false)
+	public void compatemon$createPokemonBossHead(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity, CallbackInfoReturnable<Mob> boss){
 		var entityID = EntityType.getKey(this.entity).toString();
 		Compatemon.LOGGER.debug("Let's try to create a boss! What's the type?");
-		Compatemon.LOGGER.debug("The type is " + entityID);
+		Compatemon.LOGGER.debug("The type is " + entityID + "!");
 		if(entityID.equals("cobblemon:pokemon")){
-			Compatemon.LOGGER.debug("Wow! It's a pokemon!");
 			var properties = PokemonProperties.Companion.parse("species=random uncatchable"," ","=");
 			if (properties.getSpecies() == null) {
 				boss = null;
 			}
 			//nbt = properties.saveToNBT();
 			var pokemonEntity = properties.createEntity(world.getLevel());
-			Compatemon.LOGGER.debug("It's a " + pokemonEntity.getPokemon().getDisplayName());
-			nbt = pokemonEntity.saveWithoutId(nbt);  //writeNBT(nbt);
+			Compatemon.LOGGER.debug("Wow! It's a pokemon!");
+			Compatemon.LOGGER.debug("It's a " + pokemonEntity.getPokemon().showdownId());
+			nbt = pokemonEntity.saveWithoutId(nbt);
 			
 		}
-		
+	}
+	
+	@Inject(at = @At("RETURN"), method = "createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;FLdev/shadowsoffire/apotheosis/adventure/loot/LootRarity;)Lnet/minecraft/world/entity/Mob;",  remap = false)
+	public void compatemon$createPokemonBossReturn(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity, CallbackInfoReturnable<Mob> boss){
+		if(EntityType.getKey(this.entity).toString().equals("cobblemon:pokemon")){
+			//meow
+		}
 		
 	}
 }

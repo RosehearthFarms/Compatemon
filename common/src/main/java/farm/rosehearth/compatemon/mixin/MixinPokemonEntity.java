@@ -4,6 +4,8 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.utils.pehkui.CompatemonScaleUtils;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -20,7 +22,8 @@ import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.*;
 @Mixin(PokemonEntity.class)
 abstract class MixinPokemonEntity extends Entity {
 
-
+    @Shadow
+    private Pokemon pokemon;
 
     MixinPokemonEntity(EntityType<?> entityType, Level level){
         super(entityType, level);
@@ -32,7 +35,14 @@ abstract class MixinPokemonEntity extends Entity {
        // ((PokemonEntity)((Object)this))
         float size_scale = CompatemonScaleUtils.Companion.getScale(pokemon,MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE);
         float weight_scale = CompatemonScaleUtils.Companion.getScale(pokemon,MOD_ID_COMPATEMON + ":" + COMPAT_SCALE_WEIGHT);
-        Compatemon.LOGGER.debug("In the constructor injection for pokemonEntity");
+        //Compatemon.LOGGER.debug("In the constructor injection for pokemonEntity");
         CompatemonScaleUtils.Companion.setScale(((PokemonEntity)((Object)this)), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, size_scale);
     }
+    
+    //@Inject(at = @At("HEAD"), method = "setCustomName")
+   // public void compatemon$callSuperSetCustomName(Component name, CallbackInfo cir){
+   //     if(super.hasCustomName()){
+   //         pokemon.setNickname((MutableComponent) super.getCustomName());
+   //     }
+   // }
 }
