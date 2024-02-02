@@ -5,6 +5,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_CAPTURED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_ENTITY_LOAD
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_ENTITY_SAVE
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_SENT_PRE
+import com.google.gson.JsonObject
 import farm.rosehearth.compatemon.Compatemon.LOGGER
 import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_JSON_LOADED
 import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_JSON_SAVED
@@ -56,6 +57,8 @@ object CompatemonKotlin {
 
             CompatemonScaleUtils.setScale(event.pokemonEntity, ScaleTypes.BASE,"$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE", sizeScale)
             LOGGER.debug("Scaled the size of " + event.pokemonEntity.pokemon.showdownId() + " to $sizeScale")
+
+            //LOGGER.debug(event.pokemonEntity.pokemon.saveToJSON(JsonObject()).toString())
         }
 
         POKEMON_SENT_PRE.subscribe{ event ->

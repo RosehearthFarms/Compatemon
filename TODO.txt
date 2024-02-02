@@ -49,18 +49,20 @@ Planned Mod Integrations
     > Pet Your Cobblemon
 - Embers
 	> Heatran Spawning?
-	> GS Ball
+	> GS Ball ?
 	> Pokeball Forging
 - Artifacts
 	> Add Pokemon Hold Items that work as Curios to mimic loot?
 - Curios https://github.com/TheIllusiveC4/Curios
     > Give Hold Items Curios Support and effects
+    > Curios can be hold items and affect pokemon?
 - Serene Seasons
     > Pokemon Spawning based on species files
         - Alternatively and more simply, set defaults by type/egg group
     > Berry Growth could be affected by seasons
 - Irons Spellbook - https://github.com/iron431/Irons-Spells-n-Spellbooks
     . Spells relating to Pokemon? Turn into a pokemon?
+    > Cobblemon Spell School
 - Dynamic Trees https://github.com/DynamicTreesTeam/DynamicTrees/tree/develop/1.20.X
 	> Apricorn Trees
 - Ice and Fire https://github.com/AlexModGuy/Ice_and_Fire/tree/1.20

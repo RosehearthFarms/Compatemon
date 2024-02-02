@@ -4,12 +4,10 @@ license = "MIT License"
 
 [[mods]]
 modId = "compatemon"
-version = "0.0.1"
-displayName = "Cobblemon Sizes"
+version = "0.0.2"
+displayName = "Compatemon"
 authors = "Gormottian"
-description = '''
-Randomize the sizes of pokemon based on json
-'''
+description = "Randomize the sizes of pokemon based on json"
 
 [[dependencies.compatemon]]
 modId = "minecraft"
@@ -29,5 +27,12 @@ side = "BOTH"
 modId = "cobblemon"
 mandatory = true
 versionRange = "[1.4.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.compatemon]]
+modId = "pehkui"
+mandatory = false
+versionRange = "[3.7.12,)"
 ordering = "NONE"
 side = "BOTH"

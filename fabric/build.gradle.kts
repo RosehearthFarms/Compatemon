@@ -52,6 +52,10 @@ tasks {
 
         filesMatching("fabric.mod.json") {
             expand(mapOf("version" to project.version))
+            expand(mapOf("modId" to project.properties["mod_id"]))
+            expand(mapOf("displayName" to project.properties["mod_name"]))
+            expand(mapOf("authors" to project.properties["mod_authors"]))
+            expand(mapOf("description" to project.properties["mod_description"]))
         }
     }
 

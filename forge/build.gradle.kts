@@ -43,11 +43,16 @@ repositories {
     maven("https://api.modrinth.com/maven")
     maven("https://www.cursemaven.com")
     maven("https://jitpack.io")
+    maven("https://maven.shadowsoffire.dev/releases")
+  //  maven("https://code.redspace.io/releases")
+    maven("https://maven.theillusivec4.top")
+    maven("https://maven.kosmx.dev/")
+    maven("https://maven.enginehub.org/repo/")
+
 }
 
 dependencies {
     //General Dependencies
-    //minecraft("net.minecraft:minecraft:$minecraft_version")
     forge("net.minecraftforge:forge:${minecraft_version}-${project.properties["forge_version"]}")
 
     "common"(project(":common", "namedElements")) { isTransitive = false }
@@ -58,9 +63,42 @@ dependencies {
 
     include(modApi("me.shedaniel.cloth:cloth-config-forge:${project.properties["cloth_config_version"]}")!!)
 
-// Cobblemon Sizes Dependencies
-    //Pehkui
-     // modApi("com.github.Virtuoel:Pehkui:${project.properties["pehkui_version"]}-${minecraft_version}-forge")
+// Compatemon Dependencies
+
+
+
+    // curios
+    //implementation("top.theillusivec4.curios:curios-forge:${project.properties["curios_version"]}")
+    // apotheosis
+    //implementation("curse.maven:apotheosis-313970:4874713")
+    modImplementation("dev.shadowsoffire:Apotheosis:${minecraft_version}-${project.properties["apotheosis_version"]}")
+    modImplementation("dev.shadowsoffire:Placebo:${minecraft_version}-${project.properties["placebo_version"]}")
+    modImplementation("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${project.properties["apothic_attributes_version"]}")
+    // IRONS SPELLS N SPELLBOOKS **********************************************************************************
+   // modImplementation("io.redspace.ironsspellbooks:irons_spellbooks:${minecraft_version}-${project.properties["irons_spells_version"]}")
+
+    // GECKOLIB ***************************************************************************************************
+    //runtimeOnly("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${project.properties["geckolib_version"]}")
+
+    // CAELUS *****************************************************************************************************
+    //runtimeOnly("top.theillusivec4.caelus:caelus-forge:${project.properties["caelus_version"]}")
+
+    // PLAYER ANIMATOR ********************************************************************************************
+    //runtimeOnly("dev.kosmx.player-anim:player-animation-lib-forge:${minecraft_version}-${project.properties["player_animator_version"]}")
+
+    // TETRA ******************************************************************************************************
+    //compileOnly("se.mickelus.mutil:mutil:${minecraft_version}-${project.properties["mutil_version"]}")
+   // compileOnly("curse.maven:tetra-${project.properties["tetra_version"]}")
+
+    // BETTER COMBAT **********************************************************************************************
+    //runtimeOnly fg.deobf("curse.maven:better-combat-by-daedelus-${better_combat_version}")
+
+    // PATCHOULI **************************************************************************************************
+    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${minecraft_version}-${patchouli_version}")
+
+    // JSON ******************************************************************************************************
+   // implementation("com.google.code.gson:gson:${project.properties["gson_version"]}")
+
 //Jade, JEI, and EMI
    // modImplementation ("curse.maven:jade-forge-324717:${project.properties["jade_forge_version"]}")
   // modImplementation ("curse.maven:jei-forge-238222:${project.properties["jei_version}"]}")
