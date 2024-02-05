@@ -1,5 +1,5 @@
 TODO
-scale for weight
+implement scale for weight
 
 Stat logic
     - Config for whether stat is affected by size/weight
@@ -111,3 +111,4 @@ DONE
 data saving to nbt
 Data Loading!
 Pehkui Scaling on Pokemon Load from all sources
+New Config! Yay!

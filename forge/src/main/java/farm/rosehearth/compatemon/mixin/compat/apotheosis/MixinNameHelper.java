@@ -40,15 +40,15 @@ public class MixinNameHelper {
 					name = prefixes[rand.nextInt(prefixes.length)] + " " + name;
 				}
 				if(rand.nextFloat() < 0.8F && suffixes.length > 0){
-					name = String.format(suffixFormat, name, suffixes[rand.nextInt(suffixes.length)]) + " " + ((PokemonEntity) entity).getPokemon().showdownId();
+					name = String.format(suffixFormat, name, suffixes[rand.nextInt(suffixes.length)]) + " " + ((PokemonEntity) entity).getPokemon().getSpecies().getName();
 				} else if(suffixes.length == 0){
 				
 				} else{
 					// should hit if the rand.nextFloat() was > 0.8F
-					name = name + " the " + ((PokemonEntity) entity).getPokemon().showdownId();
+					name = name + " the " + ((PokemonEntity) entity).getPokemon().getSpecies().getName();
 				}
 				
-				Compatemon.LOGGER.debug("Let's name that " + pokemonEntity.getPokemon().showdownId() + "!");
+				Compatemon.LOGGER.debug("Let's name that " + pokemonEntity.getPokemon().getSpecies().getName() + "!");
 				Compatemon.LOGGER.debug("Its new name is... " + name);
 				((PokemonEntity) entity).setCustomName(Component.literal(name));
 				((PokemonEntity) entity).setCustomNameVisible(true);

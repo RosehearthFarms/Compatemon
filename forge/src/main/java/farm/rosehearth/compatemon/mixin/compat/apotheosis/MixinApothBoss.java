@@ -52,15 +52,16 @@ public class MixinApothBoss {
 			Compatemon.LOGGER.debug("Let's try to create a boss! What's the type?");
 			Compatemon.LOGGER.debug("The type is " + entityID + "!");
 			if(entityID.equals("cobblemon:pokemon")){
+				//TODO: PokemonPropertyGenerator with logic for Player Location and/or Spawning Biome + Player Stats
+				//TODO: CustomProperty for Aggressive to work with FightOrFlight? Glowing needs to be longer and stay after reload
 				var properties = PokemonProperties.Companion.parse("species=random uncatchable level=50", " ", "=");
 				if(properties.getSpecies() == null){
 					boss = null;
 				}
-				//nbt = properties.saveToNBT();
 				var pokemonEntity = properties.createEntity(world.getLevel());
 				Compatemon.LOGGER.debug("Wow! It's a pokemon!");
 				Compatemon.LOGGER.debug("It's a " + pokemonEntity.getPokemon().showdownId());
-				nbt = pokemonEntity.saveWithoutId(nbt);
+				nbt = pokemonEntity.saveWithoutId(nbt); //writeNBT
 				
 			}
 		}
@@ -73,7 +74,7 @@ public class MixinApothBoss {
 			if(EntityType.getKey(this.entity).toString().equals("cobblemon:pokemon")){
 				//meow
 				if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-					float size_scale = CompatemonScaleUtils.Companion.getScale(((PokemonEntity)(boss.getReturnValue())).getPokemon(), MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE);
+					float size_scale = CompatemonScaleUtils.Companion.getScale(((PokemonEntity)(boss.getReturnValue())).getPokemon(), MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE) + 2.0f;
 					float weight_scale = CompatemonScaleUtils.Companion.getScale(((PokemonEntity)(boss.getReturnValue())).getPokemon(), MOD_ID_COMPATEMON + ":" + COMPAT_SCALE_WEIGHT);
 					CompatemonScaleUtils.Companion.setScale((PokemonEntity)(boss.getReturnValue()), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, size_scale);
 				}
