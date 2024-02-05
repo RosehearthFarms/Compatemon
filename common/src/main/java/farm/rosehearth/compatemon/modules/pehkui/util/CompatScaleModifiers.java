@@ -1,4 +1,4 @@
-package farm.rosehearth.compatemon.api.pehkui;
+package farm.rosehearth.compatemon.modules.pehkui.util;
 
 import farm.rosehearth.compatemon.Compatemon;
 import net.minecraft.resources.ResourceLocation;

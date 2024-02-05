@@ -1,8 +1,8 @@
-package farm.rosehearth.compatemon.utils.pehkui
+package farm.rosehearth.compatemon.modules.pehkui.util
 
+import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
-import farm.rosehearth.compatemon.Compatemon
 import farm.rosehearth.compatemon.utils.CompatemonDataKeys
 import net.minecraft.nbt.CompoundTag
 import virtuoel.pehkui.api.ScaleType
@@ -41,23 +41,23 @@ open class CompatemonScaleUtils {
          */
         fun getNewScale(scaleName: String):Float{
             if(scaleName == "${CompatemonDataKeys.MOD_ID_PEHKUI}:${CompatemonDataKeys.COMPAT_SCALE_SIZE}") {
-                if (!Compatemon.config().size_do_unprovided) return 1.0f
-                var new_size = Compatemon.config().size_scale +
-                        (rand.nextGaussian() * Compatemon.config().size_dev)
+                if (!PehkuiConfig.size_do_unprovided) return 1.0f
+                var new_size = PehkuiConfig.size_scale +
+                        (rand.nextGaussian() * PehkuiConfig.size_dev)
 
-                new_size = if (new_size > Compatemon.config().size_max_percentage) Compatemon.config().size_max_percentage.toDouble() else new_size
-                new_size = if (new_size < Compatemon.config().size_min_percentage) Compatemon.config().size_min_percentage.toDouble() else new_size
+                new_size = if (new_size > PehkuiConfig.size_max_percentage) PehkuiConfig.size_max_percentage.toDouble() else new_size
+                new_size = if (new_size < PehkuiConfig.size_min_percentage) PehkuiConfig.size_min_percentage.toDouble() else new_size
                 new_size = if (new_size <= 0.00) 0.25 else new_size
 
                 return BigDecimal.valueOf(new_size).setScale(2, RoundingMode.UP).toFloat()
             }
             else if (scaleName == "${CompatemonDataKeys.MOD_ID_COMPATEMON}:${CompatemonDataKeys.COMPAT_SCALE_WEIGHT}") {
-                if (!Compatemon.config().weight_do_unprovided) return 1.0f
-                var new_weight = Compatemon.config().weight_scale +
-                        (rand.nextGaussian() * Compatemon.config().weight_dev)
+                if (!PehkuiConfig.weight_do_unprovided) return 1.0f
+                var new_weight = PehkuiConfig.weight_scale +
+                        (rand.nextGaussian() * PehkuiConfig.weight_dev)
 
-                new_weight = if (new_weight > Compatemon.config().weight_max_percentage) Compatemon.config().weight_max_percentage.toDouble() else new_weight
-                new_weight = if (new_weight < Compatemon.config().weight_min_percentage) Compatemon.config().weight_min_percentage.toDouble() else new_weight
+                new_weight = if (new_weight > PehkuiConfig.weight_max_percentage) PehkuiConfig.weight_max_percentage.toDouble() else new_weight
+                new_weight = if (new_weight < PehkuiConfig.weight_min_percentage) PehkuiConfig.weight_min_percentage.toDouble() else new_weight
                 new_weight = if (new_weight <= 0.00) 0.25 else new_weight
                 return BigDecimal.valueOf(new_weight).setScale(2, RoundingMode.UP).toFloat()
             }

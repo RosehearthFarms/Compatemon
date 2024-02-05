@@ -1,5 +1,4 @@
 TODO
-Update Config?
 scale for weight
 
 Stat logic

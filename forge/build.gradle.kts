@@ -65,6 +65,7 @@ dependencies {
 
 // Compatemon Dependencies
 
+    modApi("com.github.Virtuoel:Pehkui:${project.properties["pehkui_forge"]}-${minecraft_version}-forge")
 
 
     // curios
