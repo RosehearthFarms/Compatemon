@@ -1,13 +1,13 @@
 {
-  "required": true,
-  "minVersion": "0.0.3",
-  "package": "farm.rosehearth.compatemon.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "MixinModLoaded",
-    "compat.apotheosis.MixinApothBoss",
-    "compat.apotheosis.MixinNameHelper"
-  ],
-  "client": [
-  ]
+	"required": true,
+	"minVersion": "0.0.3",
+	"package": "farm.rosehearth.compatemon.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"compat.apotheosis.MixinApothBoss",
+		"compat.apotheosis.MixinNameHelper",
+		"compat.placebo.MixinWeightedItemStack"
+	],
+	"client": [
+	]
 }

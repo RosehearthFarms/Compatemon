@@ -9,6 +9,7 @@ Planned Mod Integrations
 - Pehkui - https://github.com/Virtuoel/Pehkui
 - Apotheosis https://github.com/Shadows-of-Fire/Apotheosis
 	> Additions Link: https://github.com/Bryce792/ApotheoticAdditions
+	> mixin for Pokemon Item Drop to allow boss item
     . Pokemon Specific Gems
         - Affect Catch Rate
         - Affect Spawning Amount
@@ -18,6 +19,14 @@ Planned Mod Integrations
         - Uncatchable?
         > Pehkui Size is larger and thus has better stats
         > config list
+    > Titles link to effects
+        > May need own mod
+    > Squash bugs
+        - Pokemon Hitbox is not correct when scaled as is implemented
+        - Pokemon Name color isn't set so the beacon and sound effects don't occur
+        > This STILL ISn"T WORKING
+        > Also Pokemon Spazz tf out above a certain scale size and move WAY too fast
+        > No Item Still
 - Quark
     . Probably Something
 - Botania
@@ -87,6 +96,9 @@ Planned Mod Integrations
 	> Fishing Things?
 - Aquamirae https://github.com/ObscuriaLithium/Aquamirae
 	> Ocean Things
+
+other
+make cobblemon xp and Mc xp compatible
 
 Dimension Mods
 - Aether

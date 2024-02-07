@@ -3,7 +3,6 @@
 	"package": "farm.rosehearth.compatemon.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"MixinModLoadedFabric"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -7,6 +7,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
+/**
+ *
+ */
 public class PehkuiConfig {
 	
 	public static final Logger LOGGER = LogManager.getLogger("Compatemon : Pehkui");
@@ -36,6 +39,10 @@ public class PehkuiConfig {
 	
 	}
 	
+	/**
+	 *
+	 * @param c Configuration File to load these settings into
+	 */
 	public static void load(Configuration c){
 		//Configuration c = new Configuration(new File(Compatemon.configDir, "pehkui.cfg"));
 		c.setTitle("Compatemon Pehkui Integration Configuration");

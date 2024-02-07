@@ -5,6 +5,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_CAPTURED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_ENTITY_LOAD
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_ENTITY_SAVE
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_SENT_PRE
+import com.cobblemon.mod.common.api.events.CobblemonEvents.LOOT_DROPPED
 import farm.rosehearth.compatemon.Compatemon.LOGGER
 import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_JSON_LOADED
 import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_JSON_SAVED
@@ -14,6 +15,7 @@ import farm.rosehearth.compatemon.utils.CompatemonDataKeys.COMPAT_SCALE_SIZE
 import farm.rosehearth.compatemon.utils.CompatemonDataKeys.COMPAT_SCALE_WEIGHT
 import farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_COMPATEMON
 import farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_PEHKUI
+import farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_APOTHEOSIS
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils
 import virtuoel.pehkui.api.ScaleTypes
 
@@ -57,6 +59,11 @@ object CompatemonKotlin {
         }
         POKEMON_JSON_LOADED.subscribe{event ->
             LOGGER.debug("Pokemon JSON has been loaded.")
+        }
+        LOOT_DROPPED.subscribe{event ->
+            if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)) {
+
+            }
         }
     }
 

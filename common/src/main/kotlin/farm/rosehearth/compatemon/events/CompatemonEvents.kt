@@ -7,6 +7,9 @@ import farm.rosehearth.compatemon.events.entity.PokemonJsonSavedEvent
 import farm.rosehearth.compatemon.events.entity.PokemonNbtLoadedEvent
 import farm.rosehearth.compatemon.events.entity.PokemonNbtSavedEvent
 
+/**
+ * Contains all the new Compatemon events created for Cobblemon
+ */
 object CompatemonEvents {
 
     @JvmField

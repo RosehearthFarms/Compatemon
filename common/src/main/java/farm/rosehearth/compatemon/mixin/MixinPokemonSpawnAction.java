@@ -19,6 +19,9 @@ import virtuoel.pehkui.api.ScaleTypes;
 
 import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.*;
 
+/**
+ * Mixin into PokemonSpawnAction of Cobblemon. Should set the scales for the entity of the configured scale types at spawn time
+ */
 @Mixin(value = PokemonSpawnAction.class, remap = false)
 abstract class MixinPokemonSpawnAction extends SpawnAction<PokemonEntity> {
 

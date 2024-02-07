@@ -16,6 +16,10 @@ public class CompatemonForge implements CompatemonImplementation{
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::init);
     }
     
+    /**
+     * Initializes the mod
+     * @param event
+     */
     @SubscribeEvent
     public  void init(FMLCommonSetupEvent event){
         Compatemon.LOGGER.debug("In CobblemonSizesForge.init()");
@@ -23,12 +27,21 @@ public class CompatemonForge implements CompatemonImplementation{
         Compatemon.init();
     }
     
+    /**
+     *
+     * @return FORGE
+     */
     @NotNull
     @Override
     public ModAPI getModAPI() {
         return ModAPI.FORGE;
     }
     
+    /**
+     *
+     * @param modID
+     * @return true if the modID is installed
+     */
     @Override
     public boolean isModInstalled(@NotNull String modID) {
         return ModList.get().isLoaded(modID);

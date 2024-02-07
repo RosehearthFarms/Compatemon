@@ -3,6 +3,7 @@ package farm.rosehearth.compatemon.modules.pehkui.util
 import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
+import farm.rosehearth.compatemon.utils.CompateUtils
 import farm.rosehearth.compatemon.utils.CompatemonDataKeys
 import net.minecraft.nbt.CompoundTag
 import virtuoel.pehkui.api.ScaleType
@@ -10,10 +11,12 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*
 
+/**
+ * Class to store logic for handling scale data for pokemon by reading and writing from the entity's persistantdatat
+ */
 open class CompatemonScaleUtils {
     companion object {
 
-        var rand: Random = Random()
         fun setScale(entity: PokemonEntity, scaleType: ScaleType, scaleName: String, scale: Float){
             if(scale != 1.0f){
                 // Call Pehkui's setScale function
@@ -43,7 +46,7 @@ open class CompatemonScaleUtils {
             if(scaleName == "${CompatemonDataKeys.MOD_ID_PEHKUI}:${CompatemonDataKeys.COMPAT_SCALE_SIZE}") {
                 if (!PehkuiConfig.size_do_unprovided) return 1.0f
                 var new_size = PehkuiConfig.size_scale +
-                        (rand.nextGaussian() * PehkuiConfig.size_dev)
+                        (CompateUtils.Rand.nextGaussian() * PehkuiConfig.size_dev)
 
                 new_size = if (new_size > PehkuiConfig.size_max_percentage) PehkuiConfig.size_max_percentage.toDouble() else new_size
                 new_size = if (new_size < PehkuiConfig.size_min_percentage) PehkuiConfig.size_min_percentage.toDouble() else new_size
@@ -54,7 +57,7 @@ open class CompatemonScaleUtils {
             else if (scaleName == "${CompatemonDataKeys.MOD_ID_COMPATEMON}:${CompatemonDataKeys.COMPAT_SCALE_WEIGHT}") {
                 if (!PehkuiConfig.weight_do_unprovided) return 1.0f
                 var new_weight = PehkuiConfig.weight_scale +
-                        (rand.nextGaussian() * PehkuiConfig.weight_dev)
+                        (CompateUtils.Rand.nextGaussian() * PehkuiConfig.weight_dev)
 
                 new_weight = if (new_weight > PehkuiConfig.weight_max_percentage) PehkuiConfig.weight_max_percentage.toDouble() else new_weight
                 new_weight = if (new_weight < PehkuiConfig.weight_min_percentage) PehkuiConfig.weight_min_percentage.toDouble() else new_weight

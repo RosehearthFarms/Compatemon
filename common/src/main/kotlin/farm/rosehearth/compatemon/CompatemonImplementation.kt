@@ -8,7 +8,11 @@ import com.mojang.brigadier.arguments.ArgumentType
 import kotlin.reflect.KClass
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
-//TY Cobblemon for your well documented repository!
+
+/**
+ * TY Cobblemon for your well documented repository!
+ *
+ */
 interface CompatemonImplementation {
 
 	val modAPI: ModAPI

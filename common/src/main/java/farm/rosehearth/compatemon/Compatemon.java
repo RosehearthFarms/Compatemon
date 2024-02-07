@@ -28,13 +28,19 @@ public class Compatemon {
 	private static final ArrayList<String> modsToConfigure = new ArrayList<String>();
 	private static final Map<String, Boolean> modsToEnable = new HashMap<String, Boolean>();
 	
-	
+	/**
+	 *
+	 */
 	static {
 		// Add each modid needed for compatability here
 		modsToConfigure.add(MOD_ID_APOTHEOSIS);
 		modsToConfigure.add(MOD_ID_PEHKUI);
 	}
 	
+	/**
+	 * Links the various version implementations to the main mod. Allows for differing code.
+	 * @param imp
+	 */
 	public static void preInitialize(CompatemonImplementation imp){
 		implementation = imp;
 		
@@ -53,14 +59,20 @@ public class Compatemon {
 		
 		if(config.hasChanged()) config.save();
 	}
-
+	
+	/**
+	 * Initializes Common code between modAPIs
+	 */
 	public static void init() {
 		loadConfigs();
-		
 		CompatemonKotlin.INSTANCE.initialize();
 
 	}
 	
+	/**
+	 * Loads the configs for each mod. Config files are located in the common group, even if a particular mod is
+	 * specific to a particular modAPI
+	 */
 	private static void loadConfigs(){
 		if(ShouldLoadMod(MOD_ID_PEHKUI)) {
 			pehkuiConfig = new Configuration(new File(configDir, MOD_ID_PEHKUI + ".cfg"));

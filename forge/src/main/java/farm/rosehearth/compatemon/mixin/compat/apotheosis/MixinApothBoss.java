@@ -1,10 +1,12 @@
 package farm.rosehearth.compatemon.mixin.compat.apotheosis;
 
+import com.cobblemon.mod.common.Cobblemon;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
 import farm.rosehearth.compatemon.Compatemon;
+import farm.rosehearth.compatemon.api.entity.PersistantDespawner;
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -44,6 +46,15 @@ public class MixinApothBoss {
 	@Shadow(remap=false)
 	protected @Nullable CompoundTag nbt;
 	
+	/**
+	 *
+	 * @param world
+	 * @param pos
+	 * @param random
+	 * @param luck
+	 * @param rarity
+	 * @param boss
+	 */
 	@Inject(at = @At("HEAD"), method = "createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;FLdev/shadowsoffire/apotheosis/adventure/loot/LootRarity;)Lnet/minecraft/world/entity/Mob;", remap = false)
 	public void compatemon$createPokemonBossHead(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity, CallbackInfoReturnable<Mob> boss){
 		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
@@ -54,19 +65,32 @@ public class MixinApothBoss {
 			if(entityID.equals("cobblemon:pokemon")){
 				//TODO: PokemonPropertyGenerator with logic for Player Location and/or Spawning Biome + Player Stats
 				//TODO: CustomProperty for Aggressive to work with FightOrFlight? Glowing needs to be longer and stay after reload
-				var properties = PokemonProperties.Companion.parse("species=random uncatchable level=50", " ", "=");
+				
+				var properties = PokemonProperties.Companion.parse("species=random level=50", " ", "=");
+				properties.setLevel(random.nextInt(50)+25);
 				if(properties.getSpecies() == null){
 					boss = null;
 				}
 				var pokemonEntity = properties.createEntity(world.getLevel());
+				pokemonEntity.setDespawner(new PersistantDespawner<PokemonEntity>()); // never let it despawn
 				Compatemon.LOGGER.debug("Wow! It's a pokemon!");
 				Compatemon.LOGGER.debug("It's a " + pokemonEntity.getPokemon().showdownId());
-				nbt = pokemonEntity.saveWithoutId(nbt); //writeNBT
+				
+				nbt = pokemonEntity.saveWithoutId(new CompoundTag()); //writeNBT
 				
 			}
 		}
 	}
 	
+	/**
+	 *
+	 * @param world
+	 * @param pos
+	 * @param random
+	 * @param luck
+	 * @param rarity
+	 * @param boss
+	 */
 	@Inject(at = @At("RETURN"), method = "createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;FLdev/shadowsoffire/apotheosis/adventure/loot/LootRarity;)Lnet/minecraft/world/entity/Mob;",  remap = false)
 	public void compatemon$createPokemonBossReturn(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity, CallbackInfoReturnable<Mob> boss){
 		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
@@ -74,7 +98,7 @@ public class MixinApothBoss {
 			if(EntityType.getKey(this.entity).toString().equals("cobblemon:pokemon")){
 				//meow
 				if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-					float size_scale = CompatemonScaleUtils.Companion.getScale(((PokemonEntity)(boss.getReturnValue())).getPokemon(), MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE) + 2.0f;
+					float size_scale = CompatemonScaleUtils.Companion.getScale(((PokemonEntity)(boss.getReturnValue())).getPokemon(), MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE) + 1.0f;
 					float weight_scale = CompatemonScaleUtils.Companion.getScale(((PokemonEntity)(boss.getReturnValue())).getPokemon(), MOD_ID_COMPATEMON + ":" + COMPAT_SCALE_WEIGHT);
 					CompatemonScaleUtils.Companion.setScale((PokemonEntity)(boss.getReturnValue()), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, size_scale);
 				}
