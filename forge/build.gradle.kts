@@ -61,7 +61,7 @@ dependencies {
     modImplementation("com.cobblemon:forge:${project.properties["cobblemon_version"]}+$minecraft_version")
     runtimeOnly("maven.modrinth:ordsPcFz:${project.properties["kotlin_forge_version"]}") //kotlinforforge
 
-    include(modApi("me.shedaniel.cloth:cloth-config-forge:${project.properties["cloth_config_version"]}")!!)
+    //include(modApi("me.shedaniel.cloth:cloth-config-forge:${project.properties["cloth_config_version"]}")!!)
 
 // Compatemon Dependencies
 

@@ -73,6 +73,7 @@ public class MixinApothBoss {
 				}
 				var pokemonEntity = properties.createEntity(world.getLevel());
 				pokemonEntity.setDespawner(new PersistantDespawner<PokemonEntity>()); // never let it despawn
+				pokemonEntity.setPersistenceRequired();
 				Compatemon.LOGGER.debug("Wow! It's a pokemon!");
 				Compatemon.LOGGER.debug("It's a " + pokemonEntity.getPokemon().showdownId());
 				
