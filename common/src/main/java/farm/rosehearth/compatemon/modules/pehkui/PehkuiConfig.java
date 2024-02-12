@@ -44,8 +44,7 @@ public class PehkuiConfig {
 	 * @param c Configuration File to load these settings into
 	 */
 	public static void load(Configuration c){
-		//Configuration c = new Configuration(new File(Compatemon.configDir, "pehkui.cfg"));
-		c.setTitle("Compatemon Pehkui Integration Configuration");
+		c.setTitle("Compatemon - Pehkui Configuration");
 		
 		// size config
 		size_do_unprovided = c.getBoolean("Do Unprovided Size Changes", "size", size_do_unprovided,"\nIf not provided in the species jsons, should Pokemon sizes be randomized? - Currently does not work. All are randomized anyway.");

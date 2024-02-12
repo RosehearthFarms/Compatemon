@@ -8,6 +8,8 @@ import java.util.Map;
 import farm.rosehearth.compatemon.config.Configuration;
 import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
 import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig;
+import farm.rosehearth.compatemon.modules.quark.QuarkConfig;
+import farm.rosehearth.compatemon.modules.sophisticatedcore.SophisticatedConfig;
 import farm.rosehearth.compatemon.utils.CompateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,20 +27,28 @@ public class Compatemon {
 	public static Configuration config;
 	public static Configuration apothConfig;
 	public static Configuration pehkuiConfig;
+	public static Configuration quarkConfig;
+	public static final Map<String,Configuration> configs = new HashMap<>();
 	private static final ArrayList<String> modsToConfigure = new ArrayList<String>();
 	private static final Map<String, Boolean> modsToEnable = new HashMap<String, Boolean>();
 	
 	/**
-	 *
+	 * Add the MOD_IDs for each mod we add compatability for.
+	 * Start with Fabric+Forge mods, then add modAPI specific ones after
 	 */
 	static {
-		// Add each modid needed for compatability here
-		modsToConfigure.add(MOD_ID_APOTHEOSIS);
+		// Common
 		modsToConfigure.add(MOD_ID_PEHKUI);
+		// Forge
+		modsToConfigure.add(MOD_ID_APOTHEOSIS);
+		modsToConfigure.add(MOD_ID_QUARK);
+		modsToConfigure.add(MOD_ID_SC);
+		// Fabric
+		// Quilt
 	}
 	
 	/**
-	 * Links the various version implementations to the main mod. Allows for differing code.
+	 * Links the various modAPI implementations to the main mod. Allows for differing code.
 	 * @param imp
 	 */
 	public static void preInitialize(CompatemonImplementation imp){
@@ -52,7 +62,8 @@ public class Compatemon {
 		
 		// Adds each mod to the Compatemon config file
 		for (String modID: modsToConfigure){
-			boolean bEnabled = config.getBoolean("Enable " + modID.toUpperCase() + " Module", "general", true, "Enables the " + modID.toUpperCase() + " Module");
+			
+			boolean bEnabled = config.getBoolean("Enable " + modID.toUpperCase() + " Module", "general", implementation.isModInstalled(modID), "Enables the " + modID.toUpperCase() + " Module");
 			modsToEnable.put(modID,implementation.isModInstalled(modID) && bEnabled);
 			
 		}
@@ -74,17 +85,31 @@ public class Compatemon {
 	 * specific to a particular modAPI
 	 */
 	private static void loadConfigs(){
-		if(ShouldLoadMod(MOD_ID_PEHKUI)) {
-			pehkuiConfig = new Configuration(new File(configDir, MOD_ID_PEHKUI + ".cfg"));
-			PehkuiConfig.load(pehkuiConfig);
-			if(pehkuiConfig.hasChanged()) pehkuiConfig.save();
+		for(var m : modsToConfigure)
+		{
+			if(ShouldLoadMod(m)) {
+				Configuration c = new Configuration(new File(configDir, m + ".cfg"));
+				configs.put(m, c);
+				
+				switch(m){
+					case MOD_ID_APOTHEOSIS:
+						ApotheosisConfig.load(c);
+						break;
+					case MOD_ID_QUARK:
+						QuarkConfig.load(c);
+						break;
+					case MOD_ID_PEHKUI:
+						PehkuiConfig.load(c);
+						break;
+					case MOD_ID_SC:
+						SophisticatedConfig.load(c);
+						break;
+				}
+				if(c.hasChanged()) c.save();
+			}
 		}
 		
-		if(ShouldLoadMod(MOD_ID_APOTHEOSIS)) {
-			apothConfig = new Configuration(new File(configDir, MOD_ID_APOTHEOSIS + ".cfg"));
-			ApotheosisConfig.load(apothConfig);
-			if(apothConfig.hasChanged()) apothConfig.save();
-		}
+		
 	}
 	
 	public static boolean ShouldLoadMod(String mod_id){     return modsToEnable.get(mod_id);    }

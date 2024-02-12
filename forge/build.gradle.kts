@@ -49,6 +49,7 @@ repositories {
     maven("https://maven.kosmx.dev/")
     maven("https://maven.enginehub.org/repo/")
 
+
 }
 
 dependencies {
@@ -67,15 +68,24 @@ dependencies {
 
     modApi("com.github.Virtuoel:Pehkui:${project.properties["pehkui_forge"]}-${minecraft_version}-forge")
 
+    modApi("org.violetmoon.zeta:Zeta:${project.properties["zeta_version"]}")
+
+    modApi("org.violetmoon.quark:Quark:${project.properties["quark_version"]}")
+    modImplementation("org.violetmoon.quark:Quark:${project.properties["quark_version"]}")
 
     // curios
-    //implementation("top.theillusivec4.curios:curios-forge:${project.properties["curios_version"]}")
+    modImplementation("top.theillusivec4.curios:curios-forge:${project.properties["curios_version"]}+${minecraft_version}")
+
     // apotheosis
-    //implementation("curse.maven:apotheosis-313970:4874713")
-    modImplementation("dev.shadowsoffire:Apotheosis:${minecraft_version}-${project.properties["apotheosis_version"]}")
-    modImplementation("dev.shadowsoffire:Placebo:${minecraft_version}-${project.properties["placebo_version"]}")
     modImplementation("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${project.properties["apothic_attributes_version"]}")
-    // IRONS SPELLS N SPELLBOOKS **********************************************************************************
+    modImplementation("dev.shadowsoffire:Placebo:${minecraft_version}-${project.properties["placebo_version"]}")
+    modImplementation("dev.shadowsoffire:Apotheosis:${minecraft_version}-${project.properties["apotheosis_version"]}")
+
+    //Sophisticated CORE
+    modImplementation("curse.maven:sophisticated-core-618298:${project.properties["sophisticated_core_version"]}")
+
+
+// IRONS SPELLS N SPELLBOOKS **********************************************************************************
    // modImplementation("io.redspace.ironsspellbooks:irons_spellbooks:${minecraft_version}-${project.properties["irons_spells_version"]}")
 
     // GECKOLIB ***************************************************************************************************
@@ -105,6 +115,7 @@ dependencies {
   // modImplementation ("curse.maven:jei-forge-238222:${project.properties["jei_version}"]}")
   //  compileOnly ("dev.emi:emi-forge:${project.properties["emi_version"]}+$minecraft_version:api")
   //  runtimeOnly ("dev.emi:emi-forge:${project.properties["emi_version"]}+$minecraft_version"))
+
 }
 
 tasks {

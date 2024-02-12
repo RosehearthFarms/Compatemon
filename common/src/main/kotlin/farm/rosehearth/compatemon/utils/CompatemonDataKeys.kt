@@ -11,6 +11,7 @@ object CompatemonDataKeys {
     const val MOD_ID_BOTANIA = "botania"
     const val MOD_ID_QUARK = "quark"
     const val MOD_ID_ZETA = "zeta"
+    const val MOD_ID_SC = "sophisticatedcore"
     const val MOD_ID_SUPPLEMENTARIES = "supplementaries"
     const val MOD_ID_ICEANDFIRE = "iceandfire"
     const val MOD_ID_VALKYRIANSKIES = "valkyrienskies"
@@ -31,4 +32,6 @@ object CompatemonDataKeys {
     /* Constants */
     const val COMPAT_SCALE_SIZE = "sizeScale"
     const val COMPAT_SCALE_WEIGHT = "weightScale"
+    const val APOTH_BOSS = "apoth.boss"
+    const val APOTH_RARITY = "apoth.rarity"
 }

@@ -29,6 +29,7 @@ subprojects {
         maven("https://www.cursemaven.com")
         maven( "https://repo.spongepowered.org/repository/maven-public/" )
         maven("https://maven.shedaniel.me/")
+        maven("https://maven.blamejared.com")
         exclusiveContent {
             forRepository {
                 maven("https://api.modrinth.com/maven")

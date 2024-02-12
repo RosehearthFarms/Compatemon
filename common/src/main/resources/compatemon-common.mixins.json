@@ -1,13 +1,14 @@
 {
-  "required": true,
-  "minVersion": "0.0.2",
-  "package": "farm.rosehearth.compatemon.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "MixinPokemonSpawnAction"
-    ,"MixinPokemonSaveLoadEvents"
-    ,"MixinPokemonEntity"
-  ],
-  "client": [
-  ]
+	"required": true,
+	"minVersion": "0.0.2",
+	"package": "farm.rosehearth.compatemon.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"MixinPokemonEntity",
+		"MixinPokemonSaveLoadEvents",
+		"MixinPokemonSpawnAction",
+		"MixinSetNicknameHandler"
+	],
+	"client": [
+	]
 }

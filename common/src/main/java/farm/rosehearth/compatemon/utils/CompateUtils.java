@@ -3,10 +3,7 @@ package farm.rosehearth.compatemon.utils;
 import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.biome.Biome;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
@@ -31,7 +28,7 @@ public class CompateUtils {
 		String uncatch = "uncatchable";
 		String lev = "l=" + (Rand.nextInt(levelRange) + minLevel);
 		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
-			uncatch = ApotheosisConfig.bossPokemonCatchable ? "" : "uncatchable";
+			uncatch = ApotheosisConfig.BossPokemonCatchable ? "" : "uncatchable";
 		}
 		var b = world.getBiome(pos);
 		
