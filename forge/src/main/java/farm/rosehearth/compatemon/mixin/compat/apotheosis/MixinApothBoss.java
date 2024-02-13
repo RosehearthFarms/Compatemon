@@ -14,6 +14,9 @@ import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
 import dev.shadowsoffire.apotheosis.util.NameHelper;
 import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.api.entity.PersistantDespawner;
+import farm.rosehearth.compatemon.events.CompatemonEvents;
+import farm.rosehearth.compatemon.events.apotheosis.ApothBossSpawnedEvent;
+import farm.rosehearth.compatemon.events.entity.PokemonNbtSavedEvent;
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils;
 import farm.rosehearth.compatemon.utils.CompatemonDataKeys;
 import net.minecraft.core.BlockPos;
@@ -141,7 +144,10 @@ public class MixinApothBoss {
 	 */
 	@Inject(at = @At("HEAD"), method = "initBoss", remap = false)
 	public void compatemon$initPokemonBossHead(RandomSource rand, Mob entity, float luck, @Nullable LootRarity rarity, CallbackInfo cir) {
-		
+//		CompatemonEvents.APOTH_BOSS_SPAWNED.postThen(new ApothBossSpawnedEvent(), savedEvent -> null, savedEvent -> {
+//			//Compatemon.LOGGER.debug("Injected properly into saveToNBT!");
+//			return null;
+//		});
 	}
 	
 	/**

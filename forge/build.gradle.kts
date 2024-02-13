@@ -48,7 +48,14 @@ repositories {
     maven("https://maven.theillusivec4.top")
     maven("https://maven.kosmx.dev/")
     maven("https://maven.enginehub.org/repo/")
-
+//    maven {
+//        name = "GitHubPackages"
+//        url = uri("https://maven.pkg.github.com/P3pp3rF1y/SophisticatedBackpacks")
+//        credentials {
+//            username = "RosehearthFarms"
+//            password = ""
+//        }
+//    }
 
 }
 
@@ -82,8 +89,7 @@ dependencies {
     modImplementation("dev.shadowsoffire:Apotheosis:${minecraft_version}-${project.properties["apotheosis_version"]}")
 
     //Sophisticated CORE
-    modImplementation("curse.maven:sophisticated-core-618298:${project.properties["sophisticated_core_version"]}")
-
+   // modImplementation("sophisticatedcore:sophisticatedcore:${project.properties["sophisticated_core_version"]}")
 
 // IRONS SPELLS N SPELLBOOKS **********************************************************************************
    // modImplementation("io.redspace.ironsspellbooks:irons_spellbooks:${minecraft_version}-${project.properties["irons_spells_version"]}")

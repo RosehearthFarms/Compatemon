@@ -1,8 +1,6 @@
 package farm.rosehearth.compatemon.modules.quark;
 
-import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.config.Configuration;
-import farm.rosehearth.compatemon.config.IConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

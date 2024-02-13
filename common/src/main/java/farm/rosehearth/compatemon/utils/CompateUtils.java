@@ -1,5 +1,7 @@
 package farm.rosehearth.compatemon.utils;
 
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
 import net.minecraft.core.BlockPos;
@@ -33,6 +35,13 @@ public class CompateUtils {
 		var b = world.getBiome(pos);
 		
 		return "";
+	}
+	
+	public static boolean PokemonIsBoss(PokemonEntity pokemonEntity){
+		return false;
+	}
+	public static boolean PokemonIsBoss(Pokemon pokemon){
+		return false;
 	}
 }
 

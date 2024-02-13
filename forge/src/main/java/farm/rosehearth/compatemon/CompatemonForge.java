@@ -1,5 +1,8 @@
 package farm.rosehearth.compatemon;
 
+import dev.shadowsoffire.apotheosis.adventure.boss.BossEvents;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
@@ -47,4 +50,9 @@ public class CompatemonForge implements CompatemonImplementation{
         return ModList.get().isLoaded(modID);
     }
     
+    @Override
+    public void postCommonInitialization() {
+        CompatemonForgeKotlin.INSTANCE.postCommonInit();
+        //bus.register(new ApothicEvents());
+    }
 }

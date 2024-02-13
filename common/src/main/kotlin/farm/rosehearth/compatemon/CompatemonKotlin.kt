@@ -58,9 +58,9 @@ object CompatemonKotlin {
         // Occurs when the Pokemon's NBT data is loaded from the world.
         POKEMON_ENTITY_LOAD.subscribe{ event ->
             if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)) {
-                var sizeScale: Float = CompatemonScaleUtils.getScale(event.pokemonEntity.pokemon, "$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE")
-                var weightScale: Float = CompatemonScaleUtils.getScale(event.pokemonEntity.pokemon, "$MOD_ID_COMPATEMON:$COMPAT_SCALE_WEIGHT")
-                CompatemonScaleUtils.setScale(event.pokemonEntity, ScaleTypes.BASE, "$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE", sizeScale)
+                //var sizeScale: Float = CompatemonScaleUtils.getScale(event.pokemonEntity.pokemon, "$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE")
+                //var weightScale: Float = CompatemonScaleUtils.getScale(event.pokemonEntity.pokemon, "$MOD_ID_COMPATEMON:$COMPAT_SCALE_WEIGHT")
+               // CompatemonScaleUtils.setScale(event.pokemonEntity, ScaleTypes.BASE, "$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE", sizeScale)
             }
         }
         // Occurs when the Pokemon is Sent Out of its pokeball
@@ -86,8 +86,15 @@ object CompatemonKotlin {
         }
 
         POKEMON_NICKNAMED.subscribe{event ->
-            event.pokemon.nickname = event.nickname?.withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD))
-            Compatemon.LOGGER.debug(event.pokemon.nickname.toString())
+           // event.pokemon.nickname = event.nickname?.withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD))
+            if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
+                var isBoss = event.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).contains("apoth.boss");
+                if(isBoss){
+                    var rarityKey = event.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).getString("apoth.rarity.color")
+                    event.pokemon.nickname = event.pokemon.nickname?.withStyle(Style.EMPTY.withColor(TextColor.parseColor(rarityKey)))
+                    Compatemon.LOGGER.debug(event.pokemon.nickname.toString())
+                }
+            }
         }
 
 

@@ -10,7 +10,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.ShoulderRidingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.InteractionHand;
@@ -29,7 +28,7 @@ import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.*;
  *
  */
 @Mixin(PokemonEntity.class)
-abstract class MixinPokemonEntity extends ShoulderRidingEntity {
+abstract class MixinPokemonEntity extends Entity {
 
     @Shadow(remap=false)
     private Pokemon pokemon;
@@ -40,7 +39,7 @@ abstract class MixinPokemonEntity extends ShoulderRidingEntity {
      * @param level
      */
     MixinPokemonEntity(EntityType<?> entityType, Level level){
-        super((EntityType<? extends ShoulderRidingEntity>) entityType, level);
+        super(entityType, level);
     }
     
     /**
@@ -54,8 +53,8 @@ abstract class MixinPokemonEntity extends ShoulderRidingEntity {
     public void onInit(Level world, Pokemon pokemon, EntityType entityType, CallbackInfo cir){
         if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
             float size_scale = CompatemonScaleUtils.Companion.getScale(pokemon, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE);
-            float weight_scale = CompatemonScaleUtils.Companion.getScale(pokemon, MOD_ID_COMPATEMON + ":" + COMPAT_SCALE_WEIGHT);
-            Compatemon.LOGGER.debug("Woo we've created a pokemon and set its scale to " + size_scale);
+           // float weight_scale = CompatemonScaleUtils.Companion.getScale(pokemon, MOD_ID_COMPATEMON + ":" + COMPAT_SCALE_WEIGHT);
+            
             CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, size_scale);
         }
     }
@@ -71,16 +70,4 @@ abstract class MixinPokemonEntity extends ShoulderRidingEntity {
         // Placeholder bc I'm SURE we'll have something todo here
     }
     
-    /**
-     *
-     * @param t
-     * @param cir
-     */
-    @Inject(at = @At("TAIL"), method="setCustomName", remap=false)
-    public void compatemon$injectSetCustomNameReturn(Component t, CallbackInfo cir){
-        Compatemon.LOGGER.debug("I just really needed to say...");
-        
-        pokemon.setNickname(t.copy().withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)));
-        Compatemon.LOGGER.debug("I Love You!");
-    }
 }

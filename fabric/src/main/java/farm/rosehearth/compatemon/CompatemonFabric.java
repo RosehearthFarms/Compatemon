@@ -26,4 +26,7 @@ public class CompatemonFabric implements ModInitializer, CompatemonImplementatio
 		return FabricLoader.getInstance().isModLoaded(modID);
 	}
 	
+	@Override
+	public void postCommonInitialization() {
+	}
 }

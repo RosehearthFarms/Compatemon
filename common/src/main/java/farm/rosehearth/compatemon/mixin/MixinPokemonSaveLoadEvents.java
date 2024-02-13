@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Mixin into the Pokemon class of Cobblemon to add events to the Save and Load functions
+ * Mixin into the Pokemon class of Cobblemon to add apotheosis to the Save and Load functions
  */
 @Mixin(Pokemon.class)
 abstract class MixinPokemonSaveLoadEvents {

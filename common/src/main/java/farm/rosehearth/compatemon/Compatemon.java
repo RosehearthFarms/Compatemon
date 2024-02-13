@@ -77,7 +77,7 @@ public class Compatemon {
 	public static void init() {
 		loadConfigs();
 		CompatemonKotlin.INSTANCE.initialize();
-
+		Compatemon.implementation.postCommonInitialization();
 	}
 	
 	/**

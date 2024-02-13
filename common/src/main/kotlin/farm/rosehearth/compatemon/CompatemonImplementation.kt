@@ -18,6 +18,7 @@ interface CompatemonImplementation {
 	val modAPI: ModAPI
 	fun isModInstalled(modID: String): Boolean
 
+	fun postCommonInitialization()
 }
 
 enum class ModAPI {
