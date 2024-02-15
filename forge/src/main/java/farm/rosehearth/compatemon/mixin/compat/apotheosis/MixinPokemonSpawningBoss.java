@@ -18,6 +18,7 @@ import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
 import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils;
+import farm.rosehearth.compatemon.utils.CompateUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -58,7 +59,7 @@ abstract class MixinPokemonSpawningBoss extends SpawnAction<PokemonEntity> {
 	}
 	
 	@Inject(method = "createEntity()Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;", at = @At("RETURN"))
-	private void compatemon$createPokemonEntityAsABossReturn(CallbackInfoReturnable<PokemonEntity> cir) {
+	private void compatemon$onSpawnCreatePokemonEntityAsABoss(CallbackInfoReturnable<PokemonEntity> cir) {
 		
 		if(cir.getReturnValue().getType().toString().equals("entity.cobblemon.pokemon")){
 			var world = this.getCtx().getWorld();
@@ -66,14 +67,17 @@ abstract class MixinPokemonSpawningBoss extends SpawnAction<PokemonEntity> {
 			MobSpawnEvent.FinalizeSpawn newEvent = new MobSpawnEvent.FinalizeSpawn(cir.getReturnValue(), world, pos.getX(), pos.getY(), pos.getZ(), world.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null, null, null);
 			MinecraftForge.EVENT_BUS.post(newEvent);
 		}
-		
-		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
-			var isBoss = cir.getReturnValue().getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).contains("apoth.boss");
-			if(isBoss){
-				var rarityKey = cir.getReturnValue().getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).getString("apoth.rarity.color");
-				cir.getReturnValue().getPokemon().setNickname(cir.getReturnValue().getPokemon().getNickname().withStyle(Style.EMPTY.withColor(TextColor.parseColor(rarityKey))));
-			}
+		else{
+			Compatemon.LOGGER.debug("The entity created by the POKEMON Spawn Action Class wasn't actually a pokemon?");
 		}
+		
+//		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
+//			var isBoss = cir.getReturnValue().getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).contains("apoth.boss");
+//			if(isBoss){
+//				var rarityKey = cir.getReturnValue().getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).getString("apoth.rarity.color");
+//				cir.getReturnValue().getPokemon().setNickname(cir.getReturnValue().getPokemon().getNickname().withStyle(Style.EMPTY.withColor(TextColor.parseColor(rarityKey))));
+//			}
+//		}
 		
 		if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
 			float size_scale = CompatemonScaleUtils.Companion.getNewScale(MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE);
@@ -82,7 +86,7 @@ abstract class MixinPokemonSpawningBoss extends SpawnAction<PokemonEntity> {
 			{
 				if(ApotheosisConfig.BossSizingEntities.toUpperCase().equals("POKEMON"))
 				{
-					if(cir.getReturnValue() instanceof PokemonEntity)
+					if(cir.getReturnValue() instanceof PokemonEntity && CompateUtils.PokemonIsBoss(cir.getReturnValue())) //
 						size_scale *= ApotheosisConfig.DefaultBossSizeScale;
 				}
 				else if(ApotheosisConfig.BossSizingEntities.toUpperCase().equals("NON-POKEMON"))
@@ -90,7 +94,7 @@ abstract class MixinPokemonSpawningBoss extends SpawnAction<PokemonEntity> {
 					if(!(cir.getReturnValue() instanceof PokemonEntity))
 						size_scale *= ApotheosisConfig.DefaultBossSizeScale;
 				}
-				else if(ApotheosisConfig.BossSizingEntities.toUpperCase().equals("ALL"))
+				else if(ApotheosisConfig.BossSizingEntities.toUpperCase().equals("ALL") && CompateUtils.PokemonIsBoss(cir.getReturnValue()))
 				{
 					size_scale *= ApotheosisConfig.DefaultBossSizeScale;
 				}

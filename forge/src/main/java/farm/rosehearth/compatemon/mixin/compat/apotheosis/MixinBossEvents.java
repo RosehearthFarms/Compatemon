@@ -1,6 +1,7 @@
 package farm.rosehearth.compatemon.mixin.compat.apotheosis;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import dev.shadowsoffire.apotheosis.Apotheosis;
 import dev.shadowsoffire.apotheosis.adventure.AdventureConfig;
 import dev.shadowsoffire.apotheosis.adventure.AdventureModule;
@@ -11,6 +12,7 @@ import dev.shadowsoffire.apotheosis.adventure.client.BossSpawnMessage;
 import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
 import dev.shadowsoffire.placebo.network.PacketDistro;
 import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
+import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.events.CompatemonEvents;
 import farm.rosehearth.compatemon.events.apotheosis.ApothBossSpawnedEvent;
 import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
@@ -62,19 +64,17 @@ abstract class MixinBossEvents {
 	@Inject(at=@At("HEAD"),
 	method="naturalBosses",
 	remap=false)
-	private void compatemon$makePokemonBossesWork(MobSpawnEvent.FinalizeSpawn e, CallbackInfo cir)
+	private void compatemon$naturalBossesForPokemon(MobSpawnEvent.FinalizeSpawn e, CallbackInfo cir)
 	{
 		
 		CompatemonEvents.APOTH_BOSS_SPAWNED.postThen(new ApothBossSpawnedEvent(e.getEntity()), savedEvent -> null, savedEvent -> {
-			//Compatemon.LOGGER.debug("Wowie! A boss has spawned!");
-			
-			//if( e.getEntity().getType().toString().equals("entity.cobblemon.pokemon"))
-				//ApotheosisConfig.LOGGER.debug("Who's that pokemon??? It's " + ((PokemonEntity)(e.getEntity())).getPokemon().getSpecies().getName());
 			return null;
 		});
 		if (e.getEntity().getType().toString().equals("entity.cobblemon.pokemon")) {
 			LivingEntity entity = e.getEntity();
+			Pokemon originalPokemon = ((PokemonEntity)entity).getPokemon().clone(false,false);
 			RandomSource rand = e.getLevel().getRandom();
+			
 			if (this.bossCooldowns.getInt(entity.level().dimension().location()) <= 0 &&  !e.getLevel().isClientSide() ) {
 				ServerLevelAccessor sLevel = (ServerLevelAccessor) e.getLevel();
 				ResourceLocation dimId = sLevel.getLevel().dimension().location();
@@ -86,14 +86,11 @@ abstract class MixinBossEvents {
 					if (player == null) return; // Spawns require player context
 					ApothBoss item = BossRegistry.INSTANCE.getRandomItem(rand, player.getLuck(), WeightedDynamicRegistry.IDimensional.matches(sLevel.getLevel()), GameStagesCompat.IStaged.matches(player));
 					
-					ApotheosisConfig.LOGGER.debug("We generated the rando ApothBoss " + item.toString());
 					if (item == null) {
 						AdventureModule.LOGGER.error("Attempted to spawn a boss in dimension {} using configured boss spawn rule {}/{} but no bosses were made available.", dimId, rules.getRight(), rules.getLeft());
 						return;
 					}
-					//Mob boss = item.createBoss(sLevel, BlockPos.containing(e.getX() - 0.5, e.getY(), e.getZ() - 0.5), rand, player.getLuck(), null);
-					//ApothBoss i = item;
-					ApotheosisConfig.LOGGER.debug("Who's that pokemon???  " + ((PokemonEntity)entity).getPokemon().getSpecies().getName());
+					//ApotheosisConfig.LOGGER.debug("Who's that pokemon???  " + ((PokemonEntity)entity).getPokemon().getSpecies().getName());
 					Mob boss = ((IApothBossEntity) ((Object)item)).createPokeBoss(sLevel, BlockPos.containing(e.getX() - 0.5, e.getY(), e.getZ() - 0.5), rand, player.getLuck(), null, entity);
 					var n = ((PokemonEntity)boss).getCustomName();
 					ApotheosisConfig.LOGGER.debug("It's " + n.getString() + " - the " + ((PokemonEntity)boss).getPokemon().getSpecies().getName());
@@ -102,7 +99,7 @@ abstract class MixinBossEvents {
 					}
 					if (invokeCanSpawn(sLevel, boss, player.distanceToSqr(boss))) {
 						ApotheosisConfig.LOGGER.debug("" + n.getString() + " CAN SPAWN");
-						sLevel.addFreshEntityWithPassengers(boss);
+						//sLevel.addFreshEntityWithPassengers(boss);
 						e.setResult(Event.Result.DENY);
 						AdventureModule.debugLog(boss.blockPosition(), "Surface Boss - " + boss.getName().getString());
 						Component name = this.getName(boss);
@@ -118,6 +115,11 @@ abstract class MixinBossEvents {
 							});
 						}
 						this.bossCooldowns.put(entity.level().dimension().location(), AdventureConfig.bossSpawnCooldown);
+					}
+					else{
+						
+						Compatemon.LOGGER.debug("We need to set the pokemon back to normal here, I think.");
+						((PokemonEntity)entity).setPokemon(originalPokemon);
 					}
 				}
 			}

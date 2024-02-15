@@ -42,6 +42,7 @@ public class MixinNameHelper {
 	 *  Currently appends the pokemon's species to the Boss's title and sets the color arbitrarily so as to fix things.
 	 * 	Want to replace with upcoming Title code
 	 * 	Should Titles be its own mod? Yeah, probably.
+	 * 	TODO: Implement ReTitled Fully and utilize for Pokemon Titles
 	 * @param rand
 	 * @param entity
 	 * @param root
@@ -66,14 +67,9 @@ public class MixinNameHelper {
 					name = name + " the " + ((PokemonEntity) entity).getPokemon().getSpecies().getName();
 				}
 				
-				Compatemon.LOGGER.debug("Its new name is... " + name);
-				var rarityKey = pokemonEntity.getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).getString("apoth.rarity.color");
-				
-				Compatemon.LOGGER.debug("And its color is... " + rarityKey);
-				entity.setCustomName(Component.literal(name).withStyle(Style.EMPTY.withColor(TextColor.parseColor(rarityKey))));
+				entity.setCustomName(Component.literal(name));
 				entity.setCustomNameVisible(true);
 				
-				//nbt = pokemonEntity.saveWithoutId(nbt);
 				
 			}
 		}

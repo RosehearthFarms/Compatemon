@@ -14,6 +14,8 @@ import farm.rosehearth.compatemon.modules.apotheosis.IApothBossEntity;
 import farm.rosehearth.compatemon.utils.CompatemonDataKeys;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -150,11 +152,12 @@ public Entity spawnedEntity;
 			String s_rarity = RarityRegistry.INSTANCE.getKey(rarity).toString() + "~" + rarity.getColor().serialize() + "~" + rarity.ordinal();
 			CompoundTag compatemonData = new CompoundTag();
 			compatemonData.put(CompatemonDataKeys.MOD_ID_COMPATEMON, new CompoundTag());
-			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putBoolean("apoth.boss", true);
-			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putString("apoth.rarity", s_rarity);
-			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putString("apoth.rarity.color", rarity.getColor().serialize());
+			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putBoolean(APOTH_BOSS, true);
+			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putString(APOTH_RARITY, s_rarity);
+			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putString(APOTH_RARITY + ".color", rarity.getColor().serialize());
 			Compatemon.LOGGER.debug("We've set the color of " + ((PokemonEntity)entity).getPokemon().getSpecies().getName() + " to " + rarity.getColor().serialize());
 			((PokemonEntity)entity).getPokemon().getPersistentData().merge(compatemonData);
+			((PokemonEntity)entity).getPokemon().setNickname(((PokemonEntity)entity).getPokemon().getNickname().withStyle(Style.EMPTY.withColor(rarity.getColor())));
 		}
 		
 		
@@ -181,15 +184,14 @@ public Entity spawnedEntity;
 	@Override
 	public Mob createPokeBoss(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity, Entity entityFromSpawn) {
 		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && entityFromSpawn.getType().toString().equals("entity.cobblemon.pokemon")){
-			//TODO: PokemonPropertyGenerator with logic for Player Location and/or Spawning Biome + Player Stats
-			//TODO: CustomProperty for Aggressive to work with FightOrFlight? Glowing needs to be longer and stay after reload
-			
 			if(rarity != null){
 				ApotheosisConfig.LOGGER.debug("Here's the rarity: " + rarity.toString());
 			}
 			entity = entityFromSpawn.getType();
 			//PokemonEntity pEntity = ((PokemonEntity) entityFromSpawn);
-			((PokemonEntity) entityFromSpawn).getPokemon().setLevel(random.nextInt(50) + 25);
+			int clevel = ((PokemonEntity) entityFromSpawn).getPokemon().getLevel();
+			((PokemonEntity) entityFromSpawn).getPokemon().setLevel(clevel + random.nextInt(20) - 5);
+			// Kind of expect this to break sometime if the level is out of the range. Hoping Cobblemon accounted for that though.
 			
 			if(!ApotheosisConfig.BossPokemonCatchable){
 				((PokemonEntity) entityFromSpawn).getPokemon().getCustomProperties().add(UncatchableProperty.INSTANCE.uncatchable());
@@ -200,7 +202,6 @@ public Entity spawnedEntity;
 			nbt = ((PokemonEntity) entityFromSpawn).saveWithoutId(new CompoundTag());
 			
 			ApotheosisConfig.LOGGER.debug("Create that PokeBoss! " + ((PokemonEntity) entityFromSpawn).getPokemon().showdownId());
-			//ApotheosisConfig.LOGGER.debug("It's a " + pEntity.getPokemon().showdownId());
 			
 			CompoundTag fakeNbt = this.nbt;
 			fakeNbt.putString("id", EntityType.getKey(this.entity).toString());
@@ -211,18 +212,14 @@ public Entity spawnedEntity;
 			
 			this.initBoss(random, entity, luck, rarity);
 			
-			if(this.nbt != null) entity.readAdditionalSaveData(this.nbt);
-			
-			if(this.mount != null){
-				Mob mountedEntity = this.mount.create(world.getLevel(), pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-				entity.startRiding(mountedEntity, true);
-				entity = mountedEntity;
-			}
+			// had to take out the mount info as for SOME reason, it kept trying to create spiders
+			// would LOVe to add in bosses mounted as pokemon at some point as compatability with Cobblemounts
 			
 			entity.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, random.nextFloat() * 360.0F, 0.0F);
 			return entity;
 		}
 		else{
+			Compatemon.LOGGER.debug("Using the default createBoss");
 			return createBoss(world,pos,random,luck,rarity);
 		}
 	}

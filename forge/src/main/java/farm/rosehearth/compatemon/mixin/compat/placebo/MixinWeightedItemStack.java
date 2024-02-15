@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- *
+ * IDK if this is actually needed? May try and disable and see what happens.
  */
 @Mixin(WeightedItemStack.class)
 public class MixinWeightedItemStack {

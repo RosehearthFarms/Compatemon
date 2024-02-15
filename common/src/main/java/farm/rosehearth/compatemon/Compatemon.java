@@ -20,14 +20,10 @@ import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.*;
 public class Compatemon {
 	public static final String MODID = "compatemon";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
-	//private static CompatemonCommonConfigModel config;
 	
 	public static CompatemonImplementation implementation;
 	public static File configDir;
 	public static Configuration config;
-	public static Configuration apothConfig;
-	public static Configuration pehkuiConfig;
-	public static Configuration quarkConfig;
 	public static final Map<String,Configuration> configs = new HashMap<>();
 	private static final ArrayList<String> modsToConfigure = new ArrayList<String>();
 	private static final Map<String, Boolean> modsToEnable = new HashMap<String, Boolean>();
@@ -39,6 +35,7 @@ public class Compatemon {
 	static {
 		// Common
 		modsToConfigure.add(MOD_ID_PEHKUI);
+		
 		// Forge
 		modsToConfigure.add(MOD_ID_APOTHEOSIS);
 		modsToConfigure.add(MOD_ID_QUARK);
@@ -58,7 +55,7 @@ public class Compatemon {
 		configDir = new File("config",MODID);
 		config = new Configuration(new File(configDir, MODID + ".cfg"));
 		config.setTitle("Compatemon Module Control");
-		config.setComment("This file allows individual modules to be enabled or disabled.");
+		config.setComment("This file allows individual modules to be enabled or disabled. If the mod isn't loaded, it will automatically be set to false, and so long as it remains unloaded, will not do anything even if it's set to true.");
 		
 		// Adds each mod to the Compatemon config file
 		for (String modID: modsToConfigure){
@@ -83,6 +80,8 @@ public class Compatemon {
 	/**
 	 * Loads the configs for each mod. Config files are located in the common group, even if a particular mod is
 	 * specific to a particular modAPI
+	 *
+	 * TODO: Use Configgy API mod instead
 	 */
 	private static void loadConfigs(){
 		for(var m : modsToConfigure)

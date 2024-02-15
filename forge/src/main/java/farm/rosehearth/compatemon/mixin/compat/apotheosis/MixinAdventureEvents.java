@@ -26,6 +26,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.APOTH_BOSS;
+import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.APOTH_RARITY;
+
 @Mixin(AdventureEvents.class)
 abstract class MixinAdventureEvents {
 	
@@ -37,7 +40,8 @@ abstract class MixinAdventureEvents {
 	public void compatemon$specialAddAffixItemsToPokemon(MobSpawnEvent.FinalizeSpawn e, CallbackInfo cir){
 		if (    e.getSpawnType() == MobSpawnType.NATURAL &&
 				e.getLevel().getRandom().nextFloat() <= AdventureConfig.randomAffixItem &&
-				e.getEntity().getType().toString().equals("entity.cobblemon.pokemon"))
+				e.getEntity().getType().toString().equals("entity.cobblemon.pokemon") &&
+				ApotheosisConfig.PokemonDropAffixItems)
 		{
 			Player player = e.getLevel().getNearestPlayer(e.getX(), e.getY(), e.getZ(), -1, false);
 			if (player == null) return;
@@ -61,7 +65,9 @@ abstract class MixinAdventureEvents {
 	public void compatemon$dropsHigh(LivingDropsEvent e, CallbackInfo cir) {
 		if (e.getSource().getEntity() instanceof ServerPlayer p && e.getEntity().getType().toString().equals("entity.cobblemon.pokemon")) {
 			
-			float chance = AdventureConfig.gemDropChance + (((PokemonEntity)(e.getEntity())).getPokemon().getPersistentData().contains("apoth.boss") ? AdventureConfig.gemBossBonus : 0);
+			float chance = AdventureConfig.gemDropChance;
+			float boss_chance = ApotheosisConfig.PokemonDropGems ? chance + (((PokemonEntity)(e.getEntity())).getPokemon().getPersistentData().contains(APOTH_BOSS) ? AdventureConfig.gemBossBonus : 0) : 0;
+			float normal_chance = ApotheosisConfig.PokemonDropGems ? chance : 0;
 			if (p.getRandom().nextFloat() <= chance) {
 				Entity ent = e.getEntity();
 				e.getDrops()
