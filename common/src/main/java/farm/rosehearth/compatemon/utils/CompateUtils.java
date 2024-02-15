@@ -10,6 +10,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import java.util.Random;
 
 import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_APOTHEOSIS;
+import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_COMPATEMON;
 
 /**
  *
@@ -38,10 +39,10 @@ public class CompateUtils {
 	}
 	
 	public static boolean PokemonIsBoss(PokemonEntity pokemonEntity){
-		return false;
+		return pokemonEntity.getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).contains("apoth.boss");
 	}
 	public static boolean PokemonIsBoss(Pokemon pokemon){
-		return false;
+		return pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).contains("apoth.boss");
 	}
 }
 

@@ -7,6 +7,7 @@ import farm.rosehearth.compatemon.Compatemon;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -19,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_APOTHEOSIS;
+import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_COMPATEMON;
 
 /**
  *
@@ -64,13 +66,13 @@ public class MixinNameHelper {
 					name = name + " the " + ((PokemonEntity) entity).getPokemon().getSpecies().getName();
 				}
 				
-				Compatemon.LOGGER.debug("Let's name that " + pokemonEntity.getPokemon().getSpecies().getName() + "!");
 				Compatemon.LOGGER.debug("Its new name is... " + name);
+				var rarityKey = pokemonEntity.getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).getString("apoth.rarity.color");
 				
-				entity.setCustomName(Component.literal(name).withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)));
+				Compatemon.LOGGER.debug("And its color is... " + rarityKey);
+				entity.setCustomName(Component.literal(name).withStyle(Style.EMPTY.withColor(TextColor.parseColor(rarityKey))));
 				entity.setCustomNameVisible(true);
 				
-				Compatemon.LOGGER.debug("Its display name is... " + entity.getDisplayName().getString());
 				//nbt = pokemonEntity.saveWithoutId(nbt);
 				
 			}

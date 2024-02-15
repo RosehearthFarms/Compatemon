@@ -4,11 +4,13 @@
 	"package": "farm.rosehearth.compatemon.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"compat.apotheosis.MixinAdventureEvents",
 		"compat.apotheosis.MixinApothBoss",
 		"compat.apotheosis.MixinBossEvents",
 		"compat.apotheosis.MixinNameHelper",
 		"compat.apotheosis.MixinPokemonSpawningBoss",
-		"compat.placebo.MixinWeightedItemStack"
+		"compat.placebo.MixinWeightedItemStack",
+		"compat.sophisticatedcore.MixinControllerBlockEntityBase"
 	],
 	"client": [
 	]

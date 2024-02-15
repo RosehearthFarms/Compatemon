@@ -10,5 +10,5 @@ dependencies {
     modApi("com.cobblemon:mod:${project.properties["cobblemon_version"]}+${project.properties["minecraft_version"]}")
     modApi("com.github.Virtuoel:Pehkui:${project.properties["pehkui_version"]}-${project.properties["minecraft_version"]}-forge")
     modApi("me.shedaniel.cloth:cloth-config:${project.properties["cloth_config_version"]}")
-
+    //modApi("org.valkyrienskies:valkyrienskies-118-common:${project.properties["vs2_version"]}")
 }

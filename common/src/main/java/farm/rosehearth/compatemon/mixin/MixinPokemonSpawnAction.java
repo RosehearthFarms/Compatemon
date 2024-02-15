@@ -33,24 +33,9 @@ abstract class MixinPokemonSpawnAction extends SpawnAction<PokemonEntity> {
         super(ctx, detail);
     }
 
-    @Inject(method = "createEntity()Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;", at = @At("RETURN"))
-    private void compatemon$createPokemonEntityReturn(CallbackInfoReturnable<PokemonEntity> cir) {
-        if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-            
-            float size_scale = CompatemonScaleUtils.Companion.getNewScale(MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE);
-            //float weight_scale = CompatemonScaleUtils.Companion.getNewScale(MOD_ID_COMPATEMON + ":" + COMPAT_SCALE_WEIGHT);
-            
-            // Actually set the scale of the spawning pokemonEntity. Will eventually add a new scale type for weight.
-            CompatemonScaleUtils.Companion.setScale(cir.getReturnValue(), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, size_scale);
-            
-        }
-        if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
-            var isBoss = cir.getReturnValue().getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).contains("apoth.boss");
-            if(isBoss){
-                var rarityKey = cir.getReturnValue().getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).getString("apoth.rarity.color");
-	            cir.getReturnValue().getPokemon().setNickname(cir.getReturnValue().getPokemon().getNickname().withStyle(Style.EMPTY.withColor(TextColor.parseColor(rarityKey))));
-            }
-        }
-    }
+//    @Inject(method = "createEntity()Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;", at = @At("RETURN"))
+//    private void compatemon$createPokemonEntityReturn(CallbackInfoReturnable<PokemonEntity> cir) {
+//
+//    }
 
 }

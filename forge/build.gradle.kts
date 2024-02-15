@@ -56,7 +56,10 @@ repositories {
 //            password = ""
 //        }
 //    }
-
+    maven {
+        name = "Iron's Maven"
+        url = uri("https://code.redspace.io/releases")
+    }
 }
 
 dependencies {
@@ -89,10 +92,14 @@ dependencies {
     modImplementation("dev.shadowsoffire:Apotheosis:${minecraft_version}-${project.properties["apotheosis_version"]}")
 
     //Sophisticated CORE
+
+    modImplementation("curse.maven:sophisticated-storage-619320:4993654")
+    modImplementation("curse.maven:sophisticated-core-618298:4993648")
+    //modApi("com.github.P3pp3rF1y:sophisticatedcore:${project.properties["sophisticated_core_version"]}")
    // modImplementation("sophisticatedcore:sophisticatedcore:${project.properties["sophisticated_core_version"]}")
 
 // IRONS SPELLS N SPELLBOOKS **********************************************************************************
-   // modImplementation("io.redspace.ironsspellbooks:irons_spellbooks:${minecraft_version}-${project.properties["irons_spells_version"]}")
+    modImplementation("io.redspace.ironsspellbooks:irons_spellbooks:${minecraft_version}-${project.properties["irons_spells_version"]}")
 
     // GECKOLIB ***************************************************************************************************
     //runtimeOnly("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${project.properties["geckolib_version"]}")
