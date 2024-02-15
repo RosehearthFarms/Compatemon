@@ -58,7 +58,8 @@ abstract class MixinPokemonSpawningBoss extends SpawnAction<PokemonEntity> {
 		super(ctx, detail);
 	}
 	
-	@Inject(method = "createEntity()Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;", at = @At("RETURN"))
+	@Inject(method = "createEntity()Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;"
+			,at = @At("RETURN"))
 	private void compatemon$onSpawnCreatePokemonEntityAsABoss(CallbackInfoReturnable<PokemonEntity> cir) {
 		
 		if(cir.getReturnValue().getType().toString().equals("entity.cobblemon.pokemon")){

@@ -42,7 +42,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.annotation.Nullable;
 
-import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_COMPATEMON;
+import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.*;
 
 @Mixin(BossEvents.class)
 abstract class MixinBossEvents {
@@ -53,7 +53,7 @@ abstract class MixinBossEvents {
 	@Shadow(remap = false)
 	@Nullable
 	private Component getName(Mob boss) {
-		return boss.getSelfAndPassengers().filter(e -> ((PokemonEntity)e).getPersistentData().getCompound(MOD_ID_COMPATEMON).contains("apoth.boss")).findFirst().map(Entity::getCustomName).orElse(null);
+		return boss.getSelfAndPassengers().filter(e -> ((PokemonEntity)e).getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(APOTH_BOSS)).findFirst().map(Entity::getCustomName).orElse(null);
 	}
 	
 	@Invoker("canSpawn")
@@ -79,6 +79,7 @@ abstract class MixinBossEvents {
 				ServerLevelAccessor sLevel = (ServerLevelAccessor) e.getLevel();
 				ResourceLocation dimId = sLevel.getLevel().dimension().location();
 				Pair<Float, BossEvents.BossSpawnRules> rules = AdventureConfig.BOSS_SPAWN_RULES.get(dimId);
+				
 				if (rules == null) return;
 				if (rand.nextFloat() <= rules.getLeft()) {
 				
@@ -90,25 +91,31 @@ abstract class MixinBossEvents {
 						AdventureModule.LOGGER.error("Attempted to spawn a boss in dimension {} using configured boss spawn rule {}/{} but no bosses were made available.", dimId, rules.getRight(), rules.getLeft());
 						return;
 					}
-					//ApotheosisConfig.LOGGER.debug("Who's that pokemon???  " + ((PokemonEntity)entity).getPokemon().getSpecies().getName());
+					
+					
 					Mob boss = ((IApothBossEntity) ((Object)item)).createPokeBoss(sLevel, BlockPos.containing(e.getX() - 0.5, e.getY(), e.getZ() - 0.5), rand, player.getLuck(), null, entity);
-					var n = ((PokemonEntity)boss).getCustomName();
-					ApotheosisConfig.LOGGER.debug("It's " + n.getString() + " - the " + ((PokemonEntity)boss).getPokemon().getSpecies().getName());
-					if (AdventureConfig.bossAutoAggro) {
-						boss.setTarget(player);
-					}
+					
+					
 					if (invokeCanSpawn(sLevel, boss, player.distanceToSqr(boss))) {
+						var n = ((PokemonEntity)boss).getCustomName();
+						ApotheosisConfig.LOGGER.debug("It's " + n.getString() + " - the " + ((PokemonEntity)boss).getPokemon().getSpecies().getName());
+						if (AdventureConfig.bossAutoAggro) {
+							boss.setTarget(player);
+						}
+						
 						ApotheosisConfig.LOGGER.debug("" + n.getString() + " CAN SPAWN");
-						//sLevel.addFreshEntityWithPassengers(boss);
+						
+						
 						e.setResult(Event.Result.DENY);
 						AdventureModule.debugLog(boss.blockPosition(), "Surface Boss - " + boss.getName().getString());
 						Component name = this.getName(boss);
+						
 						if (name == null || name.getStyle().getColor() == null) AdventureModule.LOGGER.warn("A Boss {} ({}) has spawned without a custom name!", boss.getName().getString(), EntityType.getKey(boss.getType()));
 						else {
 							sLevel.players().forEach(p -> {
 								Vec3 tPos = new Vec3(boss.getX(), AdventureConfig.bossAnnounceIgnoreY ? p.getY() : boss.getY(), boss.getZ());
 								if (p.distanceToSqr(tPos) <= AdventureConfig.bossAnnounceRange * AdventureConfig.bossAnnounceRange) {
-									((ServerPlayer) p).connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("info.apotheosis.boss_spawn", name, (int) boss.getX(), (int) boss.getY())));
+									((ServerPlayer) p).connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("info.compatemon.boss_spawn", name, (int) boss.getX(), (int) boss.getY())));
 									TextColor color = name.getStyle().getColor();
 									PacketDistro.sendTo(Apotheosis.CHANNEL, new BossSpawnMessage(boss.blockPosition(), color == null ? 0xFFFFFF : color.getValue()), player);
 								}
@@ -120,6 +127,10 @@ abstract class MixinBossEvents {
 						
 						Compatemon.LOGGER.debug("We need to set the pokemon back to normal here, I think.");
 						((PokemonEntity)entity).setPokemon(originalPokemon);
+						((PokemonEntity)entity).removeAllEffects();
+						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_BOSS);
+						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY);
+						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY + ".color");
 					}
 				}
 			}

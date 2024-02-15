@@ -11,9 +11,9 @@ import net.minecraftforge.event.entity.living.MobSpawnEvent.FinalizeSpawn
 object CompatemonForgeKotlin {
 	fun postCommonInit(){
 
-		Compatemon.LOGGER.debug("----------------------------------------------------------------------------------")
-		Compatemon.LOGGER.debug("Forge Specific Events")
-		Compatemon.LOGGER.debug("----------------------------------------------------------------------------------")
+//		Compatemon.LOGGER.debug("----------------------------------------------------------------------------------")
+//		Compatemon.LOGGER.debug("Forge Specific Events")
+//		Compatemon.LOGGER.debug("----------------------------------------------------------------------------------")
 
 
 

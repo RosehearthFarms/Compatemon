@@ -11,7 +11,8 @@ object CompatemonDataKeys {
     const val MOD_ID_BOTANIA = "botania"
     const val MOD_ID_QUARK = "quark"
     const val MOD_ID_ZETA = "zeta"
-    const val MOD_ID_SC = "sophisticatedcore"
+    const val MOD_ID_SOPHISTICATEDCORE = "sophisticatedcore"
+    const val MOD_ID_SOPHISTICATEDSTORAGE = "sophisticatedstorage"
     const val MOD_ID_SUPPLEMENTARIES = "supplementaries"
     const val MOD_ID_ICEANDFIRE = "iceandfire"
     const val MOD_ID_VALKYRIANSKIES = "valkyrienskies"
@@ -29,9 +30,17 @@ object CompatemonDataKeys {
     const val MOD_ID_FABRIC = "fabric"
     const val MOD_ID_MINECRAFT = "minecraft"
 
-    /* Constants */
+    /* Constants Keys */
     const val COMPAT_SCALE_SIZE = "sizeScale"
     const val COMPAT_SCALE_WEIGHT = "weightScale"
     const val APOTH_BOSS = "apoth.boss"
     const val APOTH_RARITY = "apoth.rarity"
+
+    /* APOTHEOSIS CONFIGURATION RANGE CONSTANTS */
+    const val APOTH_BOSS_SCALE_MIN = 1.0f
+    const val APOTH_BOSS_SCALE_MAX = 10.0f
+
+    /* SOPHISTICATED CONFIGURATION RANGE CONSTANTS */
+    const val SOPHISTICATED_SEARCH_MIN = 1
+    const val SOPHISTICATED_SEARCH_MAX = 256
 }

@@ -39,9 +39,12 @@ public class Compatemon {
 		// Forge
 		modsToConfigure.add(MOD_ID_APOTHEOSIS);
 		modsToConfigure.add(MOD_ID_QUARK);
-		modsToConfigure.add(MOD_ID_SC);
+		modsToConfigure.add(MOD_ID_SOPHISTICATEDSTORAGE);
 		// Fabric
 		// Quilt
+		
+		// Add the following mods to ONLY enables - the dependendant API is the one we mixed into
+		modsToEnable.put(MOD_ID_SOPHISTICATEDCORE,implementation.isModInstalled(MOD_ID_SOPHISTICATEDCORE));
 	}
 	
 	/**
@@ -100,7 +103,8 @@ public class Compatemon {
 					case MOD_ID_PEHKUI:
 						PehkuiConfig.load(c);
 						break;
-					case MOD_ID_SC:
+					case MOD_ID_SOPHISTICATEDCORE:
+					case MOD_ID_SOPHISTICATEDSTORAGE:
 						SophisticatedConfig.load(c);
 						break;
 				}

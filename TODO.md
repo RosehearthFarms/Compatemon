@@ -11,14 +11,12 @@
 ### Apotheosis - https://github.com/Shadows-of-Fire/Apotheosis
 > Additions Link: https://github.com/Bryce792/ApotheoticAdditions
 
-- mixin for Pokemon Item Drop to allow boss item
 - Pokemon Specific Gems
     - Affect Catch Rate
     - Affect Spawning Amount
 - New Effect
     - Repel
 - Unique Pokémon spawns via bosses
-    - Uncatchable?
     - Pehkui Size is larger and thus has better stats
     - config list
 - Titles link to effects
@@ -26,8 +24,9 @@
 - Squash bugs
      - Pokemon Hitbox is not correct when scaled as is implemented
      - Also Pokemon Spazz tf out above a certain scale size and move WAY too fast
+     - 
 ### Quark
-- Probably Something
+- Ambient Music Discs!
 ### Botania
 - Legendary Summoning for grass types
 ### Supplementaries - https://github.com/MehVahdJukaar/Supplementaries
@@ -96,6 +95,12 @@
 ### Aquamirae - https://github.com/ObscuriaLithium/Aquamirae
 - Ocean Things
 
+### Sophisticated Core/Storage/Backpacks
+- Sophisticated Core
+  - SEARCH_RANGE config
+- Sophisticated Backpacks
+  - Pokemon can carry backpacks and drop them?
+
 ### other
 - Make cobblemon xp and Mc xp compatible
 
@@ -115,8 +120,6 @@
 
 
 - all major game play mods
-
-
 
 # DONE
 - See Changelog

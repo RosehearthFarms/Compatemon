@@ -4,6 +4,9 @@ import farm.rosehearth.compatemon.config.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.APOTH_BOSS_SCALE_MAX;
+import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.APOTH_BOSS_SCALE_MIN;
+
 /**
  *
  */
@@ -32,7 +35,7 @@ public class ApotheosisConfig {
 		DoBossPokemon = c.getBoolean("Allow Pokemon Bosses to Spawn", "bosses", DoBossPokemon, "Allows Pokemon to be Apotheosis Bosses.");
 		DoBossSizing = c.getBoolean("Increase Boss Physical Size", "bosses", DoBossSizing, "Increase the size of all Boss Mobs by configurable factor.");
 		BossSizingEntities = c.getString("Bosses affected by Size Change","bosses", BossSizingEntities,"Categories: all, Pokemon, non-Pokemon, none");
-		DefaultBossSizeScale = c.getFloat("Boss Size Default", "bosses", DefaultBossSizeScale, 0.01f,10.0f, "Default size of Apotheosis Bosses.");
+		DefaultBossSizeScale = c.getFloat("Boss Size Default", "bosses", DefaultBossSizeScale, APOTH_BOSS_SCALE_MIN,APOTH_BOSS_SCALE_MAX, "Default size of Apotheosis Bosses.");
 		BossPokemonCatchable = c.getBoolean("Allow Pokemon Bosses to be Caught", "bosses", BossPokemonCatchable, "Sets the uncatchable flag on the pokemon if false. Only battleable or fightable. \nWould like to implement catchable after battle or fight.");
 		
 		//Drops

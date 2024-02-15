@@ -45,9 +45,9 @@ object CompatemonKotlin {
         // Occurs when the Pokemon is saved to the world or party
         POKEMON_ENTITY_SAVE.subscribe{ event ->
             if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
-                var isBoss = event.pokemonEntity.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).contains("apoth.boss");
+                var isBoss = event.pokemonEntity.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_BOSS);
                 if(isBoss){
-                    var rarityKey = event.pokemonEntity.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).getString("apoth.rarity.color")
+                    var rarityKey = event.pokemonEntity.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).getString("$APOTH_RARITY.color")
                     event.pokemonEntity.pokemon.nickname = event.pokemonEntity.pokemon.nickname?.withStyle(Style.EMPTY.withColor(TextColor.parseColor(rarityKey)))
                 }
             }
