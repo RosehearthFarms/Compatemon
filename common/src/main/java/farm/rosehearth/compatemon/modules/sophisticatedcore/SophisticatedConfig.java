@@ -4,8 +4,8 @@ import farm.rosehearth.compatemon.config.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.SOPHISTICATED_SEARCH_MAX;
-import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.SOPHISTICATED_SEARCH_MIN;
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.SOPHISTICATED_SEARCH_MAX;
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.SOPHISTICATED_SEARCH_MIN;
 
 public class SophisticatedConfig {
 	public static final Logger LOGGER = LogManager.getLogger("Compatemon : Sophisticated Storage");

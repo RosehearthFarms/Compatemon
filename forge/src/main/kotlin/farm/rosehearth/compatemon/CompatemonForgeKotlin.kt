@@ -1,13 +1,5 @@
 package farm.rosehearth.compatemon
 
-import com.cobblemon.mod.common.api.events.CobblemonEvents
-import farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_APOTHEOSIS
-import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.MobSpawnType
-import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.event.entity.living.LivingDropsEvent
-import net.minecraftforge.event.entity.living.MobSpawnEvent.FinalizeSpawn
-
 object CompatemonForgeKotlin {
 	fun postCommonInit(){
 

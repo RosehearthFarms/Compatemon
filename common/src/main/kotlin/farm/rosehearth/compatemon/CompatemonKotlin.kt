@@ -12,19 +12,16 @@ import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_JSON_LOADED
 import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_JSON_SAVED
 import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_NBT_LOADED
 import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_NBT_SAVED
-import farm.rosehearth.compatemon.utils.CompatemonDataKeys.COMPAT_SCALE_SIZE
-import farm.rosehearth.compatemon.utils.CompatemonDataKeys.COMPAT_SCALE_WEIGHT
-import farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_COMPATEMON
-import farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_PEHKUI
-import farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_APOTHEOSIS
-import farm.rosehearth.compatemon.utils.CompatemonDataKeys.APOTH_BOSS
-import farm.rosehearth.compatemon.utils.CompatemonDataKeys.APOTH_RARITY
+import farm.rosehearth.compatemon.util.CompatemonDataKeys.COMPAT_SCALE_SIZE
+import farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_COMPATEMON
+import farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_PEHKUI
+import farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_APOTHEOSIS
+import farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_BOSS
+import farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_RARITY
+import farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_RARITY_COLOR
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils
-import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.*
-import net.minecraft.resources.ResourceLocation
 import virtuoel.pehkui.api.ScaleTypes
-import java.awt.Color
 
 object CompatemonKotlin {
 
@@ -93,7 +90,7 @@ object CompatemonKotlin {
             if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
                 var isBoss = event.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_BOSS);
                 if(isBoss){
-                    var rarityKey = event.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).getString("$APOTH_RARITY.color")
+                    var rarityKey = event.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)
                     LOGGER.debug(rarityKey)
                     event.pokemon.nickname = event.pokemon.nickname?.withStyle(Style.EMPTY.withColor(TextColor.parseColor(rarityKey)))
                     LOGGER.debug(event.pokemon.nickname.toString())

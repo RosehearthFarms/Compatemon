@@ -10,6 +10,8 @@ import dev.shadowsoffire.apotheosis.adventure.boss.BossEvents;
 import dev.shadowsoffire.apotheosis.adventure.boss.BossRegistry;
 import dev.shadowsoffire.apotheosis.adventure.client.BossSpawnMessage;
 import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
+import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
+import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
 import dev.shadowsoffire.placebo.network.PacketDistro;
 import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
 import farm.rosehearth.compatemon.Compatemon;
@@ -42,7 +44,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.annotation.Nullable;
 
-import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.*;
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
 
 @Mixin(BossEvents.class)
 abstract class MixinBossEvents {
@@ -92,9 +94,7 @@ abstract class MixinBossEvents {
 						return;
 					}
 					
-					
 					Mob boss = ((IApothBossEntity) ((Object)item)).createPokeBoss(sLevel, BlockPos.containing(e.getX() - 0.5, e.getY(), e.getZ() - 0.5), rand, player.getLuck(), null, entity);
-					
 					
 					if (invokeCanSpawn(sLevel, boss, player.distanceToSqr(boss))) {
 						var n = ((PokemonEntity)boss).getCustomName();
@@ -110,12 +110,29 @@ abstract class MixinBossEvents {
 						AdventureModule.debugLog(boss.blockPosition(), "Surface Boss - " + boss.getName().getString());
 						Component name = this.getName(boss);
 						
+						
+						LootRarity rarity = RarityRegistry.byOrdinal(((PokemonEntity)boss).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).getInt(APOTH_RARITY)).get();
+						
+						if(rarity != null) ApotheosisConfig.LOGGER.debug("Here's the rarity in BossEvents Mixin: " + rarity.toString());
+						
+						
+						
 						if (name == null || name.getStyle().getColor() == null) AdventureModule.LOGGER.warn("A Boss {} ({}) has spawned without a custom name!", boss.getName().getString(), EntityType.getKey(boss.getType()));
 						else {
 							sLevel.players().forEach(p -> {
 								Vec3 tPos = new Vec3(boss.getX(), AdventureConfig.bossAnnounceIgnoreY ? p.getY() : boss.getY(), boss.getZ());
 								if (p.distanceToSqr(tPos) <= AdventureConfig.bossAnnounceRange * AdventureConfig.bossAnnounceRange) {
-									((ServerPlayer) p).connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("info.compatemon.boss_spawn", name, (int) boss.getX(), (int) boss.getY())));
+									
+									String r = RarityRegistry.INSTANCE.getKey(rarity).toString();
+									String translatableKey = "info.compatemon.boss_spawn."  + r.substring(r.indexOf(":"));
+
+									try{ // Send Custom Message or Fail and send default apotheosis message
+										((ServerPlayer) p).connection.send(new ClientboundSetActionBarTextPacket(Component.translatable(translatableKey, name, (int) boss.getX(), (int) boss.getY(), (int) boss.getZ())));
+									}
+									catch(Exception ex){
+										((ServerPlayer) p).connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("info.apotheosis.boss_spawn", name, (int) boss.getX(), (int) boss.getY(), (int) boss.getZ())));
+									}
+									
 									TextColor color = name.getStyle().getColor();
 									PacketDistro.sendTo(Apotheosis.CHANNEL, new BossSpawnMessage(boss.blockPosition(), color == null ? 0xFFFFFF : color.getValue()), player);
 								}

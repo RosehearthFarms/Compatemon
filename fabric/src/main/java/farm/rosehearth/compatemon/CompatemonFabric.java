@@ -29,4 +29,9 @@ public class CompatemonFabric implements ModInitializer, CompatemonImplementatio
 	@Override
 	public void postCommonInitialization() {
 	}
+	
+	@Override
+	public void registerEvents() {
+	
+	}
 }

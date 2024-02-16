@@ -3,13 +3,12 @@ package farm.rosehearth.compatemon.modules.pehkui.util
 import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
-import farm.rosehearth.compatemon.utils.CompateUtils
-import farm.rosehearth.compatemon.utils.CompatemonDataKeys
+import farm.rosehearth.compatemon.util.CompateUtils
+import farm.rosehearth.compatemon.util.CompatemonDataKeys
 import net.minecraft.nbt.CompoundTag
 import virtuoel.pehkui.api.ScaleType
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.util.*
 
 /**
  * Class to store logic for handling scale data for pokemon by reading and writing from the entity's persistantdatat

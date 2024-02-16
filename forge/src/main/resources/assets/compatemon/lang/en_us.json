@@ -1,5 +1,14 @@
 {
-	"info.compatemon.boss_spawn": "Welcome, %s! You'd better run!",
+	"info.compatemon.boss_spawn": "%s has entered the world!",
+	"info.compatemon.boss_spawn.common": "Welcome, %s!",
+	"info.compatemon.boss_spawn.uncommon": "%s is here!",
+	"info.compatemon.boss_spawn.rare": "%s is coming!",
+	"info.compatemon.boss_spawn.epic": "%s has arrived!",
+	"info.compatemon.boss_spawn.mythic": "%s is after you!",
+	"info.compatemon.boss_spawn.ancient": "%s has appeared! You'd better run!",
+	"info.compatemon.boss_spawn.legendary": "WARNING! %s has appeared! WARNING!",
+	"info.compatemon.boss_spawn.heirloom": "%s has appeared! RIP!",
+	"info.compatemon.boss_spawn.esoteric": "%s has appeared! RIP!",
 	"info.compatemon.boss": "%s Apothic Boss",
 
 	"rarity.compatemon:legendary": "Legendary"

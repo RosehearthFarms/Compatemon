@@ -4,11 +4,13 @@
 	"package": "farm.rosehearth.compatemon.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"MixinPokemonClass",
 		"MixinPokemonEntity",
 		"MixinPokemonSaveLoadEvents",
 		"MixinPokemonSpawnAction",
 		"MixinSetNicknameHandler"
 	],
 	"client": [
+		"MixinNicknameEntryWidget"
 	]
 }

@@ -32,15 +32,9 @@ dependencies {
     "common"(project(":common", "namedElements")) { isTransitive = false }
     "shadowCommon"(project(":common", "transformProductionFabric")) { isTransitive = false }
 
-    //Cloth Config - No Longer Using
-    //include(modApi("me.shedaniel.cloth:cloth-config-fabric:${project.properties["cloth_config_version"]}")!!)
-
     //Cobblemon
     modApi("com.cobblemon:fabric:${project.properties["cobblemon_version"]}+$minecraft_version")
 
-   // modApi("com.github.Virtuoel:Pehkui:${project.properties["pehkui_version"]}-$minecraft_version", {
-   //     exclude( group= "net.fabricmc.fabric-api")
-   // })
    // modCompileOnly ("dev.emi:emi-fabric:${project.properties["emi_version"]}+$minecraft_version:api")
    // modLocalRuntime ("dev.emi:emi-fabric:${project.properties["emi_version"]}+$minecraft_version")
 }
@@ -60,6 +54,7 @@ tasks {
     }
 
     shadowJar {
+        exclude ("architectury.common.json")
         exclude("generations/gg/generations/core/generationscore/fabric/datagen/**")
         exclude("data/forge/**")
         configurations = listOf(project.configurations.getByName("shadowCommon"))

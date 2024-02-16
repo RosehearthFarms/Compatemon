@@ -6,8 +6,8 @@ import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import virtuoel.pehkui.api.ScaleTypes;
 
-import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.*;
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
 
 /**
  *
@@ -49,7 +49,9 @@ abstract class MixinPokemonEntity extends Entity {
      * @param entityType
      * @param cir
      */
-    @Inject(method = "<init>", at = @At("RETURN"), remap = false)
+    @Inject(method = "<init>"
+            ,at = @At("RETURN")
+            ,remap = false)
     public void compatemon$onInit(Level world, Pokemon pokemon, EntityType entityType, CallbackInfo cir){
         if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
             float size_scale = CompatemonScaleUtils.Companion.getScale(pokemon, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE);
@@ -64,9 +66,24 @@ abstract class MixinPokemonEntity extends Entity {
      * @param hand
      * @param cir
      */
-    @Inject(at = @At("RETURN"), method="mobInteract", remap=false)
+    @Inject(at = @At("RETURN")
+            ,method="mobInteract"
+            ,remap=false)
     public void compatemon$injectInteractMobReturn(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir){
         // Placeholder bc I'm SURE we'll have something todo here
     }
     
+    /**
+     *
+     * @param t
+     * @param cir
+     */
+    @Inject(at = @At("TAIL")
+            ,method="setCustomName"
+            ,remap=false)
+    public void compatemon$injectSetCustomNameReturn(Component t, CallbackInfo cir){
+        if(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR)){
+            pokemon.setNickname(t.copy().withStyle(Style.EMPTY.withColor(TextColor.parseColor(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)))));
+        }
+    }
 }

@@ -4,8 +4,8 @@ import farm.rosehearth.compatemon.config.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.APOTH_BOSS_SCALE_MAX;
-import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.APOTH_BOSS_SCALE_MIN;
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_BOSS_SCALE_MAX;
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_BOSS_SCALE_MIN;
 
 /**
  *

@@ -10,11 +10,12 @@ import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
 import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig;
 import farm.rosehearth.compatemon.modules.quark.QuarkConfig;
 import farm.rosehearth.compatemon.modules.sophisticatedcore.SophisticatedConfig;
-import farm.rosehearth.compatemon.utils.CompateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.*;
+
+
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
 
 
 public class Compatemon {
@@ -24,7 +25,7 @@ public class Compatemon {
 	public static CompatemonImplementation implementation;
 	public static File configDir;
 	public static Configuration config;
-	public static final Map<String,Configuration> configs = new HashMap<>();
+	//public static final Map<String,Configuration> configs = new HashMap<>();
 	private static final ArrayList<String> modsToConfigure = new ArrayList<String>();
 	private static final Map<String, Boolean> modsToEnable = new HashMap<String, Boolean>();
 	
@@ -78,9 +79,10 @@ public class Compatemon {
 	 * Initializes Common code between modAPIs
 	 */
 	public static void init() {
-		loadConfigs();
+		loadConfigs(true);
 		CompatemonKotlin.INSTANCE.initialize();
 		Compatemon.implementation.postCommonInitialization();
+		Compatemon.implementation.registerEvents();
 	}
 	
 	/**
@@ -89,12 +91,11 @@ public class Compatemon {
 	 *
 	 * TODO: Use Configgy API mod instead
 	 */
-	private static void loadConfigs(){
+	public static void loadConfigs(boolean initialB){
 		for(var m : modsToConfigure)
 		{
 			if(ShouldLoadMod(m)) {
 				Configuration c = new Configuration(new File(configDir, m + ".cfg"));
-				configs.put(m, c);
 				
 				switch(m){
 					case MOD_ID_APOTHEOSIS:
@@ -106,12 +107,11 @@ public class Compatemon {
 					case MOD_ID_PEHKUI:
 						PehkuiConfig.load(c);
 						break;
-					//case MOD_ID_SOPHISTICATEDCORE:
 					case MOD_ID_SOPHISTICATEDSTORAGE:
 						SophisticatedConfig.load(c);
 						break;
 				}
-				if(c.hasChanged()) c.save();
+				if(!initialB && c.hasChanged()) c.save();
 			}
 		}
 		

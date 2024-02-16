@@ -1,7 +1,10 @@
 package farm.rosehearth.compatemon;
 
-import dev.shadowsoffire.apotheosis.adventure.boss.BossEvents;
+import farm.rosehearth.compatemon.util.RunnableReloader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -17,6 +20,8 @@ public class CompatemonForge implements CompatemonImplementation{
 
     public CompatemonForge(){
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::init);
+        MinecraftForge.EVENT_BUS.addListener(this::reloads);
+        MinecraftForge.EVENT_BUS.addListener(this::reloadConfigs);
     }
     
     /**
@@ -55,4 +60,24 @@ public class CompatemonForge implements CompatemonImplementation{
         CompatemonForgeKotlin.INSTANCE.postCommonInit();
         //bus.register(new ApothicEvents());
     }
+    
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public void reloads(AddReloadListenerEvent e) {
+        e.addListener(RunnableReloader.of(() -> MinecraftForge.EVENT_BUS.post(new CompatemonReloadEvent())));
+        Compatemon.LOGGER.debug("in CompatemonForge.reloads");
+        Compatemon.loadConfigs(false);
+    }
+    
+    @SubscribeEvent
+    public void reloadConfigs(CompatemonReloadEvent event){
+        Compatemon.LOGGER.debug("in CompatemonForge.reloadConfigs");
+       // Compatemon.loadConfigs(false);
+    }
+    
+    @Override
+    public void registerEvents() {
+       // IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+    }
+    
+    public static class CompatemonReloadEvent extends Event {}
 }

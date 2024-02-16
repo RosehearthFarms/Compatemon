@@ -21,6 +21,10 @@
     - config list
 - Titles link to effects
     - May need own mod
+- Config
+  - Add option for Glowing distance visible?
+  - Configurable Spawn Rate for bosses that doesn't affect other bosses
+  - 
 - Squash bugs
      - Pokemon Hitbox is not correct when scaled as is implemented
      - Also Pokemon Spazz tf out above a certain scale size and move WAY too fast

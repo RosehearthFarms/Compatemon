@@ -44,18 +44,9 @@ repositories {
     maven("https://www.cursemaven.com")
     maven("https://jitpack.io")
     maven("https://maven.shadowsoffire.dev/releases")
-  //  maven("https://code.redspace.io/releases")
     maven("https://maven.theillusivec4.top")
     maven("https://maven.kosmx.dev/")
     maven("https://maven.enginehub.org/repo/")
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/P3pp3rF1y/SophisticatedBackpacks")
-//        credentials {
-//            username = "RosehearthFarms"
-//            password = ""
-//        }
-//    }
     maven {
         name = "Iron's Maven"
         url = uri("https://code.redspace.io/releases")
@@ -69,15 +60,15 @@ dependencies {
     "common"(project(":common", "namedElements")) { isTransitive = false }
     "shadowCommon"(project(":common", "transformProductionForge")) { isTransitive = false }
 
+    //modApi( "dev.architectury:architectury-forge:${project.properties["architectury_version"]}")
+
     modImplementation("com.cobblemon:forge:${project.properties["cobblemon_version"]}+$minecraft_version")
     runtimeOnly("maven.modrinth:ordsPcFz:${project.properties["kotlin_forge_version"]}") //kotlinforforge
 
-    //include(modApi("me.shedaniel.cloth:cloth-config-forge:${project.properties["cloth_config_version"]}")!!)
 
 // Compatemon Dependencies
 
     modApi("com.github.Virtuoel:Pehkui:${project.properties["pehkui_forge"]}-${minecraft_version}-forge")
-
     modApi("org.violetmoon.zeta:Zeta:${project.properties["zeta_version"]}")
 
     modApi("org.violetmoon.quark:Quark:${project.properties["quark_version"]}")
@@ -95,8 +86,6 @@ dependencies {
 
     modImplementation("curse.maven:sophisticated-storage-619320:4993654")
     modImplementation("curse.maven:sophisticated-core-618298:4993648")
-    //modApi("com.github.P3pp3rF1y:sophisticatedcore:${project.properties["sophisticated_core_version"]}")
-   // modImplementation("sophisticatedcore:sophisticatedcore:${project.properties["sophisticated_core_version"]}")
 
 // IRONS SPELLS N SPELLBOOKS **********************************************************************************
     modImplementation("io.redspace.ironsspellbooks:irons_spellbooks:${minecraft_version}-${project.properties["irons_spells_version"]}")
@@ -111,23 +100,23 @@ dependencies {
     //runtimeOnly("dev.kosmx.player-anim:player-animation-lib-forge:${minecraft_version}-${project.properties["player_animator_version"]}")
 
     // TETRA ******************************************************************************************************
-    //compileOnly("se.mickelus.mutil:mutil:${minecraft_version}-${project.properties["mutil_version"]}")
-   // compileOnly("curse.maven:tetra-${project.properties["tetra_version"]}")
+    // compileOnly("se.mickelus.mutil:mutil:${minecraft_version}-${project.properties["mutil_version"]}")
+    // compileOnly("curse.maven:tetra-${project.properties["tetra_version"]}")
 
     // BETTER COMBAT **********************************************************************************************
     //runtimeOnly fg.deobf("curse.maven:better-combat-by-daedelus-${better_combat_version}")
 
     // PATCHOULI **************************************************************************************************
-    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${minecraft_version}-${patchouli_version}")
+    // runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${minecraft_version}-${patchouli_version}")
 
     // JSON ******************************************************************************************************
    // implementation("com.google.code.gson:gson:${project.properties["gson_version"]}")
 
 //Jade, JEI, and EMI
    // modImplementation ("curse.maven:jade-forge-324717:${project.properties["jade_forge_version"]}")
-  // modImplementation ("curse.maven:jei-forge-238222:${project.properties["jei_version}"]}")
-  //  compileOnly ("dev.emi:emi-forge:${project.properties["emi_version"]}+$minecraft_version:api")
-  //  runtimeOnly ("dev.emi:emi-forge:${project.properties["emi_version"]}+$minecraft_version"))
+   // modImplementation ("curse.maven:jei-forge-238222:${project.properties["jei_version}"]}")
+   // compileOnly ("dev.emi:emi-forge:${project.properties["emi_version"]}+$minecraft_version:api")
+   // runtimeOnly ("dev.emi:emi-forge:${project.properties["emi_version"]}+$minecraft_version"))
 
 }
 
@@ -146,6 +135,7 @@ tasks {
 
     shadowJar {
         exclude("fabric.mod.json")
+        exclude("architectury.common.json")
         exclude("generations/gg/generations/core/generationscore/forge/datagen/**")
         configurations = listOf(project.configurations.getByName("shadowCommon"))
         archiveClassifier.set("dev-shadow")

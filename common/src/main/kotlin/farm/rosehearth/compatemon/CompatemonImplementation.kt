@@ -19,6 +19,8 @@ interface CompatemonImplementation {
 	fun isModInstalled(modID: String): Boolean
 
 	fun postCommonInitialization()
+
+	fun registerEvents()
 }
 
 enum class ModAPI {

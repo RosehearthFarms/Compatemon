@@ -9,9 +9,7 @@
 		"compat.apotheosis.MixinBossEvents",
 		"compat.apotheosis.MixinNameHelper",
 		"compat.apotheosis.MixinPokemonSpawningBoss",
-		"compat.placebo.MixinWeightedItemStack",
-		"compat.sophisticatedcore.MixinControllerBlockEntityBase",
-		"compat.sophisticatedstorage.MixinControllerBlockEntity"
+		"compat.sophisticatedcore.MixinControllerBlockEntityBase"
 	],
 	"client": [
 	]

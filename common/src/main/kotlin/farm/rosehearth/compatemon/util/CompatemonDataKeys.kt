@@ -1,4 +1,4 @@
-package farm.rosehearth.compatemon.utils
+package farm.rosehearth.compatemon.util
 
 /**
  * Object to store mod wide constants
@@ -35,6 +35,7 @@ object CompatemonDataKeys {
     const val COMPAT_SCALE_WEIGHT = "weightScale"
     const val APOTH_BOSS = "apoth.boss"
     const val APOTH_RARITY = "apoth.rarity"
+    const val APOTH_RARITY_COLOR = "apoth.rarity.color"
 
     /* APOTHEOSIS CONFIGURATION RANGE CONSTANTS */
     const val APOTH_BOSS_SCALE_MIN = 1.0f

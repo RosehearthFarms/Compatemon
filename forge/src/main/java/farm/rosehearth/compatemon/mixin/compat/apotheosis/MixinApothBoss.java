@@ -11,11 +11,10 @@ import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.api.entity.PersistantDespawner;
 import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
 import farm.rosehearth.compatemon.modules.apotheosis.IApothBossEntity;
-import farm.rosehearth.compatemon.utils.CompatemonDataKeys;
+import farm.rosehearth.compatemon.util.CompatemonDataKeys;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -33,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
 
-import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.*;
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
 
 /**
  *
@@ -107,6 +106,7 @@ public Entity spawnedEntity;
 	@Shadow(remap=false)
 	protected Map<LootRarity, BossStats> stats;
 	
+	
 	@Shadow(remap=false)
 	abstract public void initBoss(RandomSource rand, Mob entity, float luck, @Nullable LootRarity rarity);
 	
@@ -147,17 +147,15 @@ public Entity spawnedEntity;
 	public void compatemon$initPokemonBossReturn(RandomSource rand, Mob entity, float luck, @Nullable LootRarity rarity, CallbackInfo cir) {
 		
 		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && entity.getType().toString().equals("entity.cobblemon.pokemon")){
-			String s_rarity = RarityRegistry.INSTANCE.getKey(rarity).toString() + "~" + rarity.getColor().serialize() + "~" + rarity.ordinal();
 			CompoundTag compatemonData = new CompoundTag();
 			compatemonData.put(CompatemonDataKeys.MOD_ID_COMPATEMON, new CompoundTag());
 			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putBoolean(APOTH_BOSS, true);
-			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putString(APOTH_RARITY, s_rarity);
-			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putString(APOTH_RARITY + ".color", rarity.getColor().serialize());
-			Compatemon.LOGGER.debug("We've set the color of " + ((PokemonEntity)entity).getPokemon().getSpecies().getName() + " to " + rarity.getColor().serialize());
+			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putInt(APOTH_RARITY, rarity.ordinal());
+			//compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putString(APOTH_RARITY + ".color", rarity.getColor().serialize());
+			//Compatemon.LOGGER.debug("We've set the color of " + ((PokemonEntity)entity).getPokemon().getSpecies().getName() + " to " + rarity.getColor().serialize());
 			((PokemonEntity)entity).getPokemon().getPersistentData().merge(compatemonData);
 			((PokemonEntity)entity).getPokemon().setNickname(((PokemonEntity)entity).getPokemon().getNickname().withStyle(Style.EMPTY.withColor(rarity.getColor())));
 		}
-		
 		
 	}
 	

@@ -1,4 +1,4 @@
-package farm.rosehearth.compatemon.utils;
+package farm.rosehearth.compatemon.util;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
@@ -9,8 +9,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 
 import java.util.Random;
 
-import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_APOTHEOSIS;
-import static farm.rosehearth.compatemon.utils.CompatemonDataKeys.MOD_ID_COMPATEMON;
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_APOTHEOSIS;
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_COMPATEMON;
 
 /**
  *
