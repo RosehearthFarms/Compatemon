@@ -50,11 +50,10 @@ abstract class MixinPokemonEntity extends Entity {
      * @param cir
      */
     @Inject(method = "<init>", at = @At("RETURN"), remap = false)
-    public void onInit(Level world, Pokemon pokemon, EntityType entityType, CallbackInfo cir){
+    public void compatemon$onInit(Level world, Pokemon pokemon, EntityType entityType, CallbackInfo cir){
         if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
             float size_scale = CompatemonScaleUtils.Companion.getScale(pokemon, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE);
            // float weight_scale = CompatemonScaleUtils.Companion.getScale(pokemon, MOD_ID_COMPATEMON + ":" + COMPAT_SCALE_WEIGHT);
-            
             CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, size_scale);
         }
     }

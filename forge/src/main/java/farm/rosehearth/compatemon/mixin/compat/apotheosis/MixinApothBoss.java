@@ -131,8 +131,6 @@ public Entity spawnedEntity;
 				var pokemonEntity = properties.createEntity(world.getLevel());
 				pokemonEntity.setDespawner(new PersistantDespawner<PokemonEntity>()); // never let it despawn
 				pokemonEntity.setPersistenceRequired();
-				//ApotheosisConfig.LOGGER.debug("Wow! It's a pokemon!");
-				//ApotheosisConfig.LOGGER.debug("It's a " + pokemonEntity.getPokemon().showdownId());
 				if(rarity != null){
 					ApotheosisConfig.LOGGER.debug("Here's the rarity: " + rarity.toString());
 				}
@@ -190,7 +188,7 @@ public Entity spawnedEntity;
 			entity = entityFromSpawn.getType();
 			//PokemonEntity pEntity = ((PokemonEntity) entityFromSpawn);
 			int clevel = ((PokemonEntity) entityFromSpawn).getPokemon().getLevel();
-			((PokemonEntity) entityFromSpawn).getPokemon().setLevel(clevel + random.nextInt(20) - 5);
+			((PokemonEntity) entityFromSpawn).getPokemon().setLevel(clevel + random.nextInt(25) - 5);
 			// Kind of expect this to break sometime if the level is out of the range. Hoping Cobblemon accounted for that though.
 			
 			if(!ApotheosisConfig.BossPokemonCatchable){

@@ -94,6 +94,7 @@ object CompatemonKotlin {
                 var isBoss = event.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_BOSS);
                 if(isBoss){
                     var rarityKey = event.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).getString("$APOTH_RARITY.color")
+                    LOGGER.debug(rarityKey)
                     event.pokemon.nickname = event.pokemon.nickname?.withStyle(Style.EMPTY.withColor(TextColor.parseColor(rarityKey)))
                     LOGGER.debug(event.pokemon.nickname.toString())
                 }
