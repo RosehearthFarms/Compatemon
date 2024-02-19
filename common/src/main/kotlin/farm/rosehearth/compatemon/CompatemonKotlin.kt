@@ -86,16 +86,18 @@ object CompatemonKotlin {
 
         // To update the nickname color whenever the name changes
         POKEMON_NICKNAMED.subscribe{event ->
+            LOGGER.debug(event.pokemon.nickname.toString())
            // event.pokemon.nickname = event.nickname?.withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD))
-            if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
-                var isBoss = event.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_BOSS);
-                if(isBoss){
-                    var rarityKey = event.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)
-                    LOGGER.debug(rarityKey)
-                    event.pokemon.nickname = event.pokemon.nickname?.withStyle(Style.EMPTY.withColor(TextColor.parseColor(rarityKey)))
-                    LOGGER.debug(event.pokemon.nickname.toString())
-                }
-            }
+//            if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
+//                var isBoss = event.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_BOSS);
+//                if(isBoss){
+//
+//                    var rarityKey = event.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)
+//                    LOGGER.debug(rarityKey)
+//                    event.pokemon.nickname = event.pokemon.nickname?.withStyle(Style.EMPTY.withColor(TextColor.parseColor(rarityKey)))
+//                    LOGGER.debug(event.pokemon.nickname.toString())
+//                }
+//            }
         }
 
 

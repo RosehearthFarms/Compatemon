@@ -6,9 +6,9 @@
 	"mixins": [
 		"MixinPokemonClass",
 		"MixinPokemonEntity",
+		"MixinPokemonNicknamedEvent",
 		"MixinPokemonSaveLoadEvents",
-		"MixinPokemonSpawnAction",
-		"MixinSetNicknameHandler"
+		"MixinPokemonSpawnAction"
 	],
 	"client": [
 		"MixinNicknameEntryWidget"

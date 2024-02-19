@@ -29,20 +29,22 @@ public class MixinPokemonClass {
 		,remap=false
 		,cancellable = true)
 	public void compatemon$getDisplayNameWithColor(CallbackInfoReturnable<Component> cir){
-		if(persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR))
-			cir.setReturnValue(nickname.copy().withStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)))));
-		
+		if(persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR) )
+			//cir.setReturnValue(nickname.copy().withStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)))));
+			cir.setReturnValue(cir.getReturnValue().copy().setStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)))));
 	}
 	
 	@Inject(at=@At("HEAD")
 		,method="setNickname"
 		,remap=false)
-	public void compatemon$setNicknameWithColor(@Nullable MutableComponent t, CallbackInfo cir){
-		if(t.getStyle().isEmpty()){
-			if(persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR)){
-				t = t.withStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR))));
-			}
-			
+	public void compatemon$setNicknameWithColor(@Nullable MutableComponent value, CallbackInfo cir){
+		
+		if(value != null && persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR)){
+			nickname = value.withStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR))));
+			value=nickname;
 		}
+				
+		
+		
 	}
 }
