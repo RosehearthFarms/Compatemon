@@ -21,6 +21,8 @@ interface CompatemonImplementation {
 	fun postCommonInitialization()
 
 	fun registerEvents()
+
+	fun persistentDataKey():String
 }
 
 enum class ModAPI {

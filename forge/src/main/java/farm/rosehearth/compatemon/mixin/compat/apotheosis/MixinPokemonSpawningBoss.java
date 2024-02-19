@@ -7,6 +7,7 @@ import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
+import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig;
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils;
 import farm.rosehearth.compatemon.util.CompateUtils;
 import net.minecraft.world.entity.MobSpawnType;
@@ -30,7 +31,7 @@ abstract class MixinPokemonSpawningBoss extends SpawnAction<PokemonEntity> {
 	
 	@Inject(method = "createEntity()Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;"
 			,at = @At("RETURN"))
-	private void compatemon$onSpawnCreatePokemonEntityAsABoss(CallbackInfoReturnable<PokemonEntity> cir) {
+	private void compatemon$onSpawnRunFinalizeSpawn(CallbackInfoReturnable<PokemonEntity> cir) {
 		
 		if(cir.getReturnValue().getType().toString().equals("entity.cobblemon.pokemon")){
 			var world = this.getCtx().getWorld();
@@ -42,39 +43,9 @@ abstract class MixinPokemonSpawningBoss extends SpawnAction<PokemonEntity> {
 			Compatemon.LOGGER.debug("The entity created by the POKEMON Spawn Action Class wasn't actually a pokemon?");
 		}
 		
-//		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
-//			var isBoss = cir.getReturnValue().getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).contains("apoth.boss");
-//			if(isBoss){
-//				var rarityKey = cir.getReturnValue().getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).getString("apoth.rarity.color");
-//				cir.getReturnValue().getPokemon().setNickname(cir.getReturnValue().getPokemon().getNickname().withStyle(Style.EMPTY.withColor(TextColor.parseColor(rarityKey))));
-//			}
-//		}
 		
 		if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-			float size_scale = CompatemonScaleUtils.Companion.getNewScale(MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE);
-			//float weight_scale = CompatemonScaleUtils.Companion.getNewScale(MOD_ID_COMPATEMON + ":" + COMPAT_SCALE_WEIGHT);
-			if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && ApotheosisConfig.DoBossSizing)
-			{
-				if(ApotheosisConfig.BossSizingEntities.toUpperCase().equals("POKEMON"))
-				{
-					if(cir.getReturnValue() instanceof PokemonEntity && CompateUtils.PokemonIsBoss(cir.getReturnValue())) //
-						size_scale *= ApotheosisConfig.DefaultBossSizeScale;
-				}
-				else if(ApotheosisConfig.BossSizingEntities.toUpperCase().equals("NON-POKEMON"))
-				{
-					if(!(cir.getReturnValue() instanceof PokemonEntity))
-						size_scale *= ApotheosisConfig.DefaultBossSizeScale;
-				}
-				else if(ApotheosisConfig.BossSizingEntities.toUpperCase().equals("ALL") && CompateUtils.PokemonIsBoss(cir.getReturnValue()))
-				{
-					size_scale *= ApotheosisConfig.DefaultBossSizeScale;
-				}
-				
-				
-			}
-			// Actually set the scale of the spawning pokemonEntity. Will eventually add a new scale type for weight.
-			CompatemonScaleUtils.Companion.setScale(cir.getReturnValue(), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, size_scale);
-			
+			CompatemonScaleUtils.Companion.setScale(cir.getReturnValue(), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f);//, size_scale, 0.0f);
 		}
 		
 		

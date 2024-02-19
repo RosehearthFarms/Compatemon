@@ -3,13 +3,16 @@ package farm.rosehearth.compatemon.mixin;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import farm.rosehearth.compatemon.Compatemon;
+import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig;
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.InteractionHand;
@@ -54,9 +57,7 @@ abstract class MixinPokemonEntity extends Entity {
             ,remap = false)
     public void compatemon$onInit(Level world, Pokemon pokemon, EntityType entityType, CallbackInfo cir){
         if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-            float size_scale = CompatemonScaleUtils.Companion.getScale(pokemon, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE);
-           // float weight_scale = CompatemonScaleUtils.Companion.getScale(pokemon, MOD_ID_COMPATEMON + ":" + COMPAT_SCALE_WEIGHT);
-            CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, size_scale);
+            CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f);//, size_scale, 0.0f);
         }
     }
     
@@ -84,6 +85,16 @@ abstract class MixinPokemonEntity extends Entity {
     public void compatemon$injectSetCustomNameReturn(Component t, CallbackInfo cir){
         if(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR)){
             pokemon.setNickname(t.copy().withStyle(Style.EMPTY.withColor(TextColor.parseColor(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)))));
+        }
+    }
+    
+    @Inject(at = @At("TAIL")
+            ,remap=false
+            ,method="getDimensions")
+    public void compatemon$overrideDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir){
+        if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
+            if(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE))
+                cir.getReturnValue().scale(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).getFloat(MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE));
         }
     }
 }

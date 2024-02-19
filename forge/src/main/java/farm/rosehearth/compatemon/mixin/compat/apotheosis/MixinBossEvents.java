@@ -72,7 +72,9 @@ abstract class MixinBossEvents {
 		CompatemonEvents.APOTH_BOSS_SPAWNED.postThen(new ApothBossSpawnedEvent(e.getEntity()), savedEvent -> null, savedEvent -> {
 			return null;
 		});
-		if (e.getEntity().getType().toString().equals("entity.cobblemon.pokemon")) {
+		if (e.getEntity().getType().toString().equals("entity.cobblemon.pokemon") &&
+				ApotheosisConfig.BossPokemonSpawnRate > 0 &&
+				Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) ) {
 			LivingEntity entity = e.getEntity();
 			Pokemon originalPokemon = ((PokemonEntity)entity).getPokemon().clone(false,false);
 			RandomSource rand = e.getLevel().getRandom();
@@ -83,7 +85,7 @@ abstract class MixinBossEvents {
 				Pair<Float, BossEvents.BossSpawnRules> rules = AdventureConfig.BOSS_SPAWN_RULES.get(dimId);
 				
 				if (rules == null) return;
-				if (rand.nextFloat() <= rules.getLeft()) {
+				if (rand.nextFloat() <= (ApotheosisConfig.BossPokemonSpawnRate/100.0f)) {
 				
 					Player player = sLevel.getNearestPlayer(e.getX(), e.getY(), e.getZ(), -1, false);
 					if (player == null) return; // Spawns require player context
@@ -124,8 +126,8 @@ abstract class MixinBossEvents {
 								if (p.distanceToSqr(tPos) <= AdventureConfig.bossAnnounceRange * AdventureConfig.bossAnnounceRange) {
 									
 									String r = RarityRegistry.INSTANCE.getKey(rarity).toString();
-									String translatableKey = "info.compatemon.boss_spawn."  + r.substring(r.indexOf(":"));
-
+									String translatableKey = "info.compatemon.boss_spawn."  + r.substring(r.indexOf(":")+1);
+									Compatemon.LOGGER.debug("translateableKey: " + translatableKey);
 									try{ // Send Custom Message or Fail and send default apotheosis message
 										((ServerPlayer) p).connection.send(new ClientboundSetActionBarTextPacket(Component.translatable(translatableKey, name, (int) boss.getX(), (int) boss.getY(), (int) boss.getZ())));
 									}
@@ -139,15 +141,16 @@ abstract class MixinBossEvents {
 							});
 						}
 						this.bossCooldowns.put(entity.level().dimension().location(), AdventureConfig.bossSpawnCooldown);
+						
 					}
 					else{
 						
-						Compatemon.LOGGER.debug("We need to set the pokemon back to normal here, I think.");
+						//Compatemon.LOGGER.debug("We need to set the pokemon back to normal here, I think.");
 						((PokemonEntity)entity).setPokemon(originalPokemon);
 						((PokemonEntity)entity).removeAllEffects();
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_BOSS);
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY);
-						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY + ".color");
+						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY_COLOR);
 					}
 				}
 			}

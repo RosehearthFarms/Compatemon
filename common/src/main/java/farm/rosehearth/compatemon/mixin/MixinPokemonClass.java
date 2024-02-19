@@ -1,6 +1,7 @@
 package farm.rosehearth.compatemon.mixin;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import farm.rosehearth.compatemon.Compatemon;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -29,9 +30,12 @@ public class MixinPokemonClass {
 		,remap=false
 		,cancellable = true)
 	public void compatemon$getDisplayNameWithColor(CallbackInfoReturnable<Component> cir){
-		if(persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR) )
-			//cir.setReturnValue(nickname.copy().withStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)))));
-			cir.setReturnValue(cir.getReturnValue().copy().setStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)))));
+		if(persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR) ){//cir.setReturnValue(nickname.copy().withStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)))));
+			
+			var x = cir.getReturnValue().copy().setStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR))));
+			Compatemon.LOGGER.debug("IN compatemon$getDisplayNameWithColor : " + x.toString());
+			cir.setReturnValue(x);
+		}
 	}
 	
 	@Inject(at=@At("HEAD")
@@ -42,6 +46,8 @@ public class MixinPokemonClass {
 		if(value != null && persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR)){
 			nickname = value.withStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR))));
 			value=nickname;
+			Compatemon.LOGGER.debug("IN compatemon$setNicknameWithColor : " + nickname.toString());
+			Compatemon.LOGGER.debug("IN compatemon$setNicknameWithColor : " + value.toString());
 		}
 				
 		

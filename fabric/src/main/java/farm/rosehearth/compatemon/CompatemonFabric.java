@@ -34,4 +34,10 @@ public class CompatemonFabric implements ModInitializer, CompatemonImplementatio
 	public void registerEvents() {
 	
 	}
+	
+	@NotNull
+	@Override
+	public String persistentDataKey() {
+		return "FabricData";
+	}
 }

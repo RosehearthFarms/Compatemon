@@ -11,6 +11,9 @@ import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.api.entity.PersistantDespawner;
 import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
 import farm.rosehearth.compatemon.modules.apotheosis.IApothBossEntity;
+import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig;
+import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils;
+import farm.rosehearth.compatemon.util.CompateUtils;
 import farm.rosehearth.compatemon.util.CompatemonDataKeys;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -28,6 +31,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import virtuoel.pehkui.api.ScaleTypes;
 
 
 import java.util.Map;
@@ -117,8 +121,8 @@ public Entity spawnedEntity;
 		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
 			var entityID = EntityType.getKey(this.entity).toString();
 			
-			ApotheosisConfig.LOGGER.debug("Let's try to create a boss! What's the type?");
-			ApotheosisConfig.LOGGER.debug("The type is " + entityID + "!");
+			//ApotheosisConfig.LOGGER.debug("Let's try to create a boss! What's the type?");
+			//ApotheosisConfig.LOGGER.debug("The type is " + entityID + "!");
 			if(entityID.equals("cobblemon:pokemon")){
 				//TODO: PokemonPropertyGenerator with logic for Player Location and/or Spawning Biome + Player Stats
 				//TODO: CustomProperty for Aggressive to work with FightOrFlight? Glowing needs to be longer and stay after reload
@@ -131,9 +135,9 @@ public Entity spawnedEntity;
 				var pokemonEntity = properties.createEntity(world.getLevel());
 				pokemonEntity.setDespawner(new PersistantDespawner<PokemonEntity>()); // never let it despawn
 				pokemonEntity.setPersistenceRequired();
-				if(rarity != null){
-					ApotheosisConfig.LOGGER.debug("Here's the rarity: " + rarity.toString());
-				}
+				//if(rarity != null){
+				//	ApotheosisConfig.LOGGER.debug("Here's the rarity: " + rarity.toString());
+				//}
 				nbt = pokemonEntity.saveWithoutId(new CompoundTag()); //writeNBT
 			
 			}
@@ -146,15 +150,36 @@ public Entity spawnedEntity;
 			, method = "initBoss")
 	public void compatemon$initPokemonBossReturn(RandomSource rand, Mob entity, float luck, @Nullable LootRarity rarity, CallbackInfo cir) {
 		
-		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && entity.getType().toString().equals("entity.cobblemon.pokemon")){
+		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && entity.getType().toString().equals("entity.cobblemon.pokemon") && ApotheosisConfig.BossPokemonSpawnRate > 0){
 			CompoundTag compatemonData = new CompoundTag();
 			compatemonData.put(CompatemonDataKeys.MOD_ID_COMPATEMON, new CompoundTag());
 			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putBoolean(APOTH_BOSS, true);
 			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putInt(APOTH_RARITY, rarity.ordinal());
-			//compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putString(APOTH_RARITY + ".color", rarity.getColor().serialize());
+			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putString(APOTH_RARITY_COLOR, rarity.getColor().serialize());
+			//TODO: Replace putString APOTH_RARITY_COLOR with parse APOTH_RARIRTY_ORDINAL
 			//Compatemon.LOGGER.debug("We've set the color of " + ((PokemonEntity)entity).getPokemon().getSpecies().getName() + " to " + rarity.getColor().serialize());
 			((PokemonEntity)entity).getPokemon().getPersistentData().merge(compatemonData);
 			((PokemonEntity)entity).getPokemon().setNickname(((PokemonEntity)entity).getPokemon().getNickname().withStyle(Style.EMPTY.withColor(rarity.getColor())));
+		}
+		
+		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && Compatemon.ShouldLoadMod(MOD_ID_PEHKUI) && CompateUtils.isApothBoss(entity))// && ApotheosisConfig.DoBossSizing)
+		{
+			
+			var base_scale = PehkuiConfig.size_scale;
+			var addToScale = 0.0f;
+			if(
+					(ApotheosisConfig.BossSizingEntities.equalsIgnoreCase("POKEMON") && entity instanceof PokemonEntity) ||
+			    	(ApotheosisConfig.BossSizingEntities.equalsIgnoreCase("NON-POKEMON") && !(entity instanceof PokemonEntity)) ||
+			    	(ApotheosisConfig.BossSizingEntities.equalsIgnoreCase("ALL"))
+			)
+			{
+				base_scale *= ApotheosisConfig.DefaultBossSizeScale;
+				addToScale = 1.0f;
+			}
+			CompatemonScaleUtils.Companion.setScale(entity, ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, base_scale, addToScale);
+			
+			
+			
 		}
 		
 	}
@@ -179,7 +204,7 @@ public Entity spawnedEntity;
 	public abstract Mob createBoss(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity);
 	@Override
 	public Mob createPokeBoss(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity, Entity entityFromSpawn) {
-		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && entityFromSpawn.getType().toString().equals("entity.cobblemon.pokemon")){
+		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && entityFromSpawn.getType().toString().equals("entity.cobblemon.pokemon" ) && ApotheosisConfig.BossPokemonSpawnRate > 0){
 			if(rarity != null){
 				ApotheosisConfig.LOGGER.debug("Here's the rarity: " + rarity.toString());
 			}

@@ -1,11 +1,13 @@
 package farm.rosehearth.compatemon.modules.pehkui.util
 
-import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
+import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig
 import farm.rosehearth.compatemon.util.CompateUtils
 import farm.rosehearth.compatemon.util.CompatemonDataKeys
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.entity.Entity
+import org.jetbrains.annotations.Nullable
 import virtuoel.pehkui.api.ScaleType
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -16,35 +18,63 @@ import java.math.RoundingMode
 open class CompatemonScaleUtils {
     companion object {
 
-        fun setScale(entity: PokemonEntity, scaleType: ScaleType, scaleName: String, scale: Float){
-            if(scale != 1.0f){
-                // Call Pehkui's setScale function
-                scaleType.getScaleData(entity).setScale(scale)
+        fun setScale(entity: Entity, scaleType: ScaleType, scaleName: String, @Nullable defaultBaseScale:Float = 1.0f, @Nullable addToScale:Float = 0.0f){
 
-                // Add the new scale to the pokemonEntity's PersistentData
+            // get current scale
+            // pokemon -> set persistant data
+            // add modifier to scale
+            // set the scale
+            // if it's a pokemon, recalc health and hitbox and stuff
+
+            var scale: Float = getScale(entity,scaleType,scaleName, defaultBaseScale) + addToScale
+
+            if(entity.type.toString() == "entity.cobblemon.pokemon"){
+
                 val compatemonData = CompoundTag()
+
                 compatemonData.put(CompatemonDataKeys.MOD_ID_COMPATEMON, CompoundTag())
                 compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putFloat(scaleName, scale)
-                entity.pokemon.persistentData.merge(compatemonData)
+
+                (entity as PokemonEntity).pokemon.persistentData.merge(compatemonData)
             }
+
+            scaleType.getScaleData(entity).setScale(scale)
+            // Add the new scale to the pokemonEntity's PersistentData
+
         }
 
-        fun getScale(pokemon: Pokemon, scaleName: String):Float{
-            if(!pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).contains(scaleName)) {
-                return getNewScale(scaleName)
+        fun getScale(entity:Entity, scaleType: ScaleType, scaleName: String, defaultBaseScale:Float):Float {
+            var scaleVal = defaultBaseScale;
+            if(entity.type.toString() == "entity.cobblemon.pokemon"){
+                if((entity as PokemonEntity).pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).contains(scaleName))
+                    scaleVal = (entity as PokemonEntity).pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).getFloat(scaleName)
+
             }
-            return pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).getFloat(scaleName)
+            else{
+                scaleVal = scaleType.getScaleData(entity).scale
+            }
+
+            if(scaleVal == defaultBaseScale) scaleVal = getNewScale(scaleName, defaultBaseScale)
+            return scaleVal
         }
+
+//
+//        fun getScale(pokemon: Pokemon, scaleName: String):Float{
+//            if(!pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).contains(scaleName)) {
+//                return getNewScale(scaleName)
+//            }
+//            return pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).getFloat(scaleName)
+//        }
 
         /*
-         * function getNewScale(String scaleName)
+         * TODO: Make scaleName a Class instead of hardcoding logic and iterate through a registry of Scales
          * @return Float: randomized value of the scaleName based on config. If the scale isn't in the config, will return 1.0f
          *
          */
-        fun getNewScale(scaleName: String):Float{
+        fun getNewScale(scaleName: String, defaultBaseScale:Float):Float{
             if(scaleName == "${CompatemonDataKeys.MOD_ID_PEHKUI}:${CompatemonDataKeys.COMPAT_SCALE_SIZE}") {
                 if (!PehkuiConfig.size_do_unprovided) return 1.0f
-                var new_size = PehkuiConfig.size_scale +
+                var new_size = (PehkuiConfig.size_scale * defaultBaseScale) +
                         (CompateUtils.Rand.nextGaussian() * PehkuiConfig.size_dev)
 
                 new_size = if (new_size > PehkuiConfig.size_max_percentage) PehkuiConfig.size_max_percentage.toDouble() else new_size
@@ -55,7 +85,7 @@ open class CompatemonScaleUtils {
             }
             else if (scaleName == "${CompatemonDataKeys.MOD_ID_COMPATEMON}:${CompatemonDataKeys.COMPAT_SCALE_WEIGHT}") {
                 if (!PehkuiConfig.weight_do_unprovided) return 1.0f
-                var new_weight = PehkuiConfig.weight_scale +
+                var new_weight = (PehkuiConfig.weight_scale * defaultBaseScale) +
                         (CompateUtils.Rand.nextGaussian() * PehkuiConfig.weight_dev)
 
                 new_weight = if (new_weight > PehkuiConfig.weight_max_percentage) PehkuiConfig.weight_max_percentage.toDouble() else new_weight

@@ -79,5 +79,11 @@ public class CompatemonForge implements CompatemonImplementation{
        // IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
     }
     
+    @NotNull
+    @Override
+    public String persistentDataKey() {
+        return "ForgeData";
+    }
+    
     public static class CompatemonReloadEvent extends Event {}
 }

@@ -8,6 +8,7 @@ import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootController;
 import dev.shadowsoffire.apotheosis.adventure.affix.socket.gem.GemRegistry;
 import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
+import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_BOSS;
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
 
 @Mixin(AdventureEvents.class)
 abstract class MixinAdventureEvents {
@@ -36,15 +37,17 @@ abstract class MixinAdventureEvents {
 	)
 	public void compatemon$specialAddAffixItemsToPokemon(MobSpawnEvent.FinalizeSpawn e, CallbackInfo cir){
 		if (    e.getSpawnType() == MobSpawnType.NATURAL &&
-				e.getLevel().getRandom().nextFloat() <= AdventureConfig.randomAffixItem &&
+				Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) &&
 				e.getEntity().getType().toString().equals("entity.cobblemon.pokemon") &&
-				ApotheosisConfig.PokemonDropAffixItems)
+				ApotheosisConfig.PokemonAffixItemRate > 0)
 		{
+			
 			Player player = e.getLevel().getNearestPlayer(e.getX(), e.getY(), e.getZ(), -1, false);
 			if (player == null) return;
 			ItemStack affixItem = LootController.createRandomLootItem(e.getLevel().getRandom(), null, player, (ServerLevel) e.getEntity().level());
-			ApotheosisConfig.LOGGER.debug("We've made us a new Loot item for a Pokemon! " + affixItem.toString());
+			
 			if (affixItem.isEmpty()) return;
+			
 			affixItem.getOrCreateTag().putBoolean("apoth_rspawn", true);
 			LootCategory cat = LootCategory.forItem(affixItem);
 			EquipmentSlot slot = cat.getSlots()[0];
@@ -60,11 +63,14 @@ abstract class MixinAdventureEvents {
 			
 	)
 	public void compatemon$dropsHigh(LivingDropsEvent e, CallbackInfo cir) {
-		if (e.getSource().getEntity() instanceof ServerPlayer p && e.getEntity().getType().toString().equals("entity.cobblemon.pokemon")) {
+		if (e.getSource().getEntity() instanceof ServerPlayer p &&
+				Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) &&
+				e.getEntity().getType().toString().equals("entity.cobblemon.pokemon")) {
 			
-			float chance = AdventureConfig.gemDropChance;
-			float boss_chance = ApotheosisConfig.PokemonDropGems ? chance + (((PokemonEntity)(e.getEntity())).getPokemon().getPersistentData().contains(APOTH_BOSS) ? AdventureConfig.gemBossBonus : 0) : 0;
-			float normal_chance = ApotheosisConfig.PokemonDropGems ? chance : 0;
+			float chance = ApotheosisConfig.PokemonGemDropChance;
+			if(((PokemonEntity)(e.getEntity())).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(APOTH_BOSS)){
+				chance += AdventureConfig.gemBossBonus;
+			}
 			if (p.getRandom().nextFloat() <= chance) {
 				Entity ent = e.getEntity();
 				e.getDrops()

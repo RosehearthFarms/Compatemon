@@ -5,7 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
+## [0.2.4] - 2024-02-19
+### Added
+### Fixed
+- Apotheosis things should now properly check if apotheosis compat/config settings are enabled. Pehkui too if those didn't.
+- Hopefully pokemon random sizes should now have correct hitboxes? Will test shortly.
+### Changed
+- Updated config to allow a separated configurable Pokemon Boss Spawn Rate. And updated the logic to go with it.
+- Modified a TON of the Pehkui logic and implemented the config for specifically allowing bosses to be larger. May actually make bosses random sized too so may need double checked.
+- Possibly fixed name color problem again again? Tag wasn't ever getting set in the pokemon's persistent data soooo.
+- Made a couple Apotheosis Config values float ranges rather than booleans
+### Borked
 
 ## [0.2.3] - 2024-02-15
 ### Added
@@ -14,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Added logic to see if we can pass the Rarity back to the BossEvents for making differing text for when a boss spawns
 - Trying to resolve pokemon nickname renaming and recoloring problems
+### Borked
+- Nickname color STILL gets reset when the pokemon is renamed as soon as the name is changed. It actually may be as soon as the pokemon gets focus.
 
 
 ## [0.2.2] - 2024-02-15

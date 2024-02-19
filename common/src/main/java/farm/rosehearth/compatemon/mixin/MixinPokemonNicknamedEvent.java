@@ -2,6 +2,7 @@ package farm.rosehearth.compatemon.mixin;
 
 import com.cobblemon.mod.common.api.events.pokemon.PokemonNicknamedEvent;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
@@ -33,9 +34,10 @@ abstract class MixinPokemonNicknamedEvent {
 	method="<init>")
 	public void compatemon$onPokemonNicknamedEvent(ServerPlayer pl, Pokemon p, @Nullable MutableComponent name, CallbackInfo cir){
 		if(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR)){
-			if(name != null)
+			if(name != null){
 				nickname = name.copy().withStyle(Style.EMPTY.withColor(TextColor.parseColor(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR))));
-			
+				ApotheosisConfig.LOGGER.debug("IN compatemon$onPokemonNicknamedEvent : " + nickname.toString());
+			}
 		}
 	}
 }

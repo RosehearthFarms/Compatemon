@@ -5,12 +5,14 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.ServerLevelAccessor;
 
 import java.util.Random;
 
-import static farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_APOTHEOSIS;
-import static farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_COMPATEMON;
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
 
 /**
  *
@@ -38,11 +40,15 @@ public class CompateUtils {
 		return "";
 	}
 	
-	public static boolean PokemonIsBoss(PokemonEntity pokemonEntity){
-		return pokemonEntity.getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).contains("apoth.boss");
+	public static boolean isApothBoss(Mob entity){
+		boolean isBoss = false;
+		if (entity.getType().toString().equals("entity.cobblemon.pokemon")){
+			isBoss = ((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(APOTH_BOSS);
+		}else{
+			isBoss = entity.saveWithoutId(new CompoundTag()).getCompound(Compatemon.implementation.persistentDataKey()).contains(APOTH_BOSS);
+		}
+		return isBoss;
 	}
-	public static boolean PokemonIsBoss(Pokemon pokemon){
-		return pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).contains("apoth.boss");
-	}
+	
 }
 
