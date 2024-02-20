@@ -5,6 +5,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig
 import farm.rosehearth.compatemon.util.CompateUtils
 import farm.rosehearth.compatemon.util.CompatemonDataKeys
+import farm.rosehearth.compatemon.util.CompatemonDataKeys.COMPAT_SCALE_SIZE
+import farm.rosehearth.compatemon.util.CompatemonDataKeys.COMPAT_SCALE_WEIGHT
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.entity.Entity
 import org.jetbrains.annotations.Nullable
@@ -18,6 +20,9 @@ import java.math.RoundingMode
 open class CompatemonScaleUtils {
     companion object {
 
+        /**
+         *
+         */
         fun setScale(entity: Entity, scaleType: ScaleType, scaleName: String, @Nullable defaultBaseScale:Float = 1.0f, @Nullable addToScale:Float = 0.0f){
 
             // get current scale
@@ -41,9 +46,14 @@ open class CompatemonScaleUtils {
             scaleType.getScaleData(entity).setScale(scale)
             // Add the new scale to the pokemonEntity's PersistentData
 
+            // if it's a pokemon, recalc health and hitbox and stuff
         }
 
-        fun getScale(entity:Entity, scaleType: ScaleType, scaleName: String, defaultBaseScale:Float):Float {
+
+        /**
+         *
+         */
+        private fun getScale(entity:Entity, scaleType: ScaleType, scaleName: String, defaultBaseScale:Float):Float {
             var scaleVal = defaultBaseScale;
             if(entity.type.toString() == "entity.cobblemon.pokemon"){
                 if((entity as PokemonEntity).pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).contains(scaleName))
@@ -66,13 +76,13 @@ open class CompatemonScaleUtils {
 //            return pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).getFloat(scaleName)
 //        }
 
-        /*
+        /**
          * TODO: Make scaleName a Class instead of hardcoding logic and iterate through a registry of Scales
          * @return Float: randomized value of the scaleName based on config. If the scale isn't in the config, will return 1.0f
          *
          */
-        fun getNewScale(scaleName: String, defaultBaseScale:Float):Float{
-            if(scaleName == "${CompatemonDataKeys.MOD_ID_PEHKUI}:${CompatemonDataKeys.COMPAT_SCALE_SIZE}") {
+        private fun getNewScale(scaleName: String, defaultBaseScale:Float):Float{
+            if(scaleName == COMPAT_SCALE_SIZE) {
                 if (!PehkuiConfig.size_do_unprovided) return 1.0f
                 var new_size = (PehkuiConfig.size_scale * defaultBaseScale) +
                         (CompateUtils.Rand.nextGaussian() * PehkuiConfig.size_dev)
@@ -83,7 +93,7 @@ open class CompatemonScaleUtils {
 
                 return BigDecimal.valueOf(new_size).setScale(2, RoundingMode.UP).toFloat()
             }
-            else if (scaleName == "${CompatemonDataKeys.MOD_ID_COMPATEMON}:${CompatemonDataKeys.COMPAT_SCALE_WEIGHT}") {
+            else if (scaleName == COMPAT_SCALE_WEIGHT) {
                 if (!PehkuiConfig.weight_do_unprovided) return 1.0f
                 var new_weight = (PehkuiConfig.weight_scale * defaultBaseScale) +
                         (CompateUtils.Rand.nextGaussian() * PehkuiConfig.weight_dev)

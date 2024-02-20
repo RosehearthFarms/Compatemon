@@ -31,15 +31,15 @@ object CompatemonDataKeys {
     const val MOD_ID_MINECRAFT = "minecraft"
 
     /* Constants Keys */
-    const val COMPAT_SCALE_SIZE = "sizeScale"
-    const val COMPAT_SCALE_WEIGHT = "weightScale"
+    const val COMPAT_SCALE_SIZE = "$MOD_ID_PEHKUI:sizeScale"
+    const val COMPAT_SCALE_WEIGHT = "$MOD_ID_COMPATEMON:weightScale"
     const val APOTH_BOSS = "apoth.boss"
     const val APOTH_RARITY = "apoth.rarity"
     const val APOTH_RARITY_COLOR = "apoth.rarity.color"
 
     /* APOTHEOSIS CONFIGURATION RANGE CONSTANTS */
     const val APOTH_BOSS_SCALE_MIN = 1.0f
-    const val APOTH_BOSS_SCALE_MAX = 10.0f
+    const val APOTH_BOSS_SCALE_MAX = 3.0f
 
     /* SOPHISTICATED CONFIGURATION RANGE CONSTANTS */
     const val SOPHISTICATED_SEARCH_MIN = 1

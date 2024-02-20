@@ -33,11 +33,8 @@ abstract class MixinPokemonNicknamedEvent {
 	,remap=false,
 	method="<init>")
 	public void compatemon$onPokemonNicknamedEvent(ServerPlayer pl, Pokemon p, @Nullable MutableComponent name, CallbackInfo cir){
-		if(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR)){
-			if(name != null){
-				nickname = name.copy().withStyle(Style.EMPTY.withColor(TextColor.parseColor(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR))));
-				ApotheosisConfig.LOGGER.debug("IN compatemon$onPokemonNicknamedEvent : " + nickname.toString());
-			}
+		if(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR) && name != null){
+			nickname = name.copy().withStyle(Style.EMPTY.withColor(TextColor.parseColor(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR))));
 		}
 	}
 }

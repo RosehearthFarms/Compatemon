@@ -1,6 +1,7 @@
 package farm.rosehearth.compatemon.mixin;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokemon.FormData;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig;
@@ -28,7 +29,7 @@ import virtuoel.pehkui.api.ScaleTypes;
 import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
 
 /**
- *
+ * Mixin to the Pokemon Entity Class
  */
 @Mixin(PokemonEntity.class)
 abstract class MixinPokemonEntity extends Entity {
@@ -36,49 +37,30 @@ abstract class MixinPokemonEntity extends Entity {
     @Shadow(remap=false)
     private Pokemon pokemon;
     
-    /**
-     *
-     * @param entityType
-     * @param level
-     */
+    
     MixinPokemonEntity(EntityType<?> entityType, Level level){
         super(entityType, level);
     }
     
-    /**
-     *
-     * @param world
-     * @param pokemon
-     * @param entityType
-     * @param cir
-     */
     @Inject(method = "<init>"
             ,at = @At("RETURN")
             ,remap = false)
     public void compatemon$onInit(Level world, Pokemon pokemon, EntityType entityType, CallbackInfo cir){
         if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-            CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f);//, size_scale, 0.0f);
+            CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), ScaleTypes.BASE, COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f);
+            //pokemon.getForm().getHitbox().height = 1;
         }
     }
     
-    /**
-     *
-     * @param player
-     * @param hand
-     * @param cir
-     */
+    
     @Inject(at = @At("RETURN")
             ,method="mobInteract"
             ,remap=false)
     public void compatemon$injectInteractMobReturn(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir){
-        // Placeholder bc I'm SURE we'll have something todo here
+        // Placeholder bc I'm SURE we'll have something to do here
     }
     
-    /**
-     *
-     * @param t
-     * @param cir
-     */
+    
     @Inject(at = @At("TAIL")
             ,method="setCustomName"
             ,remap=false)
@@ -88,13 +70,14 @@ abstract class MixinPokemonEntity extends Entity {
         }
     }
     
+    
     @Inject(at = @At("TAIL")
             ,remap=false
             ,method="getDimensions")
     public void compatemon$overrideDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir){
         if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-            if(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE))
-                cir.getReturnValue().scale(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).getFloat(MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE));
+            if(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(COMPAT_SCALE_SIZE))
+                cir.getReturnValue().scalable(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).getFloat(COMPAT_SCALE_SIZE),pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).getFloat(COMPAT_SCALE_SIZE));
         }
     }
 }

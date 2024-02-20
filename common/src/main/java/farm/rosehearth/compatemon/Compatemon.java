@@ -7,6 +7,7 @@ import java.util.Map;
 
 import farm.rosehearth.compatemon.config.Configuration;
 import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
+import farm.rosehearth.compatemon.modules.compatemon.CompatemonConfig;
 import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig;
 import farm.rosehearth.compatemon.modules.quark.QuarkConfig;
 import farm.rosehearth.compatemon.modules.sophisticatedcore.SophisticatedConfig;
@@ -35,11 +36,12 @@ public class Compatemon {
 	 */
 	static {
 		// Common
+		modsToConfigure.add(MOD_ID_COMPATEMON);
 		modsToConfigure.add(MOD_ID_PEHKUI);
 		
 		// Forge
 		modsToConfigure.add(MOD_ID_APOTHEOSIS);
-		modsToConfigure.add(MOD_ID_QUARK);
+		//modsToConfigure.add(MOD_ID_QUARK);
 		//modsToConfigure.add(MOD_ID_SOPHISTICATEDCORE);
 		modsToConfigure.add(MOD_ID_SOPHISTICATEDSTORAGE);
 		// Fabric
@@ -58,7 +60,7 @@ public class Compatemon {
 		
 		// Create the config file for Compatemon
 		configDir = new File("config",MODID);
-		config = new Configuration(new File(configDir, MODID + ".cfg"));
+		config = new Configuration(new File(configDir, "MODULES.cfg"));
 		config.setTitle("Compatemon Module Control");
 		config.setComment("This file allows individual modules to be enabled or disabled. If the mod isn't loaded, it will automatically be set to false, and so long as it remains unloaded, will not do anything even if it's set to true.");
 		
@@ -98,12 +100,15 @@ public class Compatemon {
 				Configuration c = new Configuration(new File(configDir, m + ".cfg"));
 				
 				switch(m){
+					case MOD_ID_COMPATEMON:
+						CompatemonConfig.load(c);
+						break;
 					case MOD_ID_APOTHEOSIS:
 						ApotheosisConfig.load(c);
 						break;
-					case MOD_ID_QUARK:
-						QuarkConfig.load(c);
-						break;
+//					case MOD_ID_QUARK:
+//						QuarkConfig.load(c);
+//						break;
 					case MOD_ID_PEHKUI:
 						PehkuiConfig.load(c);
 						break;

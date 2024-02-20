@@ -174,42 +174,29 @@ public Entity spawnedEntity;
 			)
 			{
 				base_scale *= ApotheosisConfig.DefaultBossSizeScale;
-				addToScale = 1.0f;
+				addToScale = 0.5f;
 			}
-			CompatemonScaleUtils.Companion.setScale(entity, ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, base_scale, addToScale);
-			
-			
-			
+			CompatemonScaleUtils.Companion.setScale(entity, ScaleTypes.BASE, COMPAT_SCALE_SIZE, base_scale, addToScale);
 		}
 		
 	}
 	
-	@Inject(
-			at=@At("HEAD")
-			,remap = false
-			,method="modifyBossItem")
-	private static void compatemon$modifyBossItemHEAD(ItemStack stack, RandomSource rand, String bossName, float luck, LootRarity rarity, BossStats stats, CallbackInfoReturnable<ItemStack> item)
-	{
-//		enchantBossItem(rand, stack, Apotheosis.enableEnch ? stats.enchLevels()[2] : stats.enchLevels()[3], true);
-//		NameHelper.setItemName(rand, stack);
-//		stack = LootController.createLootItem(stack, LootCategory.forItem(stack), rarity, rand);
-//
-//		String bossOwnerName = String.format(NameHelper.ownershipFormat, bossName);
-//		Component name = AffixHelper.getName(stack);
-//		//Compatemon.LOGGER.debug(name.getStyle().toString());
-//		ApotheosisConfig.LOGGER.debug(name.toString());
-	}
+//	@Inject(
+//			at=@At("HEAD")
+//			,remap = false
+//			,method="modifyBossItem")
+//	private static void compatemon$modifyBossItemHEAD(ItemStack stack, RandomSource rand, String bossName, float luck, LootRarity rarity, BossStats stats, CallbackInfoReturnable<ItemStack> item)
+//	{
+//	}
 	
 	@Shadow(remap=false)
 	public abstract Mob createBoss(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity);
+	
 	@Override
 	public Mob createPokeBoss(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity, Entity entityFromSpawn) {
 		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && entityFromSpawn.getType().toString().equals("entity.cobblemon.pokemon" ) && ApotheosisConfig.BossPokemonSpawnRate > 0){
-			if(rarity != null){
-				ApotheosisConfig.LOGGER.debug("Here's the rarity: " + rarity.toString());
-			}
+			
 			entity = entityFromSpawn.getType();
-			//PokemonEntity pEntity = ((PokemonEntity) entityFromSpawn);
 			int clevel = ((PokemonEntity) entityFromSpawn).getPokemon().getLevel();
 			((PokemonEntity) entityFromSpawn).getPokemon().setLevel(clevel + random.nextInt(25) - 5);
 			// Kind of expect this to break sometime if the level is out of the range. Hoping Cobblemon accounted for that though.
@@ -218,11 +205,10 @@ public Entity spawnedEntity;
 				((PokemonEntity) entityFromSpawn).getPokemon().getCustomProperties().add(UncatchableProperty.INSTANCE.uncatchable());
 			}
 			
-			((PokemonEntity) entityFromSpawn).setPersistenceRequired();
 			((PokemonEntity) entityFromSpawn).setDespawner(new PersistantDespawner<PokemonEntity>()); // never let it despawn
 			nbt = ((PokemonEntity) entityFromSpawn).saveWithoutId(new CompoundTag());
 			
-			ApotheosisConfig.LOGGER.debug("Create that PokeBoss! " + ((PokemonEntity) entityFromSpawn).getPokemon().showdownId());
+			//ApotheosisConfig.LOGGER.debug("Create that PokeBoss! " + ((PokemonEntity) entityFromSpawn).getPokemon().showdownId());
 			
 			CompoundTag fakeNbt = this.nbt;
 			fakeNbt.putString("id", EntityType.getKey(this.entity).toString());

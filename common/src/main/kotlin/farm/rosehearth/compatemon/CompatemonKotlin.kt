@@ -17,6 +17,7 @@ import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils.Companion.setScale
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_BOSS
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_RARITY
+import farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_RARITY_COLOR
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.COMPAT_SCALE_SIZE
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_APOTHEOSIS
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_COMPATEMON
@@ -29,43 +30,30 @@ object CompatemonKotlin {
 
     fun initialize() {
 
-        LOGGER.info("----------------------------------------------------------------------------------")
-        LOGGER.info("Initializing Compatemon")
-        LOGGER.info("----------------------------------------------------------------------------------")
-
-
-        // ---------------------------------------------------------
-        // Cobblemon Event Subscriptions
-        // ---------------------------------------------------------
-
-//        POKEMON_NBT_SAVED.subscribe{event ->
-//        }
-
         // Occurs when the Pokemon is saved to the world or party
         POKEMON_ENTITY_SAVE.subscribe{ event ->
             if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
                 var isBoss = event.pokemonEntity.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_BOSS);
                 if(isBoss){
-                    var rarityKey = event.pokemonEntity.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).getString("$APOTH_RARITY.color")
+                    var rarityKey = event.pokemonEntity.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)
                     event.pokemonEntity.pokemon.nickname = event.pokemonEntity.pokemon.nickname?.withStyle(Style.EMPTY.withColor(TextColor.parseColor(rarityKey)))
                 }
             }
         }
 
-//        // Occurs when the Pokemon's NBT data is loaded from the world. Injected into PokemonEntity's method.
-//        POKEMON_NBT_LOADED.subscribe{event ->
-//        }
-
         // Occurs when the Pokemon's NBT data is loaded from the world.
         POKEMON_ENTITY_LOAD.subscribe{ event ->
             if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)) {
-                setScale(
-                    event.pokemonEntity, ScaleTypes.BASE,
-                    "$MOD_ID_PEHKUI:$COMPAT_SCALE_SIZE", PehkuiConfig.size_scale, 0.0f
-                )
+                setScale(event.pokemonEntity, ScaleTypes.BASE, COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f)
             }
         }
-        // Occurs when the Pokemon is Sent Out of its pokeball
+
+//        POKEMON_NBT_SAVED.subscribe{event ->
+//        }
+//        // Occurs when the Pokemon's NBT data is loaded from the world. Injected into PokemonEntity's method.
+//        POKEMON_NBT_LOADED.subscribe{event ->
+//        }
+//        // Occurs when the Pokemon is Sent Out of its pokeball
 //        POKEMON_SENT_PRE.subscribe{ event ->
 //        }
 //
@@ -83,17 +71,13 @@ object CompatemonKotlin {
 //
 //        LOOT_DROPPED.subscribe{event ->
 //        }
+//
+//        // To update the nickname color whenever the name changes
+//        POKEMON_NICKNAMED.subscribe{event ->
+//            LOGGER.debug(event.pokemon.nickname.toString())
+//        }
 
-        // To update the nickname color whenever the name changes
-        POKEMON_NICKNAMED.subscribe{event ->
-            LOGGER.debug(event.pokemon.nickname.toString())
-        }
 
-
-
-        // ---------------------------------------------------------
-        // Other Event Subscriptions
-        // ---------------------------------------------------------
 
     }
 

@@ -5,17 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.5] - 2024-02-20
+### Added
+### Fixed
+- Affix Item Drop Rate?
+- Entity data for pokemon bosses not being reset properly after the pokemon is reset
+- Pokemon Nicknames keep their colors now when set through Apotheosis. Unfortunately, won't work with other ways.
+### Changed
+- New Config file for purely Cobblemon modifications
+- Still trying to fix hitbox problems
+- Removed quark logic (for now) and cleaned up files! First true release is upcoming!
+### Borked
+
+
 ## [0.2.4] - 2024-02-19
 ### Added
 ### Fixed
 - Apotheosis things should now properly check if apotheosis compat/config settings are enabled. Pehkui too if those didn't.
-- Hopefully pokemon random sizes should now have correct hitboxes? Will test shortly.
 ### Changed
 - Updated config to allow a separated configurable Pokemon Boss Spawn Rate. And updated the logic to go with it.
 - Modified a TON of the Pehkui logic and implemented the config for specifically allowing bosses to be larger. May actually make bosses random sized too so may need double checked.
-- Possibly fixed name color problem again again? Tag wasn't ever getting set in the pokemon's persistent data soooo.
 - Made a couple Apotheosis Config values float ranges rather than booleans
 ### Borked
+- Hitbox Problems
+- Pokemon are dropping named affix items when they shouldn't be.
 
 ## [0.2.3] - 2024-02-15
 ### Added

@@ -10,13 +10,13 @@ import org.spongepowered.asm.mixin.Mixin;
 
 /**
  * Mixin into PokemonSpawnAction of Cobblemon. Should set the scales for the entity of the configured scale types at spawn time
+ * This is the common specific Mixin - Was previously using but now is just here in case a new mod compat needs to use it too
  */
 @Mixin(value = PokemonSpawnAction.class, remap = false)
 abstract class MixinPokemonSpawnAction extends SpawnAction<PokemonEntity> {
 
 
     public MixinPokemonSpawnAction(@NotNull SpawningContext ctx, @NotNull SpawnDetail detail) {
-
         super(ctx, detail);
     }
 

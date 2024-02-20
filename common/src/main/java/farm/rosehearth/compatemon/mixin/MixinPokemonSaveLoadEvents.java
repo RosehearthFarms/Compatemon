@@ -17,54 +17,30 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Pokemon.class)
 abstract class MixinPokemonSaveLoadEvents {
     
-    /**
-     *
-     * @param nbt
-     * @param pokemon
-     */
     @Inject(method = "saveToNBT", at = @At("RETURN"), remap = false)
     private void addNBTSavingEvent(CompoundTag nbt, CallbackInfoReturnable<CompoundTag> pokemon) {
         CompatemonEvents.POKEMON_NBT_SAVED.postThen(new PokemonNbtSavedEvent((Pokemon)((Object)this), nbt),savedEvent -> null,savedEvent -> {
-            //Compatemon.LOGGER.debug("Injected properly into saveToNBT!");
             return null;
         });
     }
     
-    /**
-     *
-     * @param nbt
-     * @param pokemon
-     */
     @Inject(method = "loadFromNBT", at = @At("RETURN"), remap = false)
     private void addNBTLoadingEvent(CompoundTag nbt, CallbackInfoReturnable<Pokemon> pokemon) {
         CompatemonEvents.POKEMON_NBT_LOADED.post(new PokemonNbtLoadedEvent[]{new PokemonNbtLoadedEvent(pokemon.getReturnValue(), nbt)}, loadedEvent -> {
-            //Compatemon.LOGGER.info("NBT Loaded!");
             return null;
         });
     }
     
-    /**
-     *
-     * @param json
-     * @param pokemon
-     */
     @Inject(method = "saveToJSON", at = @At("RETURN"), remap = false)
     private void addJSONSavingEvent(JsonObject json, CallbackInfoReturnable<JsonObject> pokemon) {
         CompatemonEvents.POKEMON_JSON_SAVED.postThen(new PokemonJsonSavedEvent((Pokemon)((Object)this), json),savedEvent -> null,savedEvent -> {
-            //Compatemon.LOGGER.info("JSON Saved!");
             return null;
         });
     }
     
-    /**
-     *
-     * @param json
-     * @param pokemon
-     */
     @Inject(method = "loadFromJSON", at = @At("RETURN"), remap = false)
     private void addJSONLoadingEvent(JsonObject json, CallbackInfoReturnable<Pokemon> pokemon) {
         CompatemonEvents.POKEMON_JSON_LOADED.post(new PokemonJsonLoadedEvent[]{new PokemonJsonLoadedEvent(pokemon.getReturnValue(), json)}, loadedEvent -> {
-            //Compatemon.LOGGER.info("JSON Loaded!");
             return null;
         });
     }

@@ -6,12 +6,13 @@
 	"mixins": [
 		"MixinPokemonClass",
 		"MixinPokemonEntity",
+		"MixinPokemonFormData",
 		"MixinPokemonNicknamedEvent",
 		"MixinPokemonSaveLoadEvents",
-		"MixinPokemonSpawnAction",
-		"MixinSetNicknameHandler"
+		"MixinPokemonSpawnAction"
 	],
 	"client": [
-		"MixinNicknameEntryWidget"
+		"client.MixinNicknameEntryWidget",
+		"client.MixinPokemonRenderer"
 	]
 }

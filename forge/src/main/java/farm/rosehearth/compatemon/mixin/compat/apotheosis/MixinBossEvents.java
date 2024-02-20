@@ -1,5 +1,6 @@
 package farm.rosehearth.compatemon.mixin.compat.apotheosis;
 
+import com.cobblemon.mod.common.api.entity.Despawner;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import dev.shadowsoffire.apotheosis.Apotheosis;
@@ -19,8 +20,10 @@ import farm.rosehearth.compatemon.events.CompatemonEvents;
 import farm.rosehearth.compatemon.events.apotheosis.ApothBossSpawnedEvent;
 import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
 import farm.rosehearth.compatemon.modules.apotheosis.IApothBossEntity;
+import farm.rosehearth.compatemon.util.CompateUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
@@ -58,7 +61,7 @@ abstract class MixinBossEvents {
 		return boss.getSelfAndPassengers().filter(e -> ((PokemonEntity)e).getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(APOTH_BOSS)).findFirst().map(Entity::getCustomName).orElse(null);
 	}
 	
-	@Invoker("canSpawn")
+	@Invoker(value="canSpawn",remap = false)
 	private static boolean invokeCanSpawn(LevelAccessor world, Mob entity, double playerDist){
 		throw new AssertionError();
 	};
@@ -69,9 +72,9 @@ abstract class MixinBossEvents {
 	private void compatemon$naturalBossesForPokemon(MobSpawnEvent.FinalizeSpawn e, CallbackInfo cir)
 	{
 		
-		CompatemonEvents.APOTH_BOSS_SPAWNED.postThen(new ApothBossSpawnedEvent(e.getEntity()), savedEvent -> null, savedEvent -> {
-			return null;
-		});
+//		CompatemonEvents.APOTH_BOSS_SPAWNED.postThen(new ApothBossSpawnedEvent(e.getEntity()), savedEvent -> null, savedEvent -> {
+//			return null;
+//		});
 		if (e.getEntity().getType().toString().equals("entity.cobblemon.pokemon") &&
 				ApotheosisConfig.BossPokemonSpawnRate > 0 &&
 				Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) ) {
@@ -79,7 +82,7 @@ abstract class MixinBossEvents {
 			Pokemon originalPokemon = ((PokemonEntity)entity).getPokemon().clone(false,false);
 			RandomSource rand = e.getLevel().getRandom();
 			
-			if (this.bossCooldowns.getInt(entity.level().dimension().location()) <= 0 &&  !e.getLevel().isClientSide() ) {
+			if (this.bossCooldowns.getInt(entity.level().dimension().location()) <= 0 &&  !e.getLevel().isClientSide()  && e.getResult() != Event.Result.DENY) {
 				ServerLevelAccessor sLevel = (ServerLevelAccessor) e.getLevel();
 				ResourceLocation dimId = sLevel.getLevel().dimension().location();
 				Pair<Float, BossEvents.BossSpawnRules> rules = AdventureConfig.BOSS_SPAWN_RULES.get(dimId);
@@ -95,27 +98,26 @@ abstract class MixinBossEvents {
 						AdventureModule.LOGGER.error("Attempted to spawn a boss in dimension {} using configured boss spawn rule {}/{} but no bosses were made available.", dimId, rules.getRight(), rules.getLeft());
 						return;
 					}
+					var despawner = ((PokemonEntity)entity).getDespawner();
 					
 					Mob boss = ((IApothBossEntity) ((Object)item)).createPokeBoss(sLevel, BlockPos.containing(e.getX() - 0.5, e.getY(), e.getZ() - 0.5), rand, player.getLuck(), null, entity);
 					
 					if (invokeCanSpawn(sLevel, boss, player.distanceToSqr(boss))) {
+						
+						((PokemonEntity) entity).setPersistenceRequired();
 						var n = ((PokemonEntity)boss).getCustomName();
-						ApotheosisConfig.LOGGER.debug("It's " + n.getString() + " - the " + ((PokemonEntity)boss).getPokemon().getSpecies().getName());
+						ApotheosisConfig.LOGGER.debug("It's {} - the {}" , n.getString(), ((PokemonEntity)boss).getPokemon().getSpecies().getName());
 						if (AdventureConfig.bossAutoAggro) {
 							boss.setTarget(player);
 						}
 						
-						ApotheosisConfig.LOGGER.debug("" + n.getString() + " CAN SPAWN");
-						
-						
 						e.setResult(Event.Result.DENY);
-						AdventureModule.debugLog(boss.blockPosition(), "Surface Boss - " + boss.getName().getString());
+						
 						Component name = this.getName(boss);
 						
 						
 						LootRarity rarity = RarityRegistry.byOrdinal(((PokemonEntity)boss).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).getInt(APOTH_RARITY)).get();
-						
-						if(rarity != null) ApotheosisConfig.LOGGER.debug("Here's the rarity in BossEvents Mixin: " + rarity.toString());
+						if(rarity != null) ApotheosisConfig.LOGGER.debug("Here's the rarity in BossEvents Mixin: {}", rarity.toString());
 						
 						
 						
@@ -127,13 +129,10 @@ abstract class MixinBossEvents {
 									
 									String r = RarityRegistry.INSTANCE.getKey(rarity).toString();
 									String translatableKey = "info.compatemon.boss_spawn."  + r.substring(r.indexOf(":")+1);
-									Compatemon.LOGGER.debug("translateableKey: " + translatableKey);
-									try{ // Send Custom Message or Fail and send default apotheosis message
-										((ServerPlayer) p).connection.send(new ClientboundSetActionBarTextPacket(Component.translatable(translatableKey, name, (int) boss.getX(), (int) boss.getY(), (int) boss.getZ())));
-									}
-									catch(Exception ex){
-										((ServerPlayer) p).connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("info.apotheosis.boss_spawn", name, (int) boss.getX(), (int) boss.getY(), (int) boss.getZ())));
-									}
+									
+									var translated = Component.translatable(translatableKey, name, (int) boss.getX(), (int) boss.getZ());
+									// Send Custom Message or Fail and send default apotheosis message
+									((ServerPlayer) p).connection.send(new ClientboundSetActionBarTextPacket(translated));
 									
 									TextColor color = name.getStyle().getColor();
 									PacketDistro.sendTo(Apotheosis.CHANNEL, new BossSpawnMessage(boss.blockPosition(), color == null ? 0xFFFFFF : color.getValue()), player);
@@ -144,13 +143,20 @@ abstract class MixinBossEvents {
 						
 					}
 					else{
-						
-						//Compatemon.LOGGER.debug("We need to set the pokemon back to normal here, I think.");
+						// Need to set the pokemon and the entity back to normal bc Pokemon get initialized differently.
+						// This means the Pokemon Object, the pokemon's persistent data,
+						// the entity's effects and attributes, and the entity's item slots
 						((PokemonEntity)entity).setPokemon(originalPokemon);
-						((PokemonEntity)entity).removeAllEffects();
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_BOSS);
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY);
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY_COLOR);
+						((PokemonEntity)entity).setDespawner(despawner);
+						CompoundTag t = CompateUtils.getPersistentData(entity);
+						t.remove(APOTH_BOSS);
+						t.remove(APOTH_RARITY);
+						entity.load(t);
+						//entity.getAllSlots().forEach(itemStack -> itemStack = null);
+						entity.removeAllEffects();
 					}
 				}
 			}

@@ -41,18 +41,19 @@ abstract class MixinAdventureEvents {
 				e.getEntity().getType().toString().equals("entity.cobblemon.pokemon") &&
 				ApotheosisConfig.PokemonAffixItemRate > 0)
 		{
-			
-			Player player = e.getLevel().getNearestPlayer(e.getX(), e.getY(), e.getZ(), -1, false);
-			if (player == null) return;
-			ItemStack affixItem = LootController.createRandomLootItem(e.getLevel().getRandom(), null, player, (ServerLevel) e.getEntity().level());
-			
-			if (affixItem.isEmpty()) return;
-			
-			affixItem.getOrCreateTag().putBoolean("apoth_rspawn", true);
-			LootCategory cat = LootCategory.forItem(affixItem);
-			EquipmentSlot slot = cat.getSlots()[0];
-			e.getEntity().setItemSlot(slot, affixItem);
-			e.getEntity().setGuaranteedDrop(slot);
+			if(e.getEntity().getRandom().nextFloat()*100 <= ApotheosisConfig.PokemonAffixItemRate){
+				Player player = e.getLevel().getNearestPlayer(e.getX(), e.getY(), e.getZ(), -1, false);
+				if(player == null) return;
+				ItemStack affixItem = LootController.createRandomLootItem(e.getLevel().getRandom(), null, player, (ServerLevel) e.getEntity().level());
+				
+				if(affixItem.isEmpty()) return;
+				
+				affixItem.getOrCreateTag().putBoolean("apoth_rspawn", true);
+				LootCategory cat = LootCategory.forItem(affixItem);
+				EquipmentSlot slot = cat.getSlots()[0];
+				e.getEntity().setItemSlot(slot, affixItem);
+				e.getEntity().setGuaranteedDrop(slot);
+			}
 		}
 	}
 	

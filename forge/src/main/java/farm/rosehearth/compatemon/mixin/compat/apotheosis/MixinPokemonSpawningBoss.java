@@ -45,7 +45,7 @@ abstract class MixinPokemonSpawningBoss extends SpawnAction<PokemonEntity> {
 		
 		
 		if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-			CompatemonScaleUtils.Companion.setScale(cir.getReturnValue(), ScaleTypes.BASE, MOD_ID_PEHKUI + ":" + COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f);//, size_scale, 0.0f);
+			CompatemonScaleUtils.Companion.setScale(cir.getReturnValue(), ScaleTypes.BASE, COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 1.0f);
 		}
 		
 		

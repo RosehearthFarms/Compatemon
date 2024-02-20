@@ -18,6 +18,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import static farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_RARITY_COLOR;
 import static farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_COMPATEMON;
 
+/**
+ * Mixin to the Pokemon class file in order to actually allow a nickname to be colored? Why was this not a thing? One of the network packet handlers casts to string instead of just using the MutableText
+ */
 @Mixin(Pokemon.class)
 public class MixinPokemonClass {
 	@Shadow(remap=false)
@@ -33,7 +36,6 @@ public class MixinPokemonClass {
 		if(persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR) ){//cir.setReturnValue(nickname.copy().withStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)))));
 			
 			var x = cir.getReturnValue().copy().setStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR))));
-			Compatemon.LOGGER.debug("IN compatemon$getDisplayNameWithColor : " + x.toString());
 			cir.setReturnValue(x);
 		}
 	}
@@ -46,8 +48,6 @@ public class MixinPokemonClass {
 		if(value != null && persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR)){
 			nickname = value.withStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR))));
 			value=nickname;
-			Compatemon.LOGGER.debug("IN compatemon$setNicknameWithColor : " + nickname.toString());
-			Compatemon.LOGGER.debug("IN compatemon$setNicknameWithColor : " + value.toString());
 		}
 				
 		
