@@ -154,7 +154,7 @@ abstract class MixinBossEvents {
 						CompoundTag t = CompateUtils.getPersistentData(entity);
 						t.remove(APOTH_BOSS);
 						t.remove(APOTH_RARITY);
-						entity.load(t);
+						//entity.load(t);
 						//entity.getAllSlots().forEach(itemStack -> itemStack = null);
 						entity.removeAllEffects();
 					}
