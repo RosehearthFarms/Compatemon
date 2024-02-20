@@ -23,7 +23,7 @@ open class CompatemonScaleUtils {
         /**
          *
          */
-        fun setScale(entity: Entity, scaleType: ScaleType, scaleName: String, @Nullable defaultBaseScale:Float = 1.0f, @Nullable addToScale:Float = 0.0f){
+        fun setScale(entity: Entity, scaleType: ScaleType, scaleName: String, @Nullable defaultBaseScale:Float = 1.0f, @Nullable addToScale:Float = 0.0f):Float{
 
             // get current scale
             // pokemon -> set persistant data
@@ -47,6 +47,8 @@ open class CompatemonScaleUtils {
             // Add the new scale to the pokemonEntity's PersistentData
 
             // if it's a pokemon, recalc health and hitbox and stuff
+
+            return scale
         }
 
 

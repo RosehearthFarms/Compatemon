@@ -20,6 +20,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -37,6 +38,8 @@ abstract class MixinPokemonEntity extends Entity {
     @Shadow(remap=false)
     private Pokemon pokemon;
     
+    @Unique
+    private float compatemon$sizeScale = 1.0f;
     
     MixinPokemonEntity(EntityType<?> entityType, Level level){
         super(entityType, level);
@@ -47,7 +50,9 @@ abstract class MixinPokemonEntity extends Entity {
             ,remap = false)
     public void compatemon$onInit(Level world, Pokemon pokemon, EntityType entityType, CallbackInfo cir){
         if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-            CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), ScaleTypes.BASE, COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f);
+            compatemon$sizeScale = CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), ScaleTypes.BASE, COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f);
+            pokemon.getForm().getHitbox().scale(compatemon$sizeScale);
+           
             //pokemon.getForm().getHitbox().height = 1;
         }
     }
@@ -76,8 +81,8 @@ abstract class MixinPokemonEntity extends Entity {
             ,method="getDimensions")
     public void compatemon$overrideDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir){
         if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-            if(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(COMPAT_SCALE_SIZE))
-                cir.getReturnValue().scalable(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).getFloat(COMPAT_SCALE_SIZE),pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).getFloat(COMPAT_SCALE_SIZE));
+            if(compatemon$sizeScale != 1.0f)
+                cir.getReturnValue().scale(compatemon$sizeScale);
         }
     }
 }

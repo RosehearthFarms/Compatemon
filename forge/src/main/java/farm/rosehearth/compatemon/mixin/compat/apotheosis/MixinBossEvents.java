@@ -79,6 +79,7 @@ abstract class MixinBossEvents {
 				ApotheosisConfig.BossPokemonSpawnRate > 0 &&
 				Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) ) {
 			LivingEntity entity = e.getEntity();
+			CompoundTag originalEntity = entity.saveWithoutId(new CompoundTag());
 			Pokemon originalPokemon = ((PokemonEntity)entity).getPokemon().clone(false,false);
 			RandomSource rand = e.getLevel().getRandom();
 			
@@ -146,17 +147,15 @@ abstract class MixinBossEvents {
 						// Need to set the pokemon and the entity back to normal bc Pokemon get initialized differently.
 						// This means the Pokemon Object, the pokemon's persistent data,
 						// the entity's effects and attributes, and the entity's item slots
+						entity.load(originalEntity);
+						entity.removeAllEffects();
 						((PokemonEntity)entity).setPokemon(originalPokemon);
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_BOSS);
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY);
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY_COLOR);
 						((PokemonEntity)entity).setDespawner(despawner);
-						CompoundTag t = CompateUtils.getPersistentData(entity);
-						t.remove(APOTH_BOSS);
-						t.remove(APOTH_RARITY);
 						//entity.load(t);
 						//entity.getAllSlots().forEach(itemStack -> itemStack = null);
-						entity.removeAllEffects();
 					}
 				}
 			}

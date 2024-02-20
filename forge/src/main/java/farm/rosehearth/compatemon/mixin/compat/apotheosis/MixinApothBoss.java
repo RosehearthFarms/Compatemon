@@ -174,7 +174,7 @@ public Entity spawnedEntity;
 			)
 			{
 				base_scale *= ApotheosisConfig.DefaultBossSizeScale;
-				addToScale = 0.5f;
+				addToScale = 0.0f;
 			}
 			CompatemonScaleUtils.Companion.setScale(entity, ScaleTypes.BASE, COMPAT_SCALE_SIZE, base_scale, addToScale);
 		}

@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.5] - 2024-02-20
 ### Added
+- New Logo! Yay!
 ### Fixed
 - Affix Item Drop Rate?
 - Entity data for pokemon bosses not being reset properly after the pokemon is reset
+  - I think I got most of it fixed too.
 - Pokemon Nicknames keep their colors now when set through Apotheosis. Unfortunately, won't work with other ways.
+- Hitboxes are getting close!!!
 ### Changed
 - New Config file for purely Cobblemon modifications
 - Still trying to fix hitbox problems

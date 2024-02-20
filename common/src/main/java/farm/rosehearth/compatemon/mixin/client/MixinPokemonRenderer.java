@@ -40,6 +40,7 @@ abstract class MixinPokemonRenderer {
 	private void compatemon$onScale(PokemonEntity pEntity, PoseStack pMatrixStack, float pPartialTickTime, CallbackInfo cir, float scale) {
 		if(pEntity.getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(COMPAT_SCALE_SIZE))
 			compatemon$newScale = pEntity.getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).getFloat(COMPAT_SCALE_SIZE);
+		
 	}
 	
 	@ModifyVariable(at=@At("STORE"), ordinal = 0
