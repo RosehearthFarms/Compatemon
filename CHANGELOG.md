@@ -10,11 +10,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Config for levels of pokemon bosses
 ### Fixed
 - Hitboxes Again? So long as things are working mostly fine we may just mark it as a known issue
+- Fabric Config Files weren't populating. Added event subscription to reload the config after all the mods have loaded.
 ### Changed
 - Build files
 - Other things (there was a lot - check the commits)
+- Cleaned up prior to release!
 ### Borked
-- Probably Hitboxes still
+- Pokemon Bosses currently use about all the same stats in the json
+- With fightorflight and apotheosis, pokemon bosses don't search out the player same as other bosses when the TargetNearestPlayer config is enabled
+  - Pokemon Bosses ALSO only aggro according to the rules fightorflight implemented. Plan to include fixes in the next major version.
+- Pokemon Nicknames that are longer than 12 characters render past the edges of their fields in any place where the nickname is rendered and cut off. Not quite sure how to fix this but it's known.
 
 ## [0.2.5] - 2024-02-20
 ### Added

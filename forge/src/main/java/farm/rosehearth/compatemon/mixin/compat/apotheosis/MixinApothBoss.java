@@ -3,6 +3,7 @@ package farm.rosehearth.compatemon.mixin.compat.apotheosis;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty;
+import dev.shadowsoffire.apotheosis.Apotheosis;
 import dev.shadowsoffire.apotheosis.adventure.boss.BossStats;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
 import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
@@ -74,7 +75,7 @@ implements IApothBossEntity
 			, method = "createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;FLdev/shadowsoffire/apotheosis/adventure/loot/LootRarity;)Lnet/minecraft/world/entity/Mob;"
 			, remap = false)
 	public void compatemon$createPokemonBossHead(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity, CallbackInfoReturnable<Mob> boss) {
-		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
+		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && Apotheosis.enableAdventure){
 			var entityID = EntityType.getKey(this.entity).toString();
 			
 			if(entityID.equals("cobblemon:pokemon")){
@@ -101,7 +102,7 @@ implements IApothBossEntity
 			, method = "initBoss")
 	public void compatemon$initPokemonBossReturn(RandomSource rand, Mob entity, float luck, @Nullable LootRarity rarity, CallbackInfo cir) {
 		
-		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && entity.getType().toString().equals("entity.cobblemon.pokemon") && ApotheosisConfig.BossPokemonSpawnRate > 0){
+		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && entity.getType().toString().equals("entity.cobblemon.pokemon") && ApotheosisConfig.BossPokemonSpawnRate > 0 && Apotheosis.enableAdventure){
 			CompoundTag compatemonData = new CompoundTag();
 			compatemonData.put(CompatemonDataKeys.MOD_ID_COMPATEMON, new CompoundTag());
 			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putBoolean(APOTH_BOSS, true);
@@ -112,7 +113,7 @@ implements IApothBossEntity
 			((PokemonEntity)entity).getPokemon().setNickname(((PokemonEntity)entity).getPokemon().getNickname().withStyle(Style.EMPTY.withColor(rarity.getColor())));
 		}
 		
-		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && Compatemon.ShouldLoadMod(MOD_ID_PEHKUI) && CompateUtils.isApothBoss(entity)){
+		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && Compatemon.ShouldLoadMod(MOD_ID_PEHKUI) && CompateUtils.isApothBoss(entity) && Apotheosis.enableAdventure){
 			var base_scale = PehkuiConfig.size_scale;
 			var addToScale = 0.0f;
 			if(
@@ -141,7 +142,7 @@ implements IApothBossEntity
 	
 	@Override
 	public Mob createPokeBoss(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity, Entity entityFromSpawn) {
-		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && entityFromSpawn.getType().toString().equals("entity.cobblemon.pokemon" ) && ApotheosisConfig.BossPokemonSpawnRate > 0){
+		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && entityFromSpawn.getType().toString().equals("entity.cobblemon.pokemon" ) && ApotheosisConfig.BossPokemonSpawnRate > 0 && Apotheosis.enableAdventure){
 			
 			entity = entityFromSpawn.getType();
 			
@@ -167,6 +168,7 @@ implements IApothBossEntity
 			
 			this.initBoss(random, entity, luck, rarity);
 			
+			((PokemonEntity) entity).getPokemon().setLevel(newLevel);
 			// had to take out the mount info as for SOME reason, it kept trying to create spiders
 			// would LOVe to add in bosses mounted as pokemon at some point as compatability with Cobblemounts
 			

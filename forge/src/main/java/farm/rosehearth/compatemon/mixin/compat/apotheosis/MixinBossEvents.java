@@ -71,13 +71,13 @@ abstract class MixinBossEvents {
 	remap=false)
 	private void compatemon$naturalBossesForPokemon(MobSpawnEvent.FinalizeSpawn e, CallbackInfo cir)
 	{
-		
+	
 //		CompatemonEvents.APOTH_BOSS_SPAWNED.postThen(new ApothBossSpawnedEvent(e.getEntity()), savedEvent -> null, savedEvent -> {
 //			return null;
 //		});
 		if (e.getEntity().getType().toString().equals("entity.cobblemon.pokemon") &&
 				ApotheosisConfig.BossPokemonSpawnRate > 0 &&
-				Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) ) {
+				Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)  && Apotheosis.enableAdventure) {
 			LivingEntity entity = e.getEntity();
 			CompoundTag originalEntity = entity.saveWithoutId(new CompoundTag());
 			Pokemon originalPokemon = ((PokemonEntity)entity).getPokemon().clone(false,false);
@@ -118,7 +118,7 @@ abstract class MixinBossEvents {
 						
 						
 						LootRarity rarity = RarityRegistry.byOrdinal(((PokemonEntity)boss).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).getInt(APOTH_RARITY)).get();
-						if(rarity != null) ApotheosisConfig.LOGGER.debug("Here's the rarity in BossEvents Mixin: {}", rarity.toString());
+						//if(rarity != null) ApotheosisConfig.LOGGER.debug("Here's the rarity in BossEvents Mixin: {}", rarity.toString());
 						
 						
 						

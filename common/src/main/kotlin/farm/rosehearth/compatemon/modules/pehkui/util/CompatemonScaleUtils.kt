@@ -72,13 +72,6 @@ open class CompatemonScaleUtils {
             return scaleVal
         }
 
-//
-//        fun getScale(pokemon: Pokemon, scaleName: String):Float{
-//            if(!pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).contains(scaleName)) {
-//                return getNewScale(scaleName)
-//            }
-//            return pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).getFloat(scaleName)
-//        }
 
         /**
          * TODO: Make scaleName a Class instead of hardcoding logic and iterate through a registry of Scales

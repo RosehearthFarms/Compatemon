@@ -38,7 +38,7 @@ object CompatemonDataKeys {
     const val APOTH_RARITY_COLOR = "apoth.rarity.color"
 
     /* APOTHEOSIS CONFIGURATION RANGE CONSTANTS */
-    const val APOTH_BOSS_SCALE_MIN = 1.0f
+    const val APOTH_BOSS_SCALE_MIN = 0.5f
     const val APOTH_BOSS_SCALE_MAX = 3.0f
 
     /* SOPHISTICATED CONFIGURATION RANGE CONSTANTS */

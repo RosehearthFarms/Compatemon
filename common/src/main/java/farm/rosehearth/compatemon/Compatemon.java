@@ -42,13 +42,10 @@ public class Compatemon {
 		// Forge
 		modsToConfigure.add(MOD_ID_APOTHEOSIS);
 		//modsToConfigure.add(MOD_ID_QUARK);
-		//modsToConfigure.add(MOD_ID_SOPHISTICATEDCORE);
 		modsToConfigure.add(MOD_ID_SOPHISTICATEDSTORAGE);
 		// Fabric
 		// Quilt
 		
-		// Add the following mods to ONLY enables - the dependendant API is the one we mixed into
-		//modsToEnable.put(MOD_ID_SOPHISTICATEDCORE,implementation.isModInstalled(MOD_ID_SOPHISTICATEDCORE));
 	}
 	
 	/**
@@ -64,17 +61,6 @@ public class Compatemon {
 		config.setTitle("Compatemon Module Control");
 		config.setComment("This file allows individual modules to be enabled or disabled. If the mod isn't loaded, it will automatically be set to false, and so long as it remains unloaded, will not do anything even if it's set to true.");
 		
-		// Adds each mod to the Compatemon config file
-		for (String modID: modsToConfigure){
-			
-			boolean bEnabled = config.getBoolean("Enable " + modID.toUpperCase() + " Module", "general", implementation.isModInstalled(modID), "Enables the " + modID.toUpperCase() + " Module");
-			modsToEnable.put(modID,implementation.isModInstalled(modID) && bEnabled);
-			
-		}
-		
-		if(config.hasChanged()) config.save();
-		
-		modsToEnable.put(MOD_ID_SOPHISTICATEDCORE,implementation.isModInstalled(MOD_ID_SOPHISTICATEDCORE));
 	}
 	
 	/**
@@ -91,12 +77,24 @@ public class Compatemon {
 	 * Loads the configs for each mod. Config files are located in the common group, even if a particular mod is
 	 * specific to a particular modAPI
 	 *
-	 * TODO: Use Configgy API mod instead
 	 */
 	public static void loadConfigs(boolean initialB){
+		
+		// Adds each mod to the Compatemon config file
+		for (String modID: modsToConfigure){
+			
+			boolean bEnabled = config.getBoolean("Enable " + modID.toUpperCase() + " Module", "general", implementation.isModInstalled(modID), "Enables the " + modID.toUpperCase() + " Module");
+			modsToEnable.put(modID,implementation.isModInstalled(modID) && bEnabled);
+			
+		}
+		
+		if(config.hasChanged()) config.save();
+		modsToEnable.put(MOD_ID_SOPHISTICATEDCORE,implementation.isModInstalled(MOD_ID_SOPHISTICATEDCORE));
+		
+		
 		for(var m : modsToConfigure)
 		{
-			if(ShouldLoadMod(m)) {
+			if(implementation.isModInstalled(m)) {
 				Configuration c = new Configuration(new File(configDir, m + ".cfg"));
 				
 				switch(m){

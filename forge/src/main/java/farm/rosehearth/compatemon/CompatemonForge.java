@@ -30,7 +30,6 @@ public class CompatemonForge implements CompatemonImplementation{
      */
     @SubscribeEvent
     public  void init(FMLCommonSetupEvent event){
-        Compatemon.LOGGER.debug("In CobblemonSizesForge.init()");
         Compatemon.preInitialize(this);
         Compatemon.init();
     }
@@ -58,25 +57,22 @@ public class CompatemonForge implements CompatemonImplementation{
     @Override
     public void postCommonInitialization() {
         CompatemonForgeKotlin.INSTANCE.postCommonInit();
-        //bus.register(new ApothicEvents());
     }
     
     @SubscribeEvent(priority = EventPriority.LOW)
     public void reloads(AddReloadListenerEvent e) {
         e.addListener(RunnableReloader.of(() -> MinecraftForge.EVENT_BUS.post(new CompatemonReloadEvent())));
-        Compatemon.LOGGER.debug("in CompatemonForge.reloads");
         Compatemon.loadConfigs(false);
     }
     
     @SubscribeEvent
     public void reloadConfigs(CompatemonReloadEvent event){
-        Compatemon.LOGGER.debug("in CompatemonForge.reloadConfigs");
-       // Compatemon.loadConfigs(false);
     }
     
     @Override
     public void registerEvents() {
-       // IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        // In Forge, Subscribe Events are handled using the annotation @SubscribeEvent.
+        // In Fabric, call them in this function.
     }
     
     @NotNull

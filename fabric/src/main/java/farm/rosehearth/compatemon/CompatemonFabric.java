@@ -1,7 +1,7 @@
 package farm.rosehearth.compatemon;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +32,12 @@ public class CompatemonFabric implements ModInitializer, CompatemonImplementatio
 	
 	@Override
 	public void registerEvents() {
-	
+		ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+			Compatemon.loadConfigs(false);
+		});
+		ServerLifecycleEvents.START_DATA_PACK_RELOAD.register((server, serverResourceManager) -> {
+			Compatemon.loadConfigs(false);
+		});
 	}
 	
 	@NotNull

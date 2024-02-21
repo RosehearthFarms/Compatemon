@@ -124,18 +124,30 @@ dependencies {
 tasks {
     base.archivesName.set(base.archivesName.get() + "-forge")
     processResources {
-        inputs.property("version", project.properties["mod_version"])
-        filesMatching("*/META-INF/mods.toml") {
-            expand(mapOf("version" to project.properties["mod_version"]))
-            expand(mapOf("modId" to project.properties["mod_id"]))
-            expand(mapOf("displayName" to project.properties["mod_name"]))
-            expand(mapOf("authors" to project.properties["mod_authors"]))
-            expand(mapOf("description" to project.properties["mod_description"]))
+        val filesToProcess = listOf("pack.mcmeta", "*/mods.toml", "*.mixins.json","fabric.mod.json")
 
+        inputs.property("version", project.properties["mod_version"])
+        inputs.property("modId", project.properties["mod_id"])
+        inputs.property("displayName", project.properties["mod_name"])
+        inputs.property("authors", project.properties["mod_authors"])
+        inputs.property("description", project.properties["mod_description"])
+        inputs.property("license", project.properties["mod_license"])
+        inputs.property("mod_issue_url", project.properties["mod_issue_url"])
+        inputs.property("mod_homepage", project.properties["mod_homepage"])
+
+        filesMatching(filesToProcess) {
+            expand(
+                "version" to  project.properties["mod_version"],
+                "modId" to project.properties["mod_id"],
+                "displayName" to project.properties["mod_name"],
+                "authors" to project.properties["mod_authors"],
+                "description" to project.properties["mod_description"],
+                "license" to project.properties["mod_license"],
+                "mod_issue_url" to project.properties["mod_issue_url"],
+                "mod_homepage" to project.properties["mod_homepage"]
+            )
         }
-        filesMatching("*.mixins.json"){
-            expand(mapOf("minVersion" to project.properties["mod_version"]))
-        }
+
     }
 
     shadowJar {

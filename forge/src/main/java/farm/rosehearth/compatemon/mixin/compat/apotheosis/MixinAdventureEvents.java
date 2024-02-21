@@ -1,6 +1,7 @@
 package farm.rosehearth.compatemon.mixin.compat.apotheosis;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import dev.shadowsoffire.apotheosis.Apotheosis;
 import dev.shadowsoffire.apotheosis.adventure.AdventureConfig;
 import dev.shadowsoffire.apotheosis.adventure.AdventureEvents;
 import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
@@ -41,7 +42,7 @@ abstract class MixinAdventureEvents {
 				e.getEntity().getType().toString().equals("entity.cobblemon.pokemon") &&
 				ApotheosisConfig.PokemonAffixItemRate > 0)
 		{
-			if(e.getEntity().getRandom().nextFloat()*100 <= ApotheosisConfig.PokemonAffixItemRate){
+			if(e.getEntity().getRandom().nextFloat()*100 <= ApotheosisConfig.PokemonAffixItemRate && Apotheosis.enableAdventure){
 				Player player = e.getLevel().getNearestPlayer(e.getX(), e.getY(), e.getZ(), -1, false);
 				if(player == null) return;
 				ItemStack affixItem = LootController.createRandomLootItem(e.getLevel().getRandom(), null, player, (ServerLevel) e.getEntity().level());
@@ -72,7 +73,7 @@ abstract class MixinAdventureEvents {
 			if(((PokemonEntity)(e.getEntity())).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(APOTH_BOSS)){
 				chance += AdventureConfig.gemBossBonus;
 			}
-			if (p.getRandom().nextFloat() <= chance) {
+			if (p.getRandom().nextFloat() <= chance && Apotheosis.enableAdventure) {
 				Entity ent = e.getEntity();
 				e.getDrops()
 						.add(new ItemEntity(ent.level(), ent.getX(), ent.getY(), ent.getZ(), GemRegistry.createRandomGemStack(p.getRandom(), (ServerLevel) p.level(), p.getLuck(), WeightedDynamicRegistry.IDimensional.matches(p.level()), GameStagesCompat.IStaged.matches(p)), 0, 0, 0));
