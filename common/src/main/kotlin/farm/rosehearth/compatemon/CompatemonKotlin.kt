@@ -41,7 +41,8 @@ object CompatemonKotlin {
             }
         }
 
-        // Occurs when the Pokemon's NBT data is loaded from the world.
+        // Occurs when the Pokemon's NBT data is loaded from the world. We need to make sure that the Entity's scale
+        // is set to what it was when the world is loaded
         POKEMON_ENTITY_LOAD.subscribe{ event ->
             if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)) {
                 setScale(event.pokemonEntity, ScaleTypes.BASE, COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f)

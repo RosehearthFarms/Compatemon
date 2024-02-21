@@ -42,54 +42,11 @@ import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
  *
  */
 @Mixin(ApothBoss.class)
-//@Implements(@Interface(iface=IApothBossEntity.class, prefix="icompat$"))
 abstract class MixinApothBoss
 implements IApothBossEntity
 {
-@Unique
-public Entity spawnedEntity;
 
-//	@Mutable
-//	@Final
-//	@Shadow(remap = false)
-//	protected int weight;
 
-//	@Mutable
-//	@Final
-//	@Shadow(remap = false)
-//	protected float quality;
-
-//	@Mutable
-//	@Final
-//	@Shadow(remap = false)
-//	protected AABB size;
-
-//	@Mutable
-//	@Final
-//	@Shadow(remap = false)
-//	@Nullable
-//	protected Set<String> stages;
-
-//	@Mutable
-//	@Final
-//	@Shadow(remap = false)
-//	protected List<GearSet.SetPredicate> gearSets;
-
-//	@Mutable
-//	@Final
-//	@Shadow(remap = false)
-//	protected Set<ResourceLocation> dimensions;
-
-//	@Mutable
-//	@Final
-//	@Shadow(remap = false)
-//	protected LootRarity minRarity;
-
-//	@Mutable
-//	@Final
-//	@Shadow(remap = false)
-//	protected LootRarity maxRarity;
-	
 	@Mutable
 	@Final
 	@Shadow(remap = false)
@@ -106,14 +63,13 @@ public Entity spawnedEntity;
 	@Shadow(remap = false)
 	protected @Nullable CompoundTag nbt;
 	
-	@Final
-	@Shadow(remap=false)
-	protected Map<LootRarity, BossStats> stats;
-	
 	
 	@Shadow(remap=false)
 	abstract public void initBoss(RandomSource rand, Mob entity, float luck, @Nullable LootRarity rarity);
 	
+	/**
+	 * This code mostly only ever fires when using the apoth spawn_boss command. It MAY also run from spawners, haven't checked that.
+	 */
 	@Inject(at = @At("HEAD")
 			, method = "createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;FLdev/shadowsoffire/apotheosis/adventure/loot/LootRarity;)Lnet/minecraft/world/entity/Mob;"
 			, remap = false)
@@ -121,8 +77,6 @@ public Entity spawnedEntity;
 		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
 			var entityID = EntityType.getKey(this.entity).toString();
 			
-			//ApotheosisConfig.LOGGER.debug("Let's try to create a boss! What's the type?");
-			//ApotheosisConfig.LOGGER.debug("The type is " + entityID + "!");
 			if(entityID.equals("cobblemon:pokemon")){
 				//TODO: PokemonPropertyGenerator with logic for Player Location and/or Spawning Biome + Player Stats
 				//TODO: CustomProperty for Aggressive to work with FightOrFlight? Glowing needs to be longer and stay after reload
@@ -135,9 +89,6 @@ public Entity spawnedEntity;
 				var pokemonEntity = properties.createEntity(world.getLevel());
 				pokemonEntity.setDespawner(new PersistantDespawner<PokemonEntity>()); // never let it despawn
 				pokemonEntity.setPersistenceRequired();
-				//if(rarity != null){
-				//	ApotheosisConfig.LOGGER.debug("Here's the rarity: " + rarity.toString());
-				//}
 				nbt = pokemonEntity.saveWithoutId(new CompoundTag()); //writeNBT
 			
 			}
@@ -156,23 +107,19 @@ public Entity spawnedEntity;
 			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putBoolean(APOTH_BOSS, true);
 			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putInt(APOTH_RARITY, rarity.ordinal());
 			compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putString(APOTH_RARITY_COLOR, rarity.getColor().serialize());
-			//TODO: Replace putString APOTH_RARITY_COLOR with parse APOTH_RARIRTY_ORDINAL
-			//Compatemon.LOGGER.debug("We've set the color of " + ((PokemonEntity)entity).getPokemon().getSpecies().getName() + " to " + rarity.getColor().serialize());
+			
 			((PokemonEntity)entity).getPokemon().getPersistentData().merge(compatemonData);
 			((PokemonEntity)entity).getPokemon().setNickname(((PokemonEntity)entity).getPokemon().getNickname().withStyle(Style.EMPTY.withColor(rarity.getColor())));
 		}
 		
-		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && Compatemon.ShouldLoadMod(MOD_ID_PEHKUI) && CompateUtils.isApothBoss(entity))// && ApotheosisConfig.DoBossSizing)
-		{
-			
+		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && Compatemon.ShouldLoadMod(MOD_ID_PEHKUI) && CompateUtils.isApothBoss(entity)){
 			var base_scale = PehkuiConfig.size_scale;
 			var addToScale = 0.0f;
 			if(
 					(ApotheosisConfig.BossSizingEntities.equalsIgnoreCase("POKEMON") && entity instanceof PokemonEntity) ||
 			    	(ApotheosisConfig.BossSizingEntities.equalsIgnoreCase("NON-POKEMON") && !(entity instanceof PokemonEntity)) ||
 			    	(ApotheosisConfig.BossSizingEntities.equalsIgnoreCase("ALL"))
-			)
-			{
+			){
 				base_scale *= ApotheosisConfig.DefaultBossSizeScale;
 				addToScale = 0.0f;
 			}
@@ -197,8 +144,12 @@ public Entity spawnedEntity;
 		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && entityFromSpawn.getType().toString().equals("entity.cobblemon.pokemon" ) && ApotheosisConfig.BossPokemonSpawnRate > 0){
 			
 			entity = entityFromSpawn.getType();
-			int clevel = ((PokemonEntity) entityFromSpawn).getPokemon().getLevel();
-			((PokemonEntity) entityFromSpawn).getPokemon().setLevel(clevel + random.nextInt(25) - 5);
+			
+			int clevel = ((PokemonEntity) entityFromSpawn).getPokemon().getLevel(); // spawned pokemon level - based on levels of pokemon in player's party
+			int range = ApotheosisConfig.PokemonBossLevelRange;
+			int levelVariance = ApotheosisConfig.LevelVariancePerRarity * (rarity != null ? rarity.ordinal() : 0);
+			int newLevel = clevel + random.nextInt(range) - (range / 2) + levelVariance;
+			((PokemonEntity) entityFromSpawn).getPokemon().setLevel(newLevel);
 			// Kind of expect this to break sometime if the level is out of the range. Hoping Cobblemon accounted for that though.
 			
 			if(!ApotheosisConfig.BossPokemonCatchable){
@@ -208,14 +159,11 @@ public Entity spawnedEntity;
 			((PokemonEntity) entityFromSpawn).setDespawner(new PersistantDespawner<PokemonEntity>()); // never let it despawn
 			nbt = ((PokemonEntity) entityFromSpawn).saveWithoutId(new CompoundTag());
 			
-			//ApotheosisConfig.LOGGER.debug("Create that PokeBoss! " + ((PokemonEntity) entityFromSpawn).getPokemon().showdownId());
-			
 			CompoundTag fakeNbt = this.nbt;
 			fakeNbt.putString("id", EntityType.getKey(this.entity).toString());
 			
 			Mob entity = (Mob) entityFromSpawn;
 			if(this.nbt != null) entity.load(this.nbt);
-			
 			
 			this.initBoss(random, entity, luck, rarity);
 			

@@ -9,6 +9,7 @@ import farm.rosehearth.compatemon.util.CompatemonDataKeys.COMPAT_SCALE_SIZE
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.COMPAT_SCALE_WEIGHT
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LivingEntity
 import org.jetbrains.annotations.Nullable
 import virtuoel.pehkui.api.ScaleType
 import java.math.BigDecimal
@@ -21,7 +22,7 @@ open class CompatemonScaleUtils {
     companion object {
 
         /**
-         *
+         * Sets the scale of an entity to either a random value or the value from the entity's data.
          */
         fun setScale(entity: Entity, scaleType: ScaleType, scaleName: String, @Nullable defaultBaseScale:Float = 1.0f, @Nullable addToScale:Float = 0.0f):Float{
 
@@ -44,10 +45,11 @@ open class CompatemonScaleUtils {
             }
 
             scaleType.getScaleData(entity).setScale(scale)
-            // Add the new scale to the pokemonEntity's PersistentData
 
             // if it's a pokemon, recalc health and hitbox and stuff
-
+            if(entity is LivingEntity){
+                entity.health = entity.maxHealth
+            }
             return scale
         }
 

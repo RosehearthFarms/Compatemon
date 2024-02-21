@@ -154,8 +154,6 @@ abstract class MixinBossEvents {
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY);
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY_COLOR);
 						((PokemonEntity)entity).setDespawner(despawner);
-						//entity.load(t);
-						//entity.getAllSlots().forEach(itemStack -> itemStack = null);
 					}
 				}
 			}

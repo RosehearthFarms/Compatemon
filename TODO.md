@@ -52,9 +52,11 @@
      - Also Pokemon Spazz tf out above a certain scale size and move WAY too fast
 
 ### Quark
+> 
 - Ambient Music Discs!
 
 ### Botania
+> https://github.com/VazkiiMods/Botania
 - Legendary Summoning for grass types
 
 ### Supplementaries 
@@ -62,16 +64,21 @@
 - Cages? Urns?
 
 ### Valkyrian Skies/Eureka
+>
 - Pokemon mass should affect physics
 - Pokemon Pathfinding breaks aboard boats
 
 ### Forbidden and Arcanus
+>
 - Legendary Summoning Rituals
 - Other unknown, haven't played with F&A much
+
 ### Ars Nouveau
+> 
 - Rituals?
 
 ### Ad Astra
+>
 - Deoxys/UltraBeast Spawning
 
 ### Create 
@@ -82,80 +89,101 @@
 - flying types can boost sails
 
 ### Farmer's Delight
+> https://github.com/vectorwing/FarmersDelight/tree/1.20
 - Possibly integrate with Pokémon Food and Berry things? would probably need assets
 - Foods cooked with FD tools
 
 ### Various Cobblemods
-- Cobblemounts
-- Fight Or Flight
+- Cobblemounts - 
+- Fight Or Flight - 
   - more involved. tag based world interaction
-- Loot Balls
-- TMs
+- Loot Balls - 
+- TMs - 
 - Mass Outbreaks - https://github.com/Scouter456/Cobblemon_Outbreaks
-- Integrations 
-- Capture XP 
-- Pet Your Cobblemon
+- Integrations - 
+- Capture XP - 
+- Pet Your Cobblemon - 
+- Poke Food - 
 
 ### Embers
+> 
 - Heatran Spawning?
 - GS Ball ?
 - Pokeball Forging
 
 ### Artifacts
+> 
 - Add Pokemon Hold Items that work as Curios to mimic loot?
 
-### Curios - https://github.com/TheIllusiveC4/Curios
+### Curios 
+> https://github.com/TheIllusiveC4/Curios
 - Give Hold Items Curios Support and effects
 - Curios can be hold items and affect pokemon?
 
 ### Serene Seasons
+> 
 - Pokemon Spawning based on species files
   - Alternatively and more simply, set defaults by type/egg group
 - Berry Growth could be affected by seasons
 
-### Irons Spellbook - https://github.com/iron431/Irons-Spells-n-Spellbooks
+### Irons Spellbook 
+> https://github.com/iron431/Irons-Spells-n-Spellbooks
 - Spells relating to Pokemon? Turn into a pokemon?
 - Cobblemon Spell School
 - Can moves use spell animations? With Fightorflight, can spells be used instead of just physical attacks?
 
-### Dynamic Trees - https://github.com/DynamicTreesTeam/DynamicTrees/tree/develop/1.20.X
+### Dynamic Trees 
+> https://github.com/DynamicTreesTeam/DynamicTrees/tree/develop/1.20.X
 - Apricorn Trees
 
-### Ice and Fire - https://github.com/AlexModGuy/Ice_and_Fire/tree/1.20
+### Ice and Fire 
+> https://github.com/AlexModGuy/Ice_and_Fire/tree/1.20
 - Not sure yet
 
 ### Dragon Mounts: Legacy
 - Be able to ride specific pokemon with this mod's controls?
 
 ### JEI/REI/EMI 
+> https://github.com/mezz/JustEnoughItems
+
+> 
 - For any new items that need to be added
 
 ### Jade 
+> https://github.com/Snownee/Jade
 - For any new attributes that need displayed. (Scaling)
 
 ### Tetra
+>  
 - Evo Stone Tools? Special enchants?
 
-### Paraglider - https://github.com/Tictim/Paraglider
+### Paraglider 
+> https://github.com/Tictim/Paraglider
 - Add default config values to ship with for modpack (Not mod related per say)
 
 ### Waystones
+> https://github.com/TwelveIterationMods/Waystones
 - Add Teleporting Logic
 	- Disable if Integrations is loaded
 
-### Snowy Spirit - https://github.com/MehVahdJukaar/SnowySpirit
+### Snowy Spirit 
+> https://github.com/MehVahdJukaar/SnowySpirit
 - Yay snow!
 
-### Tectonic - https://github.com/Apollounknowndev/tectonic
+### Tectonic 
+> https://github.com/Apollounknowndev/tectonic
 - Probably no integration but do want to keep the link
 
-### Aquaculture - https://github.com/TeamMetallurgy/Aquaculture
+### Aquaculture 
+> https://github.com/TeamMetallurgy/Aquaculture
 - Fishing Things?
 
-### Aquamirae - https://github.com/ObscuriaLithium/Aquamirae
+### Aquamirae 
+> https://github.com/ObscuriaLithium/Aquamirae
 - Ocean Things
 
 ### Sophisticated Core/Storage/Backpacks
+> 
 - Sophisticated Backpacks
   - Pokemon can carry backpacks and drop them?
 - Psychic types boost range of storage contoller and or add additional links?

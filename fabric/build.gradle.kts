@@ -45,7 +45,7 @@ tasks {
         inputs.property("version", project.version)
 
         filesMatching("fabric.mod.json") {
-            expand(mapOf("version" to project.version))
+            expand(mapOf("version" to project.properties["mod_version"]))
             expand(mapOf("modId" to project.properties["mod_id"]))
             expand(mapOf("displayName" to project.properties["mod_name"]))
             expand(mapOf("authors" to project.properties["mod_authors"]))

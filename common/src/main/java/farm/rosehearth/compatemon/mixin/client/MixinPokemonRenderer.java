@@ -22,30 +22,30 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import static farm.rosehearth.compatemon.util.CompatemonDataKeys.COMPAT_SCALE_SIZE;
 import static farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_COMPATEMON;
 
+/**
+ * The idea is to make the render size match the bounding box? May still be having trouble with this.
+ */
 @Mixin(PokemonRenderer.class)
 abstract class MixinPokemonRenderer {
-//	@Mutable
-//	@Shadow(remap=false)
-//	private EntityDimensions _hitbox;
 	@Unique
 	private float compatemon$newScale = 1.0f;
 	
-	@Inject(at=@At("RETURN"),remap=false,method="scale(Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;Lcom/mojang/blaze3d/vertex/PoseStack;F)V")
+	@Inject(at=@At("HEAD"),remap=false,method="scale(Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;Lcom/mojang/blaze3d/vertex/PoseStack;F)V")
 	public void compatemon$onScale(PokemonEntity pEntity, PoseStack pMatrixStack, float pPartialTickTime, CallbackInfo cir){
-	
-	}
-	@Inject(at=@At(value="INVOKE", target="Lcom/mojang/blaze3d/vertex/PoseStack;scale(FFF)V")
-	,remap=false, locals = LocalCapture.CAPTURE_FAILSOFT
-	,method="scale(Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;Lcom/mojang/blaze3d/vertex/PoseStack;F)V")
-	private void compatemon$onScale(PokemonEntity pEntity, PoseStack pMatrixStack, float pPartialTickTime, CallbackInfo cir, float scale) {
 		if(pEntity.getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(COMPAT_SCALE_SIZE))
 			compatemon$newScale = pEntity.getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).getFloat(COMPAT_SCALE_SIZE);
-		
 	}
 	
-	@ModifyVariable(at=@At("STORE"), ordinal = 0
-			,remap=false//, locals = LocalCapture.CAPTURE_FAILSOFT
-			,method="scale(Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;Lcom/mojang/blaze3d/vertex/PoseStack;F)V")
+//	@Inject(at=@At(value="INVOKE", target="Lcom/mojang/blaze3d/vertex/PoseStack;scale(FFF)V")
+//	,remap=false, locals = LocalCapture.CAPTURE_FAILSOFT
+//	,method="scale(Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;Lcom/mojang/blaze3d/vertex/PoseStack;F)V")
+//	private void compatemon$onScale(PokemonEntity pEntity, PoseStack pMatrixStack, float pPartialTickTime, CallbackInfo cir, float scale) {
+//
+//	}
+	
+	@ModifyVariable(at = @At("STORE"), ordinal = 0
+			, remap = false//, locals = LocalCapture.CAPTURE_FAILSOFT
+			, method = "scale(Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;Lcom/mojang/blaze3d/vertex/PoseStack;F)V")
 	private float compatemon$modifyScale(float scale) {
 		return scale * compatemon$newScale;
 	}

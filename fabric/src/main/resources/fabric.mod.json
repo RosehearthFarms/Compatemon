@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "compatemon",
-  "version": "0.0.2",
-  "name": "Compatemon Fabric",
-  "description": "Compatability Mod between Cobblemon and Other mods!",
+  "version": "0.2.6",
+  "name": "Compatemon",
+  "description": "",
   "authors": [
     "Gormottian"
   ],
@@ -27,7 +27,6 @@
     "minecraft": ">=1.20.1",
     "fabricloader": ">=0.14.21",
     "fabric": "*",
-    "cobblemon": ">=1.4.0",
-    "pehkui": ">=3.7.12"
+    "cobblemon": ">=1.4.0"
   }
 }

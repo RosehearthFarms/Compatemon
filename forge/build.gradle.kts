@@ -60,6 +60,7 @@ dependencies {
     "common"(project(":common", "namedElements")) { isTransitive = false }
     "shadowCommon"(project(":common", "transformProductionForge")) { isTransitive = false }
 
+    // Architectury API - May end up being a requirement, isn't atm. Potentially use for events?
     //modApi( "dev.architectury:architectury-forge:${project.properties["architectury_version"]}")
 
     modImplementation("com.cobblemon:forge:${project.properties["cobblemon_version"]}+$minecraft_version")
@@ -84,17 +85,17 @@ dependencies {
 
     //Sophisticated CORE
 
-    modImplementation("curse.maven:sophisticated-storage-619320:4993654")
-    modImplementation("curse.maven:sophisticated-core-618298:4993648")
+    modImplementation("curse.maven:sophisticated-storage-${project.properties["sophisticated_storage_version"]}")
+    modImplementation("curse.maven:sophisticated-core-${project.properties["sophisticated_core_version"]}")
 
 // IRONS SPELLS N SPELLBOOKS **********************************************************************************
     modImplementation("io.redspace.ironsspellbooks:irons_spellbooks:${minecraft_version}-${project.properties["irons_spells_version"]}")
 
     // GECKOLIB ***************************************************************************************************
-    //runtimeOnly("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${project.properties["geckolib_version"]}")
+    //modImplementation("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${project.properties["geckolib_version"]}")
 
     // CAELUS *****************************************************************************************************
-    //runtimeOnly("top.theillusivec4.caelus:caelus-forge:${project.properties["caelus_version"]}")
+    //modImplementation("top.theillusivec4.caelus:caelus-forge:${project.properties["caelus_version"]}")
 
     // PLAYER ANIMATOR ********************************************************************************************
     //runtimeOnly("dev.kosmx.player-anim:player-animation-lib-forge:${minecraft_version}-${project.properties["player_animator_version"]}")
@@ -113,23 +114,27 @@ dependencies {
    // implementation("com.google.code.gson:gson:${project.properties["gson_version"]}")
 
 //Jade, JEI, and EMI
-   // modImplementation ("curse.maven:jade-forge-324717:${project.properties["jade_forge_version"]}")
+   // modImplementation ("curse.maven:jade-forge-324717:${project.properties["jade_version"]}")
    // modImplementation ("curse.maven:jei-forge-238222:${project.properties["jei_version}"]}")
-   // compileOnly ("dev.emi:emi-forge:${project.properties["emi_version"]}+$minecraft_version:api")
-   // runtimeOnly ("dev.emi:emi-forge:${project.properties["emi_version"]}+$minecraft_version"))
+   // modImplementation ("dev.emi:emi-forge:${project.properties["emi_version"]}+${minecraft_version}:api")
+   // modImplementation ("dev.emi:emi-forge:${project.properties["emi_version"]}+${minecraft_version}"))
 
 }
 
 tasks {
     base.archivesName.set(base.archivesName.get() + "-forge")
     processResources {
-        inputs.property("version", project.version)
-        filesMatching("META-INF/mods.toml") {
-            expand(mapOf("version" to project.version))
+        inputs.property("version", project.properties["mod_version"])
+        filesMatching("*/META-INF/mods.toml") {
+            expand(mapOf("version" to project.properties["mod_version"]))
             expand(mapOf("modId" to project.properties["mod_id"]))
             expand(mapOf("displayName" to project.properties["mod_name"]))
             expand(mapOf("authors" to project.properties["mod_authors"]))
             expand(mapOf("description" to project.properties["mod_description"]))
+
+        }
+        filesMatching("*.mixins.json"){
+            expand(mapOf("minVersion" to project.properties["mod_version"]))
         }
     }
 
