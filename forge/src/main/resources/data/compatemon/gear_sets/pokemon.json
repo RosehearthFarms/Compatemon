@@ -21,7 +21,7 @@
 		{
 			"weight": 3,
 			"stack": {
-				"item": "minecraft:gold_pickaxe"
+				"item": "minecraft:golden_pickaxe"
 			}
 		},
 		{
@@ -58,7 +58,7 @@
 		{
 			"weight": 3,
 			"stack": {
-				"item": "minecraft:gold_pickaxe"
+				"item": "minecraft:golden_pickaxe"
 			}
 		},
 		{
@@ -82,12 +82,6 @@
 			}
 		},
 		{
-			"weight": 5,
-			"stack": {
-				"item": "minecraft:chainmail_boots"
-			}
-		},
-		{
 			"weight": 4,
 			"stack": {
 				"item": "minecraft:leather_boots"
@@ -96,7 +90,7 @@
 		{
 			"weight": 1,
 			"stack": {
-				"item": "minecraft:gold_boots"
+				"item": "minecraft:golden_boots"
 			}
 		}
 	],

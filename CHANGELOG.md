@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Other Cleanup!!
 ### Borked
 - _Technically_, tiny pokemon not being able to step up blocks is a pehkui things. I'd like to mixin to have a minimum pokemon step height, but for now just modify the server config and set the minimum step height to like .5
+- PokeBosses Spawn from non-pokemon Mobs sending the FinalizeSpawn method. They use the same logic as random spawners and so are uncatchable, but if the weight is wrong then they're going to be way too prominent. Attempting to just cancel these. 
 
 ## [0.2.6] - 2024-02-21
 ### Added

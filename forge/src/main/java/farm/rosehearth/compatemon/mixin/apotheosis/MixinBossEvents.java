@@ -1,6 +1,5 @@
 package farm.rosehearth.compatemon.mixin.apotheosis;
 
-import com.cobblemon.mod.common.api.entity.Despawner;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import dev.shadowsoffire.apotheosis.Apotheosis;
@@ -16,11 +15,8 @@ import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
 import dev.shadowsoffire.placebo.network.PacketDistro;
 import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
 import farm.rosehearth.compatemon.Compatemon;
-import farm.rosehearth.compatemon.events.CompatemonEvents;
-import farm.rosehearth.compatemon.events.apotheosis.ApothBossSpawnedEvent;
 import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
 import farm.rosehearth.compatemon.modules.apotheosis.IApothBossEntity;
-import farm.rosehearth.compatemon.util.CompateUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -40,12 +36,15 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import javax.annotation.Nullable;
 
@@ -67,6 +66,56 @@ abstract class MixinBossEvents {
 	private static boolean invokeCanSpawn(LevelAccessor world, Mob entity, double playerDist){
 		throw new AssertionError();
 	};
+	
+//
+//
+//	@Inject(at=@At(value="INVOKE",
+//			target="Ldev/shadowsoffire/apotheosis/adventure/boss/ApothBoss;createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;F)Lnet/minecraft/world/entity/Mob;"),
+//			slice = @Slice(
+//					from = @At(value="INVOKE", target="Lnet/minecraft/world/level/ServerLevelAccessor;getNearestPlayer(DDDDZ)Lnet/minecraft/world/entity/player/Player;"),
+//					to = @At(value="INVOKE", target="Ldev/shadowsoffire/apotheosis/adventure/boss/ApothBoss;createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;F)Lnet/minecraft/world/entity/Mob;")
+//			),
+//			method="naturalBosses",
+//			remap=false, locals = LocalCapture.PRINT)
+//	private void compatemon$iJustWantTheLocals(MobSpawnEvent.@NotNull FinalizeSpawn e, CallbackInfo ci)
+//	{
+//		ApotheosisConfig.LOGGER.debug("====!!!!!==== compatemon$iJustWantTheLocals");
+//
+//	}
+	@Inject(at=@At(value="INVOKE",
+					target="Ldev/shadowsoffire/apotheosis/adventure/boss/ApothBoss;createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;F)Lnet/minecraft/world/entity/Mob;"),
+			slice = @Slice(
+				from = @At(value="INVOKE", target="Lnet/minecraft/world/level/ServerLevelAccessor;getNearestPlayer(DDDDZ)Lnet/minecraft/world/entity/player/Player;"),
+				to = @At(value="INVOKE", target="Ldev/shadowsoffire/apotheosis/adventure/boss/ApothBoss;createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;F)Lnet/minecraft/world/entity/Mob;")
+			),
+			method="naturalBosses",
+			remap=false, locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
+	private void compatemon$removePokeBossPlease(MobSpawnEvent.@NotNull FinalizeSpawn e, CallbackInfo ci, LivingEntity entity, RandomSource rand, ServerLevelAccessor sLevel, ResourceLocation rl, Pair p, Player player, ApothBoss item)
+	{
+		String spawnedType = e.getEntity().getType().toString();
+		String itemType = EntityType.getKey(item.getEntity()).toString();
+//		ApotheosisConfig.LOGGER.debug("====!!!!!==== compatemon$removePokeBossPlease");
+//		ApotheosisConfig.LOGGER.debug(spawnedType);
+//		ApotheosisConfig.LOGGER.debug(itemType);
+//		ApotheosisConfig.LOGGER.debug("====~~~~~====");
+		if(!spawnedType.equals("entity.cobblemon.pokemon")) {
+			
+			if(itemType.equals("cobblemon:pokemon")){
+				ApotheosisConfig.LOGGER.debug("We removed a random wild pokemon boss spawn! ");
+				e.setResult(Event.Result.DENY);
+				ci.cancel();
+			}
+		}
+		else{
+			ApotheosisConfig.LOGGER.debug("====!!!!!==== compatemon$removePokeBossPlease");
+			ApotheosisConfig.LOGGER.debug("the entity spawned as a Pokemon! I don't think this should show up.");
+			ApotheosisConfig.LOGGER.debug("====~~~~~====");
+			
+			
+			//ci.cancel();
+		}
+	
+	}
 	
 	@Inject(at=@At("HEAD"),
 	method="naturalBosses",
@@ -109,8 +158,8 @@ abstract class MixinBossEvents {
 					
 					if (invokeCanSpawn(sLevel, boss, player.distanceToSqr(boss))) {
 						// Sets the health of the boss to max, makes the pokemon persistent, and adds the glowing effect
-						((PokemonEntity) entity).setPersistenceRequired();
-						boss.setHealth(boss.getMaxHealth());
+						((PokemonEntity) boss).setPersistenceRequired();
+						entity.setHealth(entity.getMaxHealth());
 						if (AdventureConfig.bossGlowOnSpawn) boss.addEffect(new MobEffectInstance(MobEffects.GLOWING, 7200));
 						
 						var n = ((PokemonEntity)boss).getCustomName();
@@ -134,7 +183,7 @@ abstract class MixinBossEvents {
 									
 									String r = RarityRegistry.INSTANCE.getKey(rarity).toString();
 									String translatableKey = "info.compatemon.boss_spawn."  + r.substring(r.indexOf(":")+1);
-									
+									ApotheosisConfig.LOGGER.debug("{} has spawned!", name);
 									var translated = Component.translatable(translatableKey, name, (int) boss.getX(), (int) boss.getZ());
 									// Send Custom Message or Fail and send default apotheosis message
 									((ServerPlayer) p).connection.send(new ClientboundSetActionBarTextPacket(translated));
@@ -158,10 +207,10 @@ abstract class MixinBossEvents {
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY);
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY_COLOR);
 						((PokemonEntity)entity).setDespawner(despawner);
-						ApotheosisConfig.LOGGER.debug("Max Health before resetting: " + entity.getMaxHealth());
-						ApotheosisConfig.LOGGER.debug("Health before resetting: " + entity.getHealth());
+						//ApotheosisConfig.LOGGER.debug("Max Health before resetting: " + entity.getMaxHealth());
+						//ApotheosisConfig.LOGGER.debug("Health before resetting: " + entity.getHealth());
 						entity.setHealth(maxHealth);
-						ApotheosisConfig.LOGGER.debug("Original Pokemon's Max Health: " + maxHealth);
+						//ApotheosisConfig.LOGGER.debug("Original Pokemon's Max Health: " + maxHealth);
 					}
 				}
 			}

@@ -39,7 +39,13 @@ import virtuoel.pehkui.api.ScaleTypes;
 import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
 
 /**
+ * Apotheosis Spawning Flow
+ * 1. Source
+ * 2. ApothBoss item = DynamicRegistry.getRandomItem -> Pulls from datapack data. Sets the entity type of the boss.
+ * 3. item.createBoss -> Creates the boss from the entity type above.
+ * 4. inside createBoss -> initBoss. Spawns the boss.
  *
+ * For pokemon, had to wrap a custom method for createBoss to get boss spawning on the pokemon spawn to work.
  */
 @Mixin(ApothBoss.class)
 abstract class MixinApothBoss
@@ -66,7 +72,7 @@ implements IApothBossEntity
 	abstract public void initBoss(RandomSource rand, Mob entity, float luck, @Nullable LootRarity rarity);
 	
 	/**
-	 * This code Fires whenever a boss is created.
+	 * This code Fires whenever a boss is created and a pokemon item is chosen from the random list of availables
 	 */
 	@Inject(at = @At("HEAD")
 			, method = "createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;FLdev/shadowsoffire/apotheosis/adventure/loot/LootRarity;)Lnet/minecraft/world/entity/Mob;"
