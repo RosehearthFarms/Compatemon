@@ -1,4 +1,4 @@
-package farm.rosehearth.compatemon.mixin.compat.apotheosis;
+package farm.rosehearth.compatemon.mixin.apotheosis;
 
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext;
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnAction;

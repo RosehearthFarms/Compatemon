@@ -4,12 +4,12 @@
 	"package": "farm.rosehearth.compatemon.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"compat.apotheosis.MixinAdventureEvents",
-		"compat.apotheosis.MixinApothBoss",
-		"compat.apotheosis.MixinBossEvents",
-		"compat.apotheosis.MixinNameHelper",
-		"compat.apotheosis.MixinPokemonSpawningBoss",
-		"compat.sophisticatedcore.MixinControllerBlockEntityBase"
+		"apotheosis.MixinAdventureEvents",
+		"apotheosis.MixinApothBoss",
+		"apotheosis.MixinBossEvents",
+		"apotheosis.MixinNameHelper",
+		"apotheosis.MixinPokemonSpawningBoss",
+		"sophisticatedcore.MixinControllerBlockEntityBase"
 	],
 	"client": [
 	]

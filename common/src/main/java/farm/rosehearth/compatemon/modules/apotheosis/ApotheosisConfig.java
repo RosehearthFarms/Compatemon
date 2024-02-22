@@ -37,6 +37,7 @@ public class ApotheosisConfig {
 		c.setCategoryComment("bosses", "Settings pertaining to Apotheosis Bosses");
 		BossPokemonSpawnRate = c.getFloat("Spawn Rate of Boss Pokemon", "bosses", BossPokemonSpawnRate,0.0f,100.0f, "Any POSITIVE value is a percentage for the spawn rate. 0 to disable Pokemon Bosses.");
 		BossPokemonCatchable = c.getBoolean("Allow Pokemon Bosses to be Caught", "bosses", BossPokemonCatchable, "Should boss pokemon be catchable?");
+		SpawnerBossesCatchable = c.getBoolean("Allow Pokemon Bosses from Spawners to be caught", "bosses", SpawnerBossesCatchable, "Should boss pokemon which spawn from a rogue spawner be catchable? Spawner boss pokemon are completely random from all available pokemon, so this could be OP.");
 		DefaultBossSizeScale = c.getFloat("Boss Size Default", "bosses", DefaultBossSizeScale, APOTH_BOSS_SCALE_MIN, APOTH_BOSS_SCALE_MAX, "Default size of Apotheosis Bosses.\n!!!WARNING!!!   Large bosses have wonky physics and ai   !!!WARNING!!!");
 		BossSizingEntities = c.getString("Bosses affected by Size Change","bosses", BossSizingEntities,"Which bosses are affected by the SizeScale value?\nCategories: all, Pokemon, non-Pokemon, none");
 		LevelVariancePerRarity = c.getInt("Pokemon Boss Level Variance", "bosses", LevelVariancePerRarity, 0, 20, "The levels added to pokemon bosses per level of rarity.\n" +

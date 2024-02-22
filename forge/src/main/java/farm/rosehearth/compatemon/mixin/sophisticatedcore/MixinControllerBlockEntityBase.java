@@ -1,4 +1,4 @@
-package farm.rosehearth.compatemon.mixin.compat.sophisticatedcore;
+package farm.rosehearth.compatemon.mixin.sophisticatedcore;
 
 import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.modules.sophisticatedcore.SophisticatedConfig;

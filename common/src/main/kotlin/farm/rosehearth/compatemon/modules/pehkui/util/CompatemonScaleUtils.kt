@@ -31,6 +31,7 @@ open class CompatemonScaleUtils {
             // add modifier to scale
             // set the scale
             // if it's a pokemon, recalc health and hitbox and stuff
+            // This needs to happen in the calling function, not here as it's causing issues.
 
             var scale: Float = getScale(entity,scaleType,scaleName, defaultBaseScale) + addToScale
 
@@ -46,10 +47,6 @@ open class CompatemonScaleUtils {
 
             scaleType.getScaleData(entity).setScale(scale)
 
-            // if it's a pokemon, recalc health and hitbox and stuff
-            if(entity is LivingEntity){
-                entity.health = entity.maxHealth
-            }
             return scale
         }
 

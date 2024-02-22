@@ -1,14 +1,13 @@
 # TODO File
 ## Mods and Features planned
 
-### Cobblemon Tweaks
-- Nickname field size configurable
+### Compatemon (Cobblemon + Vanilla)
 - Make Cobblemon xp and minecraft xp compatible? Still based on config
-
+- New Effect
+  - Repel
 
 ### Pehkui 
 > https://github.com/Virtuoel/Pehkui
-- Pushing Pehkui changes back out per just the size changes works currently
 - New Scale Types that can affect Pokemon Stats
 - Stat logic
     - Config for whether stat is affected by size/weight
@@ -23,8 +22,7 @@
 - Pokemon Specific Gems
     - Affect Catch Rate
     - Affect Spawning Amount
-- New Effect
-    - Repel
+- Repel effect makes Boss Pokemon Angy? idk
 - Unique Pokémon spawns via bosses
     - Pehkui Size is larger and thus has better stats
     - config list
@@ -34,10 +32,6 @@
     - Titles for pokemon can also grant new moves? New type even possibly? - Type should be config and default to off!
 - Config
   - Add option for Glowing distance visible?
-  - Configurable Spawn Rate for bosses that doesn't affect other bosses
-  - Level range for bosses
-    - Base Level Variance
-    - Level Range
 - Minibosses
   - hordes of weaker pokemon
 - Bosses
@@ -45,11 +39,34 @@
 - Bossees and Minibosses - Mount Compat
   - Regular bosses spawn mounted on a pokemon? Or with a shoulder pokemon?
 - Spawners
-  - Pokemon Species can spawn? How select pokemon? Don't want too OP. Should the pokemon be catchable? Drop rate? Sizing from spawner?
   - Rogue Spawners - New Structure for pokemon specific rogue bosses
-- Squash bugs
-     - Pokemon Hitbox is not correct when scaled as is implemented
-     - Also Pokemon Spazz tf out above a certain scale size and move WAY too fast
+
+### Curios
+> https://github.com/TheIllusiveC4/Curios
+- Give Hold Items Curios Support and effects
+- Curios can be hold items and affect pokemon?
+
+### Artifacts
+>
+- Add Pokemon Hold Items that work as Curios to mimic loot?
+
+### Irons Spellbook
+> https://github.com/iron431/Irons-Spells-n-Spellbooks
+- Spells relating to Pokemon? Turn into a pokemon?
+- Cobblemon Spell School
+- Can moves use spell animations? With Fightorflight, can spells be used instead of just physical attacks?
+
+### Create
+> https://github.com/Creators-of-Create/Create
+- Recipes for Mechancial Crafter larger than 3x3
+- fire types with blaze
+- water types can fill tanks/ interact with water wheels
+- flying types can boost sails
+
+### Valkyrian Skies/Eureka
+>
+- Pokemon mass should affect physics
+- Pokemon Pathfinding breaks aboard boats
 
 ### Quark
 > 
@@ -62,11 +79,6 @@
 ### Supplementaries 
 > https://github.com/MehVahdJukaar/Supplementaries
 - Cages? Urns?
-
-### Valkyrian Skies/Eureka
->
-- Pokemon mass should affect physics
-- Pokemon Pathfinding breaks aboard boats
 
 ### Forbidden and Arcanus
 >
@@ -81,13 +93,6 @@
 >
 - Deoxys/UltraBeast Spawning
 
-### Create 
-> https://github.com/Creators-of-Create/Create
-- Recipes for Mechancial Crafter larger than 3x3
-- fire types with blaze
-- water types can fill tanks/ interact with water wheels
-- flying types can boost sails
-
 ### Farmer's Delight
 > https://github.com/vectorwing/FarmersDelight/tree/1.20
 - Possibly integrate with Pokémon Food and Berry things? would probably need assets
@@ -96,7 +101,7 @@
 ### Various Cobblemods
 - Cobblemounts - 
 - Fight Or Flight - 
-  - more involved. tag based world interaction
+  - more involved. tag based world interaction?
 - Loot Balls - 
 - TMs - 
 - Mass Outbreaks - https://github.com/Scouter456/Cobblemon_Outbreaks
@@ -111,26 +116,11 @@
 - GS Ball ?
 - Pokeball Forging
 
-### Artifacts
-> 
-- Add Pokemon Hold Items that work as Curios to mimic loot?
-
-### Curios 
-> https://github.com/TheIllusiveC4/Curios
-- Give Hold Items Curios Support and effects
-- Curios can be hold items and affect pokemon?
-
 ### Serene Seasons
 > 
 - Pokemon Spawning based on species files
   - Alternatively and more simply, set defaults by type/egg group
 - Berry Growth could be affected by seasons
-
-### Irons Spellbook 
-> https://github.com/iron431/Irons-Spells-n-Spellbooks
-- Spells relating to Pokemon? Turn into a pokemon?
-- Cobblemon Spell School
-- Can moves use spell animations? With Fightorflight, can spells be used instead of just physical attacks?
 
 ### Dynamic Trees 
 > https://github.com/DynamicTreesTeam/DynamicTrees/tree/develop/1.20.X

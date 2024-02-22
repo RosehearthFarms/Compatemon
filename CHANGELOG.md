@@ -7,8 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.7] - 2024-02-22
 ### Added
 ### Fixed
+- Pokemon Spawned from a rogue spawner now pull their catchability from config. Currently either true or false, and defaults to false. These should probably be some kind of reward for killing them.
+  - Would like to implement rates in a future update.
+- PokeBosses have a Bosses/.json file for each vanilla dimension even though they're all the same. This allows spawns in each dimension.
+- Non-Boss pokemon should now have their health recalculated
+- Spawner PokeBosses should now have their health recalculated
+- PokeBosses should have their health recalculated properly too
+- Glowing is now set after the entity is added and should theoretically only be set after the pokemon is confirmed to be a boss.
 ### Changed
+- Moved all Pokemon Class mixins to one mixin file as they were not platform independent
+- Other Cleanup!!
 ### Borked
+- _Technically_, tiny pokemon not being able to step up blocks is a pehkui things. I'd like to mixin to have a minimum pokemon step height, but for now just modify the server config and set the minimum step height to like .5
 
 ## [0.2.6] - 2024-02-21
 ### Added
@@ -30,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Non cancelled bosses don't have their health recalculated
 - Spawner boss pokemon don't have their max health recalculated
 - Spawner Boss Pokemon are catchable. Since they're random, this is OP.
+- Reaaallly small pokemon can't go up full blocks. Makes bosses easy to cheese. Want all pokemon to always be able to at least go up 1 full block.
 
 ## [0.2.5] - 2024-02-20
 ### Added

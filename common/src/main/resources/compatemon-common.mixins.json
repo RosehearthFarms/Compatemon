@@ -7,7 +7,6 @@
 		"MixinPokemonClass",
 		"MixinPokemonEntity",
 		"MixinPokemonNicknamedEvent",
-		"MixinPokemonSaveLoadEvents",
 		"MixinPokemonSpawnAction"
 	],
 	"client": [

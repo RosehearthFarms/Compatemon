@@ -1,12 +1,11 @@
-package farm.rosehearth.compatemon.mixin.compat.apotheosis;
+package farm.rosehearth.compatemon.mixin.apotheosis;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty;
 import dev.shadowsoffire.apotheosis.Apotheosis;
-import dev.shadowsoffire.apotheosis.adventure.boss.BossStats;
+import dev.shadowsoffire.apotheosis.adventure.AdventureConfig;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
-import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
 import dev.shadowsoffire.apotheosis.util.SupportingEntity;
 import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.api.entity.PersistantDespawner;
@@ -20,22 +19,22 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import dev.shadowsoffire.apotheosis.adventure.boss.ApothBoss;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import virtuoel.pehkui.api.ScaleTypes;
 
-
-import java.util.Map;
 
 import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
 
@@ -46,8 +45,6 @@ import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
 abstract class MixinApothBoss
 implements IApothBossEntity
 {
-
-
 	@Mutable
 	@Final
 	@Shadow(remap = false)
@@ -69,20 +66,20 @@ implements IApothBossEntity
 	abstract public void initBoss(RandomSource rand, Mob entity, float luck, @Nullable LootRarity rarity);
 	
 	/**
-	 * This code mostly only ever fires when using the apoth spawn_boss command. It MAY also run from spawners, haven't checked that.
+	 * This code Fires whenever a boss is created.
 	 */
 	@Inject(at = @At("HEAD")
 			, method = "createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;FLdev/shadowsoffire/apotheosis/adventure/loot/LootRarity;)Lnet/minecraft/world/entity/Mob;"
 			, remap = false)
-	public void compatemon$createPokemonBossHead(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity, CallbackInfoReturnable<Mob> boss) {
+	public void compatemon$onCreateBossHead(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, @Nullable LootRarity rarity, CallbackInfoReturnable<Mob> boss) {
 		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && Apotheosis.enableAdventure){
 			var entityID = EntityType.getKey(this.entity).toString();
 			
 			if(entityID.equals("cobblemon:pokemon")){
 				//TODO: PokemonPropertyGenerator with logic for Player Location and/or Spawning Biome + Player Stats
 				//TODO: CustomProperty for Aggressive to work with FightOrFlight? Glowing needs to be longer and stay after reload
-				
-				var properties = PokemonProperties.Companion.parse("species=random level=50", " ", "=");
+				String catchable = ApotheosisConfig.SpawnerBossesCatchable ? "" : " uncatchable";
+				var properties = PokemonProperties.Companion.parse("species=random level=50" + catchable, " ", "=");
 				properties.setLevel(random.nextInt(50) + 25);
 				if(properties.getSpecies() == null){
 					boss = null;
@@ -91,15 +88,47 @@ implements IApothBossEntity
 				pokemonEntity.setDespawner(new PersistantDespawner<PokemonEntity>()); // never let it despawn
 				pokemonEntity.setPersistenceRequired();
 				nbt = pokemonEntity.saveWithoutId(new CompoundTag()); //writeNBT
-			
+				
+				// if it's a pokemon, recalc health and hitbox and stuff
+				
 			}
 		}
 	}
 	
+	/**
+	 * This code mostly fires when using the apoth spawn_boss command and when run from a rogue spawner
+	 */
+	@Inject(at = @At("RETURN")
+			, method = "createBoss(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;F)Lnet/minecraft/world/entity/Mob;"
+			, remap = false)
+	public void compatemon$onCreateBossReturn(ServerLevelAccessor world, BlockPos pos, RandomSource random, float luck, CallbackInfoReturnable<Mob> boss) {
+		
+		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && Apotheosis.enableAdventure){
+			var entityID = EntityType.getKey(this.entity).toString();
+			
+			if(entityID.equals("cobblemon:pokemon")){
+				// Sets health to max and adds the glowing effect to command-spawned and spawner-spawned bosses
+				boss.getReturnValue().setHealth(boss.getReturnValue().getMaxHealth());
+				if (AdventureConfig.bossGlowOnSpawn) boss.getReturnValue().addEffect(new MobEffectInstance(MobEffects.GLOWING, 7200));
+				
+			}
+		}
+		
+	}
+	
+	@Redirect(method="initBoss",remap=false
+	,at=@At(value="INVOKE", target="Lnet/minecraft/world/entity/Mob;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z"))
+	private boolean compatemon$removeGlowingFromPokemon(Mob boss, MobEffectInstance effect){
+		if( boss.getType().toString().equals("entity.cobblemon.pokemon")){
+			return false;
+			
+		}
+		return boss.addEffect(effect);
+	}
 	
 	@Inject(at = @At("RETURN")
-			, remap = false
-			, method = "initBoss")
+		, remap = false
+		, method = "initBoss")
 	public void compatemon$initPokemonBossReturn(RandomSource rand, Mob entity, float luck, @Nullable LootRarity rarity, CallbackInfo cir) {
 		
 		if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS) && entity.getType().toString().equals("entity.cobblemon.pokemon") && ApotheosisConfig.BossPokemonSpawnRate > 0 && Apotheosis.enableAdventure){
@@ -125,6 +154,8 @@ implements IApothBossEntity
 				addToScale = 0.0f;
 			}
 			CompatemonScaleUtils.Companion.setScale(entity, ScaleTypes.BASE, COMPAT_SCALE_SIZE, base_scale, addToScale);
+			
+			
 		}
 		
 	}

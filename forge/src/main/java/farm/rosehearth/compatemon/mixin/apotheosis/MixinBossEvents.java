@@ -1,4 +1,4 @@
-package farm.rosehearth.compatemon.mixin.compat.apotheosis;
+package farm.rosehearth.compatemon.mixin.apotheosis;
 
 import com.cobblemon.mod.common.api.entity.Despawner;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
@@ -30,6 +30,8 @@ import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.LevelAccessor;
@@ -77,8 +79,10 @@ abstract class MixinBossEvents {
 //		});
 		if (e.getEntity().getType().toString().equals("entity.cobblemon.pokemon") &&
 				ApotheosisConfig.BossPokemonSpawnRate > 0 &&
-				Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)  && Apotheosis.enableAdventure) {
+				Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)  &&
+				Apotheosis.enableAdventure) {
 			LivingEntity entity = e.getEntity();
+			float maxHealth = entity.getMaxHealth();
 			CompoundTag originalEntity = entity.saveWithoutId(new CompoundTag());
 			Pokemon originalPokemon = ((PokemonEntity)entity).getPokemon().clone(false,false);
 			RandomSource rand = e.getLevel().getRandom();
@@ -104,8 +108,11 @@ abstract class MixinBossEvents {
 					Mob boss = ((IApothBossEntity) ((Object)item)).createPokeBoss(sLevel, BlockPos.containing(e.getX() - 0.5, e.getY(), e.getZ() - 0.5), rand, player.getLuck(), null, entity);
 					
 					if (invokeCanSpawn(sLevel, boss, player.distanceToSqr(boss))) {
-						
+						// Sets the health of the boss to max, makes the pokemon persistent, and adds the glowing effect
 						((PokemonEntity) entity).setPersistenceRequired();
+						boss.setHealth(boss.getMaxHealth());
+						if (AdventureConfig.bossGlowOnSpawn) boss.addEffect(new MobEffectInstance(MobEffects.GLOWING, 7200));
+						
 						var n = ((PokemonEntity)boss).getCustomName();
 						ApotheosisConfig.LOGGER.debug("It's {} - the {}" , n.getString(), ((PokemonEntity)boss).getPokemon().getSpecies().getName());
 						if (AdventureConfig.bossAutoAggro) {
@@ -114,13 +121,10 @@ abstract class MixinBossEvents {
 						
 						e.setResult(Event.Result.DENY);
 						
-						Component name = this.getName(boss);
-						
-						
 						LootRarity rarity = RarityRegistry.byOrdinal(((PokemonEntity)boss).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).getInt(APOTH_RARITY)).get();
-						//if(rarity != null) ApotheosisConfig.LOGGER.debug("Here's the rarity in BossEvents Mixin: {}", rarity.toString());
 						
 						
+						Component name = this.getName(boss);
 						
 						if (name == null || name.getStyle().getColor() == null) AdventureModule.LOGGER.warn("A Boss {} ({}) has spawned without a custom name!", boss.getName().getString(), EntityType.getKey(boss.getType()));
 						else {
@@ -154,6 +158,10 @@ abstract class MixinBossEvents {
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY);
 						((PokemonEntity)entity).getPokemon().getPersistentData().getCompound(MOD_ID_COMPATEMON).remove(APOTH_RARITY_COLOR);
 						((PokemonEntity)entity).setDespawner(despawner);
+						ApotheosisConfig.LOGGER.debug("Max Health before resetting: " + entity.getMaxHealth());
+						ApotheosisConfig.LOGGER.debug("Health before resetting: " + entity.getHealth());
+						entity.setHealth(maxHealth);
+						ApotheosisConfig.LOGGER.debug("Original Pokemon's Max Health: " + maxHealth);
 					}
 				}
 			}
