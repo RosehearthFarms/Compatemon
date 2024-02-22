@@ -23,6 +23,7 @@ public class ApotheosisConfig {
 	public static boolean AffixItemRarityBasedOnLevel = false;
 	public static int LevelVariancePerRarity = 2;
 	public static int PokemonBossLevelRange = 30;
+	public static boolean SpawnerBossesCatchable = false;
 	
 	/**
 	 *

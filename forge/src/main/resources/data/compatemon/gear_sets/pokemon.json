@@ -19,6 +19,18 @@
 			}
 		},
 		{
+			"weight": 3,
+			"stack": {
+				"item": "minecraft:gold_pickaxe"
+			}
+		},
+		{
+			"weight": 1,
+			"stack": {
+				"item": "minecraft:diamond_pickaxe"
+			}
+		},
+		{
 			"weight": 2,
 			"stack": {
 				"item": "minecraft:iron_shovel"
@@ -44,6 +56,18 @@
 			}
 		},
 		{
+			"weight": 3,
+			"stack": {
+				"item": "minecraft:gold_pickaxe"
+			}
+		},
+		{
+			"weight": 1,
+			"stack": {
+				"item": "minecraft:diamond_pickaxe"
+			}
+		},
+		{
 			"weight": 2,
 			"stack": {
 				"item": "minecraft:iron_shovel"
@@ -55,6 +79,24 @@
 			"weight": 3,
 			"stack": {
 				"item": "minecraft:iron_boots"
+			}
+		},
+		{
+			"weight": 5,
+			"stack": {
+				"item": "minecraft:chainmail_boots"
+			}
+		},
+		{
+			"weight": 4,
+			"stack": {
+				"item": "minecraft:leather_boots"
+			}
+		},
+		{
+			"weight": 1,
+			"stack": {
+				"item": "minecraft:gold_boots"
 			}
 		}
 	],

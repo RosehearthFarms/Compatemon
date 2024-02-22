@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.2.7] - 2024-02-22
+### Added
+### Fixed
+### Changed
+### Borked
 
 ## [0.2.6] - 2024-02-21
 ### Added
@@ -20,6 +25,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - With fightorflight and apotheosis, pokemon bosses don't search out the player same as other bosses when the TargetNearestPlayer config is enabled
   - Pokemon Bosses ALSO only aggro according to the rules fightorflight implemented. Plan to include fixes in the next major version.
 - Pokemon Nicknames that are longer than 12 characters render past the edges of their fields in any place where the nickname is rendered and cut off. Not quite sure how to fix this but it's known.
+- Cancelled pokemon glow for a split second before the effect is cancelled. May need to be cancelled sooner.
+- Cancelled pokemon retain their recalculated boss health
+- Non cancelled bosses don't have their health recalculated
+- Spawner boss pokemon don't have their max health recalculated
+- Spawner Boss Pokemon are catchable. Since they're random, this is OP.
 
 ## [0.2.5] - 2024-02-20
 ### Added
