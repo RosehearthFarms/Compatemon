@@ -1,6 +1,5 @@
 {
 	"required": true,
-	"minVersion": "${version}",
 	"package": "farm.rosehearth.compatemon.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
