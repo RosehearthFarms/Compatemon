@@ -32,15 +32,9 @@ dependencies {
     "common"(project(":common", "namedElements")) { isTransitive = false }
     "shadowCommon"(project(":common", "transformProductionFabric")) { isTransitive = false }
 
-    //Cloth Config
-    include(modApi("me.shedaniel.cloth:cloth-config-fabric:${project.properties["cloth_config_version"]}")!!)
-
     //Cobblemon
     modApi("com.cobblemon:fabric:${project.properties["cobblemon_version"]}+$minecraft_version")
 
-   // modApi("com.github.Virtuoel:Pehkui:${project.properties["pehkui_version"]}-$minecraft_version", {
-   //     exclude( group= "net.fabricmc.fabric-api")
-   // })
    // modCompileOnly ("dev.emi:emi-fabric:${project.properties["emi_version"]}+$minecraft_version:api")
    // modLocalRuntime ("dev.emi:emi-fabric:${project.properties["emi_version"]}+$minecraft_version")
 }
@@ -48,14 +42,33 @@ dependencies {
 tasks {
     base.archivesName.set(base.archivesName.get() + "-fabric")
     processResources {
-        inputs.property("version", project.version)
+        val filesToProcess = listOf("pack.mcmeta", "*/mods.toml", "*.mixins.json","fabric.mod.json")
 
-        filesMatching("fabric.mod.json") {
-            expand(mapOf("version" to project.version))
+        inputs.property("version", project.properties["mod_version"])
+        inputs.property("modId", project.properties["mod_id"])
+        inputs.property("displayName", project.properties["mod_name"])
+        inputs.property("authors", project.properties["mod_authors"])
+        inputs.property("description", project.properties["mod_description"])
+        inputs.property("license", project.properties["mod_license"])
+        inputs.property("mod_issue_url", project.properties["mod_issue_url"])
+        inputs.property("mod_homepage", project.properties["mod_homepage"])
+
+        filesMatching(filesToProcess) {
+            expand(
+                "version" to  project.properties["mod_version"],
+                "modId" to project.properties["mod_id"],
+                "displayName" to project.properties["mod_name"],
+                "authors" to project.properties["mod_authors"],
+                "description" to project.properties["mod_description"],
+                "license" to project.properties["mod_license"],
+                "mod_issue_url" to project.properties["mod_issue_url"],
+                "mod_homepage" to project.properties["mod_homepage"]
+            )
         }
     }
 
     shadowJar {
+        exclude ("architectury.common.json")
         exclude("generations/gg/generations/core/generationscore/fabric/datagen/**")
         exclude("data/forge/**")
         configurations = listOf(project.configurations.getByName("shadowCommon"))

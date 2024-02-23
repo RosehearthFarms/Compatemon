@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "id": "compatemon",
-  "version": "0.0.2",
-  "name": "Compatemon Fabric",
-  "description": "Compatability Mod between Cobblemon and Other mods!",
+  "id": "${modId}",
+  "version": "${version}",
+  "name": "${displayName}",
+  "description": "${description}",
   "authors": [
-    "Gormottian"
+    "${authors}"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "${mod_homepage}",
+    "sources": "${mod_homepage}/sources"
   },
-  "license": "MIT License",
+  "license": "${license}",
   "icon": "assets/compatemon/icon.png",
   "environment": "*",
   "entrypoints": {
@@ -20,7 +20,8 @@
     ]
   },
   "mixins": [
-    "compatemon.mixins.json"
+    "compatemon.mixins.json",
+    "compatemon-common.mixins.json"
   ],
   "depends": {
     "java": ">=17",

@@ -1,0 +1,197 @@
+{
+	"conditions": [{
+		"type": "forge:mod_loaded",
+		"modid": "cobblemon"
+	}],
+	"entity": "cobblemon:pokemon",
+	"weight": 25,
+	"quality": 0,
+	"size": {
+		"width": 1,
+		"height": 2
+	},
+	"valid_gear_sets": [
+		"#pokemon"
+	],
+	"dimensions": [
+		"minecraft:the_nether"
+	],
+	"min_rarity": "uncommon",
+	"max_rarity": "mythic",
+	"nbt": {"Pokemon": {"Level": 40}},
+	"stats": {
+
+		"uncommon": {
+			"enchant_chance": 0.25,
+			"enchantment_levels": [12, 8, 20, 14],
+			"effects": [{
+				"effect": "minecraft:fire_resistance",
+				"chance": 0.5
+			}],
+			"attribute_modifiers": [{
+					"attribute": "minecraft:generic.max_health",
+					"operation": "ADDITION",
+					"value": {
+						"min": 20,
+						"steps": 20,
+						"step": 2
+					}
+				},
+				{
+					"attribute": "minecraft:generic.movement_speed",
+					"operation": "MULTIPLY_BASE",
+					"value": {
+						"min": 0.03,
+						"steps": 5,
+						"step": 0.01
+					}
+				},
+				{
+					"attribute": "minecraft:generic.attack_damage",
+					"operation": "MULTIPLY_BASE",
+					"value": {
+						"min": 0.2,
+						"steps": 20,
+						"step": 0.01
+					}
+				},
+				{
+					"attribute": "minecraft:generic.knockback_resistance",
+					"operation": "ADDITION",
+					"value": 0.3
+				}
+			]
+		},
+		"rare": {
+			"enchant_chance": 0.4,
+			"enchantment_levels": [25, 20, 25, 17],
+			"effects": [{
+				"effect": "minecraft:fire_resistance",
+				"chance": 1.0
+			}],
+			"attribute_modifiers": [{
+					"attribute": "minecraft:generic.max_health",
+					"operation": "ADDITION",
+					"value": {
+						"min": 50,
+						"steps": 30,
+						"step": 2
+					}
+				},
+				{
+					"attribute": "minecraft:generic.movement_speed",
+					"operation": "MULTIPLY_BASE",
+					"value": {
+						"min": 0.10,
+						"steps": 8,
+						"step": 0.01
+					}
+				},
+				{
+					"attribute": "minecraft:generic.attack_damage",
+					"operation": "MULTIPLY_BASE",
+					"value": {
+						"min": 0.25,
+						"steps": 25,
+						"step": 0.02
+					}
+				},
+				{
+					"attribute": "minecraft:generic.knockback_resistance",
+					"operation": "ADDITION",
+					"value": 0.4
+				}
+			]
+		},
+		"epic": {
+			"enchant_chance": 0.5,
+			"enchantment_levels": [35, 25, 30, 25],
+			"effects": [{
+				"effect": "minecraft:fire_resistance",
+				"chance": 1.0
+			}],
+			"attribute_modifiers": [{
+				"attribute": "minecraft:generic.max_health",
+				"operation": "ADDITION",
+				"value": {
+					"min": 60,
+					"steps": 30,
+					"step": 4
+				}
+			},
+				{
+					"attribute": "minecraft:generic.movement_speed",
+					"operation": "MULTIPLY_BASE",
+					"value": {
+						"min": 0.10,
+						"steps": 8,
+						"step": 0.01
+					}
+				},
+				{
+					"attribute": "minecraft:generic.attack_damage",
+					"operation": "MULTIPLY_BASE",
+					"value": {
+						"min": 0.5,
+						"steps": 25,
+						"step": 0.02
+					}
+				},
+				{
+					"attribute": "minecraft:generic.knockback_resistance",
+					"operation": "ADDITION",
+					"value": 0.5
+				}
+			]
+		},
+		"mythic": {
+			"enchant_chance": 0.8,
+			"enchantment_levels": [50, 40, 50, 50],
+			"effects": [{
+				"effect": "minecraft:fire_resistance",
+				"chance": 1.0
+			},{
+				"effect": "minecraft:resistance",
+				"chance": 1.0
+			}],
+			"attribute_modifiers": [{
+				"attribute": "minecraft:generic.max_health",
+				"operation": "ADDITION",
+				"value": {
+					"min": 100,
+					"steps": 30,
+					"step": 5
+				}
+			},
+				{
+					"attribute": "minecraft:generic.movement_speed",
+					"operation": "MULTIPLY_BASE",
+					"value": {
+						"min": 0.20,
+						"steps": 8,
+						"step": 0.02
+					}
+				},
+				{
+					"attribute": "minecraft:generic.attack_damage",
+					"operation": "MULTIPLY_BASE",
+					"value": {
+						"min": 0.75,
+						"steps": 25,
+						"step": 0.03
+					}
+				},
+				{
+					"attribute": "minecraft:generic.knockback_resistance",
+					"operation": "ADDITION",
+					"value": 1.0
+				},
+				{
+					"attribute": "minecraft:generic.armor",
+					"operation": "ADDITION",
+					"value": 8
+				}
+			]
+		}
+	}
+}
