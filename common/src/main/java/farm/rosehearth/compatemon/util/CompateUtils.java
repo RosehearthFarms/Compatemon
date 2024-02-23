@@ -1,17 +1,11 @@
 package farm.rosehearth.compatemon.util;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import com.cobblemon.mod.common.pokemon.Pokemon;
 import farm.rosehearth.compatemon.Compatemon;
-import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.level.ServerLevelAccessor;
 
 import java.util.Random;
 
