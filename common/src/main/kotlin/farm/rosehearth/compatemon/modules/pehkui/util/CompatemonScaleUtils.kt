@@ -12,6 +12,7 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import org.jetbrains.annotations.Nullable
 import virtuoel.pehkui.api.ScaleType
+import virtuoel.pehkui.api.ScaleTypes
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -20,6 +21,12 @@ import java.math.RoundingMode
  */
 open class CompatemonScaleUtils {
     companion object {
+
+        fun setScale(entity:Entity, scaleName: String, @Nullable defaultBaseScale:Float = 1.0f, @Nullable addToScale:Float = 0.0f):Float{
+            if(scaleName != COMPAT_SCALE_SIZE)
+                return 1.0f;
+            return setScale(entity, ScaleTypes.BASE,scaleName,defaultBaseScale,addToScale)
+        }
 
         /**
          * Sets the scale of an entity to either a random value or the value from the entity's data.

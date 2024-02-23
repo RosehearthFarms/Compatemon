@@ -24,7 +24,6 @@ import farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_COMPATEMON
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_PEHKUI
 import net.minecraft.network.chat.Style
 import net.minecraft.network.chat.TextColor
-import virtuoel.pehkui.api.ScaleTypes
 
 object CompatemonKotlin {
 
@@ -45,7 +44,7 @@ object CompatemonKotlin {
         // is set to what it was when the world is loaded
         POKEMON_ENTITY_LOAD.subscribe{ event ->
             if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)) {
-                setScale(event.pokemonEntity, ScaleTypes.BASE, COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f)
+                setScale(event.pokemonEntity, COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f)
             }
         }
 

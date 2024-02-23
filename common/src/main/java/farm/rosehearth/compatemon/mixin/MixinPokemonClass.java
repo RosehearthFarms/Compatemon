@@ -2,7 +2,6 @@ package farm.rosehearth.compatemon.mixin;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.google.gson.JsonObject;
-import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.events.CompatemonEvents;
 import farm.rosehearth.compatemon.events.entity.PokemonJsonLoadedEvent;
 import farm.rosehearth.compatemon.events.entity.PokemonJsonSavedEvent;

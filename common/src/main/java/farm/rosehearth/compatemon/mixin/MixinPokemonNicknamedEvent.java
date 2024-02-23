@@ -2,7 +2,6 @@ package farm.rosehearth.compatemon.mixin;
 
 import com.cobblemon.mod.common.api.events.pokemon.PokemonNicknamedEvent;
 import com.cobblemon.mod.common.pokemon.Pokemon;
-import farm.rosehearth.compatemon.modules.apotheosis.ApotheosisConfig;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;

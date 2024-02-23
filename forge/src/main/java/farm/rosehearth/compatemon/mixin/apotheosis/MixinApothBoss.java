@@ -33,7 +33,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import virtuoel.pehkui.api.ScaleTypes;
 
 
 import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
@@ -159,7 +158,7 @@ implements IApothBossEntity
 				base_scale *= ApotheosisConfig.DefaultBossSizeScale;
 				addToScale = 0.0f;
 			}
-			CompatemonScaleUtils.Companion.setScale(entity, ScaleTypes.BASE, COMPAT_SCALE_SIZE, base_scale, addToScale);
+			CompatemonScaleUtils.Companion.setScale(entity, COMPAT_SCALE_SIZE, base_scale, addToScale);
 			
 			
 		}

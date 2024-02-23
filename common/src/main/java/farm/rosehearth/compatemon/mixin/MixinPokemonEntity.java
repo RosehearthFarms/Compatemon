@@ -20,7 +20,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import virtuoel.pehkui.api.ScaleTypes;
 
 import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
 
@@ -48,7 +47,7 @@ abstract class MixinPokemonEntity extends Entity
     public void compatemon$onInit(Level world, Pokemon pokemon, EntityType entityType, CallbackInfo cir){
 //        ((IScalableForm)(Object)(pokemon.getForm())).compatemon$setPokemonEntity((PokemonEntity)(Object)this);
         if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-            compatemon$sizeScale = CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), ScaleTypes.BASE, COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f);
+            compatemon$sizeScale = CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f);
             pokemon.getForm().getHitbox().scale(compatemon$sizeScale);
             //pokemon.getForm().getHitbox().height = 1;
         }
