@@ -46,6 +46,7 @@ repositories {
     maven("https://maven.shadowsoffire.dev/releases")
     maven("https://maven.theillusivec4.top")
     maven("https://maven.kosmx.dev/")
+
     maven("https://maven.enginehub.org/repo/")
     maven {
         name = "Iron's Maven"
@@ -92,23 +93,23 @@ dependencies {
     modImplementation("io.redspace.ironsspellbooks:irons_spellbooks:${minecraft_version}-${project.properties["irons_spells_version"]}")
 
     // GECKOLIB ***************************************************************************************************
-    //modImplementation("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${project.properties["geckolib_version"]}")
+    modImplementation("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${project.properties["geckolib_version"]}")
 
     // CAELUS *****************************************************************************************************
-    //modImplementation("top.theillusivec4.caelus:caelus-forge:${project.properties["caelus_version"]}")
+    modImplementation("top.theillusivec4.caelus:caelus-forge:${project.properties["caelus_version"]}")
 
     // PLAYER ANIMATOR ********************************************************************************************
-    //runtimeOnly("dev.kosmx.player-anim:player-animation-lib-forge:${minecraft_version}-${project.properties["player_animator_version"]}")
+    modImplementation("dev.kosmx.player-anim:player-animation-lib-forge:${project.properties["player_animator_version"]}")
 
     // TETRA ******************************************************************************************************
-    // compileOnly("se.mickelus.mutil:mutil:${minecraft_version}-${project.properties["mutil_version"]}")
-    // compileOnly("curse.maven:tetra-${project.properties["tetra_version"]}")
+    //modImplementation("se.mickelus.mutil:mutil:${minecraft_version}-${project.properties["mutil_version"]}")
+    //modImplementation("curse.maven:tetra-${project.properties["tetra_version"]}")
 
     // BETTER COMBAT **********************************************************************************************
-    //runtimeOnly fg.deobf("curse.maven:better-combat-by-daedelus-${better_combat_version}")
+    //modImplementation("curse.maven:better-combat-by-daedelus-${better_combat_version}")
 
     // PATCHOULI **************************************************************************************************
-    // runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${minecraft_version}-${patchouli_version}")
+    //modImplementation("vazkii.patchouli:Patchouli:${minecraft_version}-${patchouli_version}")
 
     // JSON ******************************************************************************************************
    // implementation("com.google.code.gson:gson:${project.properties["gson_version"]}")

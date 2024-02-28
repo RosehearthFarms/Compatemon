@@ -1,22 +1,15 @@
 package farm.rosehearth.compatemon
 
 
-import com.cobblemon.mod.common.api.events.CobblemonEvents.LOOT_DROPPED
-import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_CAPTURED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_ENTITY_LOAD
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_ENTITY_SAVE
-import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_NICKNAMED
+import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_ENTITY_SPAWN
+import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_RELEASED_EVENT_PRE
+import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_SENT_POST
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_SENT_PRE
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import farm.rosehearth.compatemon.Compatemon.LOGGER
-import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_JSON_LOADED
-import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_JSON_SAVED
-import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_NBT_LOADED
-import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_NBT_SAVED
-import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig
+import farm.rosehearth.compatemon.modules.pehkui.IScalableFormData
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils.Companion.setScale
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_BOSS
-import farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_RARITY
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_RARITY_COLOR
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.COMPAT_SCALE_SIZE
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_APOTHEOSIS
@@ -24,6 +17,7 @@ import farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_COMPATEMON
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_PEHKUI
 import net.minecraft.network.chat.Style
 import net.minecraft.network.chat.TextColor
+import net.minecraft.world.entity.Entity
 
 object CompatemonKotlin {
 
@@ -40,46 +34,37 @@ object CompatemonKotlin {
             }
         }
 
-        // Occurs when the Pokemon's NBT data is loaded from the world. We need to make sure that the Entity's scale
-        // is set to what it was when the world is loaded
         POKEMON_ENTITY_LOAD.subscribe{ event ->
             if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)) {
-                setScale(event.pokemonEntity, COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f)
+                var scale = setScale(event.pokemonEntity, COMPAT_SCALE_SIZE)
+               ( event.pokemonEntity.pokemon.form as IScalableFormData).`compatemon$setSizeScale`(scale)
             }
         }
 
-//        POKEMON_NBT_SAVED.subscribe{event ->
-//        }
-//        // Occurs when the Pokemon's NBT data is loaded from the world. Injected into PokemonEntity's method.
-//        POKEMON_NBT_LOADED.subscribe{event ->
-//        }
-//        // Occurs when the Pokemon is Sent Out of its pokeball
-//        POKEMON_SENT_PRE.subscribe{ event ->
-//        }
-//
-//        // Occurs when the Pokemon is Captured
-//        POKEMON_CAPTURED.subscribe {event ->
-//        }
-//
-//        POKEMON_JSON_SAVED.subscribe{event ->
-//            //LOGGER.debug("Pokemon JSON has been saved.")
-//        }
-//
-//        POKEMON_JSON_LOADED.subscribe{event ->
-//            LOGGER.debug("Pokemon JSON has been loaded.")
-//        }
-//
-//        LOOT_DROPPED.subscribe{event ->
-//        }
-//
-//        // To update the nickname color whenever the name changes
-//        POKEMON_NICKNAMED.subscribe{event ->
-//            LOGGER.debug(event.pokemon.nickname.toString())
-//        }
+        POKEMON_ENTITY_SPAWN.subscribe{event ->
+            if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)) {
+                Compatemon.LOGGER.info("POKEMON_ENTITY_SPAWN FIRED: {}", event.entity.pokemon.species.name )
+
+                var scale = setScale(event.entity, COMPAT_SCALE_SIZE)
+                (event.entity.pokemon.form as IScalableFormData).`compatemon$setSizeScale`(scale)
+                Compatemon.LOGGER.info("WE SET THE SPAWNED SCALE TO : {}", scale )
+
+            }
+
+        }
+        POKEMON_SENT_POST.subscribe{event ->
+            var scale = 1.0f
+            Compatemon.LOGGER.info("POKEMON_SENT_POST   FIRED: {}", event.pokemon.species.name )
+            if(Compatemon.implementation.environment() == Environment.CLIENT) {
+                scale = setScale(event.pokemon.entity as Entity, COMPAT_SCALE_SIZE)
+                (event.pokemon.form as IScalableFormData).`compatemon$setSizeScale`(scale)
+            }else{
+                scale = setScale(event.pokemonEntity as Entity, COMPAT_SCALE_SIZE)
+                (event.pokemonEntity.pokemon.form as IScalableFormData).`compatemon$setSizeScale`(scale)
 
 
-
+            }
+            Compatemon.LOGGER.info("Sent out with a scale of : {}", scale )
+        }
     }
-
-
-    }
+}

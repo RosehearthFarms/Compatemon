@@ -6,7 +6,7 @@ import com.cobblemon.mod.common.api.spawning.detail.SpawnAction;
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import farm.rosehearth.compatemon.Compatemon;
-import farm.rosehearth.compatemon.modules.pehkui.PehkuiConfig;
+import farm.rosehearth.compatemon.modules.pehkui.IScalableFormData;
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraftforge.common.MinecraftForge;
@@ -17,7 +17,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.COMPAT_SCALE_SIZE;
+import static farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_PEHKUI;
+
 
 @Mixin(value = PokemonSpawnAction.class, remap = false)
 abstract class MixinPokemonSpawningBoss extends SpawnAction<PokemonEntity> {
@@ -38,11 +40,6 @@ abstract class MixinPokemonSpawningBoss extends SpawnAction<PokemonEntity> {
 		}
 		else{
 			Compatemon.LOGGER.debug("The entity created by the POKEMON Spawn Action Class wasn't actually a pokemon?");
-		}
-		
-		
-		if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-			CompatemonScaleUtils.Companion.setScale(cir.getReturnValue(), COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f);
 		}
 		
 		

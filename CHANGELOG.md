@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.1] - 2024-2-23
 ### Fixed
 - Dedicated Server Borked due to mixin version problems. this is fixed.
+### Borked
+- Server has much lag on chunk loading. Report is from Pehkui enabled module only.
+### Comments
+- Mod works both client side and server side only? Pehkui module randomizes sizes as client only but doesn't save data. Server only causes lag but sizes work still.
+- Shouldn't be overriding scale function on pokemon renderer. It's scaling the beam effect too.
+- Should only _set_ the scale on pokemon initialization. Can actually change the scale on entity load for spawning and on the on release event for caught?
+- 
 ## [1.0.0] - 2024-2-22
 ### Added
 - Public Release 1.0.0
