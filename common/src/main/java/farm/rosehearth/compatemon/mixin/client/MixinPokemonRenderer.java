@@ -19,8 +19,8 @@ import static farm.rosehearth.compatemon.util.CompatemonDataKeys.MOD_ID_COMPATEM
  */
 @Mixin(PokemonRenderer.class)
 abstract class MixinPokemonRenderer {
-	@Unique
-	private float compatemon$newScale = 1.0f;
+//	@Unique
+//	private float compatemon$newScale = 1.0f;
 	
 //	@Inject(at=@At("HEAD"),remap=false,method="scale(Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;Lcom/mojang/blaze3d/vertex/PoseStack;F)V")
 //	public void compatemon$onScale(PokemonEntity pEntity, PoseStack pMatrixStack, float pPartialTickTime, CallbackInfo cir){
@@ -35,12 +35,12 @@ abstract class MixinPokemonRenderer {
 //
 //	}
 	
-//	@ModifyVariable(at = @At("STORE"), ordinal = 0
+//	@ModifyVariable(at = @At("LOAD"), name="scale"
 //			, remap = false//, locals = LocalCapture.CAPTURE_FAILSOFT
 //			, method = "scale(Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;Lcom/mojang/blaze3d/vertex/PoseStack;F)V")
 //	private float compatemon$modifyScale(float scale) {
-//		Compatemon.LOGGER.debug("Scale: " + scale);
-//		Compatemon.LOGGER.debug("NewScale: " + (scale * compatemon$newScale));
-//		return scale * compatemon$newScale;
+//		Compatemon.LOGGER.debug("In the PokemonRenderer, setting the scale: " + scale);
+//		Compatemon.LOGGER.debug("NewScale: " + (compatemon$newScale));
+//		return scale ;//* compatemon$newScale;
 //	}
 }

@@ -16,11 +16,11 @@ implements IScalableFormData {
 	@Unique
 	public float compatemon$pokemonSizeScale = 1.0f;
 	
-	@Inject(at=@At("RETURN"), remap=false, method="getHitbox", cancellable = true)
-	public void compatemon$onGetHitbox(CallbackInfoReturnable<EntityDimensions> cir){
-		Compatemon.LOGGER.info("In getHitbox, settin the scale of the form to {}", compatemon$pokemonSizeScale);
-		cir.setReturnValue(cir.getReturnValue().scale(compatemon$pokemonSizeScale));
-	}
+//	@Inject(at=@At("RETURN"), remap=false, method="getHitbox", cancellable = true)
+//	public void compatemon$onGetHitbox(CallbackInfoReturnable<EntityDimensions> cir){
+//		//Compatemon.LOGGER.info("In getHitbox, settin the scale of the form to {}", compatemon$pokemonSizeScale);
+//		//cir.setReturnValue(cir.getReturnValue().scale(compatemon$pokemonSizeScale));
+//	}
 	
 	@Override
 	public float compatemon$getSizeScale(){

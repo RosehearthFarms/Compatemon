@@ -1,7 +1,6 @@
 package farm.rosehearth.compatemon.mixin;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import com.cobblemon.mod.common.pokemon.FormData;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.google.gson.JsonObject;
 import farm.rosehearth.compatemon.Compatemon;
@@ -38,6 +37,8 @@ import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
 @Mixin(Pokemon.class)
 public class MixinPokemonClass {
 
+	@Shadow(remap=false)
+	private float scaleModifier;
 	
 	// ===============================================================
 	// Injections for Sending Out
@@ -57,25 +58,15 @@ public class MixinPokemonClass {
 	}
 	
 	
-	@Inject(at=@At(value="RETURN")
-	,remap=false
-	,method="updateForm")
-	public void compatemon$updateFormData(CallbackInfo ci){
-		if(((Pokemon)(Object)this).getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(COMPAT_SCALE_SIZE)){
-			float sizeScale = ((Pokemon)(Object)this).getPersistentData().getCompound(MOD_ID_COMPATEMON).getFloat(COMPAT_SCALE_SIZE);
-			Compatemon.LOGGER.debug("In the Pokemon Class, firin me lasers at the form to scale {}", sizeScale);
-			((IScalableFormData)(Object)((Pokemon)(Object)this).getForm()).compatemon$setSizeScale(sizeScale);
-		}
-	}
 	
 //	@Inject(at=@At(value="RETURN")
 //			,remap=false
-//			,method="setForm")
-//	public void compatemon$onSetForm(FormData formdata, CallbackInfo ci){
-//		if(((Pokemon)(Object)this).getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(COMPAT_SCALE_SIZE)){
-//			float sizeScale = ((Pokemon)(Object)this).getPersistentData().getCompound(MOD_ID_COMPATEMON).getFloat(COMPAT_SCALE_SIZE);
-//			Compatemon.LOGGER.debug("In the Pokemon Class, firin me lasers at the form to scale {}", sizeScale);
-//			((IScalableFormData)(Object)((Pokemon)(Object)this).getForm()).compatemon$setSizeScale(sizeScale);
+//			,method="getScaleModifier")
+//	public void compatemon$onGetScaleModifier( CallbackInfoReturnable<Float> cir){
+//		if(persistentData.getCompound(MOD_ID_COMPATEMON).contains(COMPAT_SCALE_SIZE)){
+//			float sizeScale = persistentData.getCompound(MOD_ID_COMPATEMON).getFloat(COMPAT_SCALE_SIZE);
+//			Compatemon.LOGGER.debug("In the Pokemon Class, injecting into getScaleModifier {}, {}", cir.getReturnValue(), sizeScale);
+//			//cir.setReturnValue(cir.getReturnValue() );
 //		}
 //	}
 	

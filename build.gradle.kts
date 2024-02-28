@@ -49,6 +49,7 @@ subprojects {
         })
 
         compileOnly("org.jetbrains:annotations:${project.properties["jetbrains_annotations_version"]}")
+        //compileOnly("io.github.llamalad7:mixinextras-common:0.3.5")
     }
     loom.silentMojangMappingsLicense()
 }

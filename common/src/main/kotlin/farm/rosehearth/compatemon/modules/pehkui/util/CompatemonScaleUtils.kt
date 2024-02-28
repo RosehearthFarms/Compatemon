@@ -49,10 +49,11 @@ open class CompatemonScaleUtils {
             return scale
         }
 
+
+
         fun getScale(entity:Entity,scaleName:String):Float{
             return getScale(entity,scaleName,1.0f,CompateUtils.isApothBoss(entity as Mob))
         }
-
         fun getScale(entity:Entity, scaleName: String, defaultBaseScale:Float, isBoss: Boolean):Float {
             var scaleVal = defaultBaseScale;
 
@@ -65,7 +66,14 @@ open class CompatemonScaleUtils {
                 scaleVal = ScaleTypes.HEALTH.getScaleData(entity).scale
             }
 
+
+
+
             if(scaleVal == defaultBaseScale) scaleVal = getNewScale(scaleName, defaultBaseScale, isBoss)
+
+
+
+
 
             if(entity.type.toString() == "entity.cobblemon.pokemon"){
 
@@ -75,7 +83,7 @@ open class CompatemonScaleUtils {
                 compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putFloat(scaleName, scaleVal)
 
                 (entity as PokemonEntity).pokemon.persistentData.merge(compatemonData)
-                (entity as IScalablePokemonEntity).`compatemon$setSizeScale`(scaleVal)
+
                 Compatemon.LOGGER.debug("Size Scale of {} is being set: {}", entity.pokemon.species.name, scaleVal);
             }
             return scaleVal
