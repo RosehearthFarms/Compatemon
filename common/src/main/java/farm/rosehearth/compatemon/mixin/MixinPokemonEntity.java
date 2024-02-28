@@ -48,6 +48,32 @@ implements IScalablePokemonEntity
             Compatemon.LOGGER.debug("Size Scale is being generated in the init: {}", compatemon$sizeScale);
         }
     }
+    
+    
+//    NEED TO INJECT INTO THIS
+//    @Suppress("SENSELESS_COMPARISON")
+//    override fun getActiveEyeHeight(pose: EntityPose, dimensions: EntityDimensions): Float {
+//    // DO NOT REMOVE
+//    // LivingEntity#getActiveEyeHeight is called in the constructor of Entity
+//    // Pokémon param is not available yet
+//    if (this.pokemon == null) {
+//        return super.getActiveEyeHeight(pose, dimensions)
+//    }
+//    return this.pokemon.form.eyeHeight(this)
+//}
+
+//
+//    override fun playAmbientSound() {
+//    if (!this.isSilent || this.busyLocks.filterIsInstance<EmptyPokeBallEntity>().isEmpty()) {
+//        val sound = Identifier(this.pokemon.species.resourceIdentifier.namespace, "pokemon.${this.pokemon.showdownId()}.ambient")
+//        // ToDo distance to travel is currently hardcoded to default we can maybe find a way to work around this down the line
+//        UnvalidatedPlaySoundS2CPacket(sound, this.soundCategory, this.x, this.y, this.z, this.soundVolume, this.soundPitch)
+//                .sendToPlayersAround(this.x, this.y, this.z, 16.0, this.world.registryKey)
+//    }
+//}
+
+
+
 
 //
 //    @Inject(at = @At("RETURN")

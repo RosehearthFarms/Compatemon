@@ -7,6 +7,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_ENTITY_SPAWN
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_RELEASED_EVENT_PRE
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_SENT_POST
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_SENT_PRE
+import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_SENT_N_SPAWNED
 import farm.rosehearth.compatemon.modules.pehkui.IScalableFormData
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils.Companion.setScale
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_BOSS
@@ -52,19 +53,26 @@ object CompatemonKotlin {
             }
 
         }
+
+        POKEMON_SENT_PRE.subscribe{event ->
+            Compatemon.LOGGER.info("POKEMON_SENT_PRE  FIRED: {}", event.pokemon.species.name )
+        }
         POKEMON_SENT_POST.subscribe{event ->
+            Compatemon.LOGGER.info("POKEMON_SENT_POST FIRED: {}", event.pokemon.species.name )
+        }
+
+        POKEMON_SENT_N_SPAWNED.subscribe { event ->
             var scale = 1.0f
-            Compatemon.LOGGER.info("POKEMON_SENT_POST   FIRED: {}", event.pokemon.species.name )
-            if(Compatemon.implementation.environment() == Environment.CLIENT) {
-                scale = setScale(event.pokemon.entity as Entity, COMPAT_SCALE_SIZE)
-                (event.pokemon.form as IScalableFormData).`compatemon$setSizeScale`(scale)
-            }else{
-                scale = setScale(event.pokemonEntity as Entity, COMPAT_SCALE_SIZE)
-                (event.pokemonEntity.pokemon.form as IScalableFormData).`compatemon$setSizeScale`(scale)
+            Compatemon.LOGGER.info("POKEMON_SENT_N_SPAWNED FIRED: {}", event.pokemon.species.name )
+            Compatemon.LOGGER.info("POKEMON_SENT_N_SPAWNED Entity: {}", event.pokemonEntity?.pokemon?.species?.name )
 
+            scale = setScale(event.pokemon.entity as Entity, COMPAT_SCALE_SIZE)
+            (event.pokemonEntity?.form as IScalableFormData).`compatemon$setSizeScale`(scale)
+            (event.pokemonEntity.pokemon.form as IScalableFormData).`compatemon$setSizeScale`(scale)
+            (event.pokemon.form as IScalableFormData).`compatemon$setSizeScale`(scale)
 
-            }
             Compatemon.LOGGER.info("Sent out with a scale of : {}", scale )
+
         }
     }
 }

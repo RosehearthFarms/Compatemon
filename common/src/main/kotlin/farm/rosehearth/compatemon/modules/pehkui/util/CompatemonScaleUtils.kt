@@ -57,8 +57,9 @@ open class CompatemonScaleUtils {
             var scaleVal = defaultBaseScale;
 
             if(entity.type.toString() == "entity.cobblemon.pokemon"){
-                if((entity as PokemonEntity).pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).contains(scaleName))
+                if((entity as PokemonEntity).pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).contains(scaleName)) {
                     scaleVal = entity.pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).getFloat(scaleName)
+                }
             }
             else{
                 scaleVal = ScaleTypes.HEALTH.getScaleData(entity).scale
@@ -74,6 +75,7 @@ open class CompatemonScaleUtils {
                 compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putFloat(scaleName, scaleVal)
 
                 (entity as PokemonEntity).pokemon.persistentData.merge(compatemonData)
+                (entity as IScalablePokemonEntity).`compatemon$setSizeScale`(scaleVal)
                 Compatemon.LOGGER.debug("Size Scale of {} is being set: {}", entity.pokemon.species.name, scaleVal);
             }
             return scaleVal

@@ -1,6 +1,7 @@
 package farm.rosehearth.compatemon.mixin;
 
 import com.cobblemon.mod.common.pokemon.FormData;
+import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.modules.pehkui.IScalableFormData;
 import net.minecraft.world.entity.EntityDimensions;
 import org.spongepowered.asm.mixin.*;
@@ -17,6 +18,7 @@ implements IScalableFormData {
 	
 	@Inject(at=@At("RETURN"), remap=false, method="getHitbox", cancellable = true)
 	public void compatemon$onGetHitbox(CallbackInfoReturnable<EntityDimensions> cir){
+		Compatemon.LOGGER.info("In getHitbox, settin the scale of the form to {}", compatemon$pokemonSizeScale);
 		cir.setReturnValue(cir.getReturnValue().scale(compatemon$pokemonSizeScale));
 	}
 	
