@@ -1,14 +1,18 @@
 package farm.rosehearth.compatemon.mixin;
 
+import com.cobblemon.mod.common.entity.EntityProperty;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import farm.rosehearth.compatemon.Compatemon;
+import farm.rosehearth.compatemon.modules.compatemon.IPokemonEntityExtensions;
 import farm.rosehearth.compatemon.modules.pehkui.IScalableFormData;
 import farm.rosehearth.compatemon.modules.pehkui.IScalablePokemonEntity;
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -27,13 +31,32 @@ import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
  */
 @Mixin(PokemonEntity.class)
 abstract class MixinPokemonEntity extends Entity
-implements IScalablePokemonEntity
+implements IScalablePokemonEntity, IPokemonEntityExtensions
 {
     @Shadow(remap=false)
     private Pokemon pokemon;
     
+    @Shadow(remap=false)
+    public abstract EntityProperty<?> addEntityProperty(EntityDataAccessor<?> persistentData, Object compoundTag) ;
+    
     @Unique
     private float compatemon$sizeScale = 1.0f;
+    
+    @Unique
+    public EntityProperty<CompoundTag> persistentData = (EntityProperty<CompoundTag>) addEntityProperty(IPokemonEntityExtensions.Companion.getPERSISTENT_DATA(), new CompoundTag());
+    
+    @Override
+    public EntityProperty<CompoundTag> getPersistentData(){
+        return persistentData;
+    }
+    
+    @Override
+    public void setPersistentData(EntityProperty<CompoundTag> p){
+        persistentData = p;
+    }
+    
+    
+    
     
     MixinPokemonEntity(EntityType<?> entityType, Level level){
         super(entityType, level);
@@ -43,8 +66,8 @@ implements IScalablePokemonEntity
             ,at = @At("RETURN")
             ,remap = false)
     public void compatemon$onInit(Level world, Pokemon pokemon, EntityType entityType, CallbackInfo cir){
-        if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-            compatemon$sizeScale = CompatemonScaleUtils.Companion.getScale(((PokemonEntity) ((Object) this)), COMPAT_SCALE_SIZE);;
+        if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI) && !pokemon.isClient$common()){
+            compatemon$sizeScale = CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), COMPAT_SCALE_SIZE);;
             Compatemon.LOGGER.debug("Size Scale is being generated in the init: {}", compatemon$sizeScale);
         }
     }
@@ -126,12 +149,12 @@ implements IScalablePokemonEntity
             pokemon.setNickname(t.copy().withStyle(Style.EMPTY.withColor(TextColor.parseColor(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)))));
         }
     }
-    
+
     @Override
     public float compatemon$getSizeScale(){
         return compatemon$sizeScale;
     }
-    
+
     @Override
     public void compatemon$setSizeScale(float sizeScale){
         compatemon$sizeScale = sizeScale;

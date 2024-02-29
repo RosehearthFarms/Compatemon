@@ -8,7 +8,8 @@
 		"MixinPokemonDTO",
 		"MixinPokemonEntity",
 		"MixinPokemonNicknamedEvent",
-		"MixinPokemonSpawnAction"
+		"MixinPokemonSpawnAction",
+		"MixinSpawnPokemonPacket"
 	],
 	"client": [
 		"client.MixinNicknameEntryWidget",

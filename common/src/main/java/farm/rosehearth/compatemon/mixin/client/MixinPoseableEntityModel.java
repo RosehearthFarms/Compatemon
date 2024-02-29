@@ -2,8 +2,6 @@ package farm.rosehearth.compatemon.mixin.client;
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel;
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState;
-import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.blaze3d.vertex.PoseStack;
 import farm.rosehearth.compatemon.Compatemon;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
