@@ -32,21 +32,9 @@ open class CompatemonScaleUtils {
             if(scaleName != COMPAT_SCALE_SIZE)
                 return 1.0f;
 
-
             var scale: Float = getScale(entity, scaleName, defaultBaseScale, isBoss) + addToScale
 
-
-            ScaleTypes.ATTACK.getScaleData(entity).scale = scale
-            ScaleTypes.ATTACK_SPEED.getScaleData(entity).scale = scale
-            ScaleTypes.DEFENSE.getScaleData(entity).scale = scale
-            ScaleTypes.HEALTH.getScaleData(entity).scale = scale
-            ScaleTypes.PROJECTILES.getScaleData(entity).scale = scale
-
-            ScaleTypes.MODEL_HEIGHT.getScaleData(entity).scale = scale
-            ScaleTypes.MODEL_WIDTH.getScaleData(entity).scale = scale
-
-
-            return scale
+            return applyScale(entity, scale)
         }
 
 
@@ -119,6 +107,21 @@ open class CompatemonScaleUtils {
 //                return BigDecimal.valueOf(new_weight).setScale(2, RoundingMode.UP).toFloat()
 //            }
             return 1.0f
+        }
+
+        private fun applyScale(entity:Entity, scale:Float):Float{
+
+            ScaleTypes.ATTACK.getScaleData(entity).scale = scale
+            ScaleTypes.ATTACK_SPEED.getScaleData(entity).scale = scale
+            ScaleTypes.DEFENSE.getScaleData(entity).scale = scale
+            ScaleTypes.HEALTH.getScaleData(entity).scale = scale
+            ScaleTypes.PROJECTILES.getScaleData(entity).scale = scale
+
+            ScaleTypes.MODEL_HEIGHT.getScaleData(entity).scale = scale
+            ScaleTypes.MODEL_WIDTH.getScaleData(entity).scale = scale
+
+
+            return scale
         }
     }
 }

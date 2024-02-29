@@ -26,17 +26,7 @@ abstract class MixinPokemonClientDelegate {
 	public PokemonEntity currentEntity;
 	
 	@Inject(at=@At("RETURN"), remap=false, method="changePokemon")
-	public void compatemon$methodName(Pokemon pokemon, CallbackInfo cir){
-		currentEntity.getSubscriptions().add(((IPokemonEntityExtensions)(Object)currentEntity).compatemon$getPersistentData().subscribe(Priority.NORMAL, a -> {
-			currentEntity.getPokemon().getPersistentData().merge(a);
-			if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-				Compatemon.LOGGER.info("We're in the Client Delegate about to set the size!!!");
-				float scale = CompatemonScaleUtils.Companion.setScale(currentEntity, COMPAT_SCALE_SIZE);
-				Compatemon.LOGGER.info("We set the scale to {}!!!", scale);
-				
-			}
-			return null;
-		}));
+	public void compatemon$onChangePokemonFireEvent(Pokemon pokemon, CallbackInfo cir){
 	}
 	
 	//@Inject(at=@At("RETURN"), remap=false, method="")
