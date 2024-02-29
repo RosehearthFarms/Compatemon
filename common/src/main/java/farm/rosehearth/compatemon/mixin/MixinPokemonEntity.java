@@ -5,7 +5,6 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import farm.rosehearth.compatemon.Compatemon;
 import farm.rosehearth.compatemon.modules.compatemon.IPokemonEntityExtensions;
-import farm.rosehearth.compatemon.modules.pehkui.IScalableFormData;
 import farm.rosehearth.compatemon.modules.pehkui.IScalablePokemonEntity;
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils;
 import net.minecraft.nbt.CompoundTag;
@@ -13,15 +12,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
@@ -31,29 +32,15 @@ import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
  */
 @Mixin(PokemonEntity.class)
 abstract class MixinPokemonEntity extends Entity
-implements IScalablePokemonEntity, IPokemonEntityExtensions
+implements IScalablePokemonEntity
+        , IPokemonEntityExtensions
 {
     @Shadow(remap=false)
     private Pokemon pokemon;
-    
-    @Shadow(remap=false)
-    public abstract EntityProperty<?> addEntityProperty(EntityDataAccessor<?> persistentData, Object compoundTag) ;
-    
     @Unique
     private float compatemon$sizeScale = 1.0f;
-    
-    @Unique
-    public EntityProperty<CompoundTag> persistentData = (EntityProperty<CompoundTag>) addEntityProperty(IPokemonEntityExtensions.Companion.getPERSISTENT_DATA(), new CompoundTag());
-    
-    @Override
-    public EntityProperty<CompoundTag> getPersistentData(){
-        return persistentData;
-    }
-    
-    @Override
-    public void setPersistentData(EntityProperty<CompoundTag> p){
-        persistentData = p;
-    }
+    @Shadow(remap=false)
+    public abstract EntityProperty<?> addEntityProperty(EntityDataAccessor<?> persistentData, Object compoundTag) ;
     
     
     
@@ -73,73 +60,35 @@ implements IScalablePokemonEntity, IPokemonEntityExtensions
     }
     
     
-//    NEED TO INJECT INTO THIS
-//    @Suppress("SENSELESS_COMPARISON")
-//    override fun getActiveEyeHeight(pose: EntityPose, dimensions: EntityDimensions): Float {
-//    // DO NOT REMOVE
-//    // LivingEntity#getActiveEyeHeight is called in the constructor of Entity
-//    // Pokémon param is not available yet
-//    if (this.pokemon == null) {
-//        return super.getActiveEyeHeight(pose, dimensions)
-//    }
-//    return this.pokemon.form.eyeHeight(this)
-//}
-
-//
-//    override fun playAmbientSound() {
-//    if (!this.isSilent || this.busyLocks.filterIsInstance<EmptyPokeBallEntity>().isEmpty()) {
-//        val sound = Identifier(this.pokemon.species.resourceIdentifier.namespace, "pokemon.${this.pokemon.showdownId()}.ambient")
-//        // ToDo distance to travel is currently hardcoded to default we can maybe find a way to work around this down the line
-//        UnvalidatedPlaySoundS2CPacket(sound, this.soundCategory, this.x, this.y, this.z, this.soundVolume, this.soundPitch)
-//                .sendToPlayersAround(this.x, this.y, this.z, 16.0, this.world.registryKey)
-//    }
-//}
-
-
-
-
-//
-//    @Inject(at = @At("RETURN")
-//            ,remap=false
-//            ,method="getDimensions", cancellable = true)
-//    public void compatemon$overrideDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir){
-//        if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)){
-//            compatemon$sizeScale = CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f);
-//            if(compatemon$sizeScale != 1.0f){
-//                cir.setReturnValue(cir.getReturnValue().scale(compatemon$sizeScale));
-//
-//                Compatemon.LOGGER.debug("NewScale: " + (compatemon$sizeScale));
-//                CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), COMPAT_SCALE_SIZE, PehkuiConfig.size_scale, 0.0f);
-//            }
-//        }
-//    }
-
-//	@Inject(at=@At(value="INVOKE", shift=At.Shift.AFTER,target="Lcom/cobblemon/mod/common/pokemon/Pokemon;getScaleModifier()F")
-//	,remap=false, locals = LocalCapture.CAPTURE_FAILSOFT
-//	,method="getDimensions")
-//	private void compatemon$invokeGetDimensionsScale(@NotNull Pose pose, CallbackInfoReturnable<EntityDimensions> cir, float scale) {
-//        scale = scale * 5.0f;
-//	}
-
-//
-//	@ModifyVariable(at = @At("LOAD"), ordinal = 0
-//			, remap = false//, locals = LocalCapture.CAPTURE_FAILSOFT
-//			, method = "getDimensions(Lnet/minecraft/world/entity/Pose;)Lnet/minecraft/world/entity/EntityDimensions;")
-//	private float compatemon$onStoreScaleModifyScale(float scale) {
-//		Compatemon.LOGGER.debug("Scale: " + scale);
-//		Compatemon.LOGGER.debug("NewScale: " + (scale * compatemon$sizeScale));
-//		return scale * compatemon$sizeScale;
-//	}
+    
+    @Unique
+    private static EntityDataAccessor<CompoundTag> PERSISTENT_DATA;// = (EntityProperty<CompoundTag>) addEntityProperty(IPokemonEntityExtensions.Companion.getPERSISTENT_DATA(), new CompoundTag());
+    
+    @Override
+    public @NotNull EntityDataAccessor<CompoundTag> getPERSISTENT_DATA(){return PERSISTENT_DATA;    }
+    
+    @Override
+    public void setPERSISTENT_DATA(EntityDataAccessor<CompoundTag> p){PERSISTENT_DATA = p;    }
+    
+    @Unique
+    private EntityProperty<CompoundTag> compatemon$persistentData;
+    
+    @Override
+    public EntityProperty<CompoundTag> compatemon$getPersistentData() {        return compatemon$persistentData;    }
+    
+    @Override
+    public void compatemon$setPersistentData(EntityProperty<CompoundTag> value) {        compatemon$persistentData = value;    }
+    
+    
+    @Inject(method="<clinit>"
+    ,at=@At("RETURN")
+    ,remap=false)
+    private static void compatemon$onclinitReturn(CallbackInfo ci){
+        PERSISTENT_DATA = SynchedEntityData.defineId(PokemonEntity.class, EntityDataSerializers.COMPOUND_TAG);
+    }
+    
 
 
-
-//    @Inject(at = @At("RETURN")
-//            ,method="mobInteract"
-//            ,remap=false)
-//    public void compatemon$injectInteractMobReturn(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir){
-//        // Placeholder bc I'm SURE we'll have something to do here
-//    }
-//
     
     @Inject(at = @At("TAIL")
             ,method="setCustomName"
@@ -148,6 +97,7 @@ implements IScalablePokemonEntity, IPokemonEntityExtensions
         if(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR)){
             pokemon.setNickname(t.copy().withStyle(Style.EMPTY.withColor(TextColor.parseColor(pokemon.getPersistentData().getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)))));
         }
+        compatemon$persistentData = (EntityProperty<CompoundTag>) addEntityProperty(PERSISTENT_DATA, pokemon.getPersistentData());
     }
 
     @Override
@@ -159,4 +109,14 @@ implements IScalablePokemonEntity, IPokemonEntityExtensions
     public void compatemon$setSizeScale(float sizeScale){
         compatemon$sizeScale = sizeScale;
     }
+
+
+
+//    @Inject(at = @At("RETURN")
+//            ,method="mobInteract"
+//            ,remap=false)
+//    public void compatemon$injectInteractMobReturn(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir){
+//        // Placeholder bc I'm SURE we'll have something to do here
+//    }
+//
 }
