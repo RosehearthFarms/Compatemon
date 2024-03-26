@@ -22,12 +22,11 @@ import java.math.RoundingMode
 open class CompatemonScaleUtils {
     companion object {
 
-        fun setScale(entity:Entity, scaleName:String):Float{
-            return setScale(entity,scaleName,CompateUtils.isApothBoss(entity as Mob))
-        }
-        fun setScale(entity:Entity, scaleName:String, isBoss:Boolean):Float{
-            return setScale(entity,scaleName,1.0f,0.0f, isBoss)
-        }
+        /**
+         * Sets the scale of an entity based on a String constant. Different functions for different param sets.
+         */
+        fun setScale(entity:Entity, scaleName:String):Float{            return setScale(entity,scaleName,CompateUtils.isApothBoss(entity as Mob))        }
+        fun setScale(entity:Entity, scaleName:String, isBoss:Boolean):Float{            return setScale(entity,scaleName,1.0f,0.0f, isBoss)        }
         fun setScale(entity:Entity, scaleName: String, defaultBaseScale:Float = 1.0f, addToScale:Float = 0.0f, isBoss:Boolean = false):Float{
             if(scaleName != COMPAT_SCALE_SIZE)
                 return 1.0f;
@@ -38,13 +37,16 @@ open class CompatemonScaleUtils {
         }
 
 
-
-        fun getScale(entity:Entity,scaleName:String):Float{
-            return getScale(entity,scaleName,1.0f,CompateUtils.isApothBoss(entity as Mob))
-        }
+        /**
+         * Subfunctions used to return either the existing scale or a new calculated scale of an entity.
+         */
+        fun getScale(entity:Entity,scaleName:String):Float{            return getScale(entity,scaleName,1.0f,CompateUtils.isApothBoss(entity as Mob))        }
         fun getScale(entity:Entity, scaleName: String, defaultBaseScale:Float, isBoss: Boolean):Float {
             var scaleVal = defaultBaseScale;
 
+            // Gets the entity's scale.
+            // Gets from a pokemon's persistentData or a different entity's scale data
+            // May need to change how it gets this data? May be where the issue with environ desync comes from?
             if(entity.type.toString() == "entity.cobblemon.pokemon"){
                 if((entity as PokemonEntity).pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).contains(scaleName)) {
                     scaleVal = entity.pokemon.persistentData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).getFloat(scaleName)
@@ -56,22 +58,18 @@ open class CompatemonScaleUtils {
 
 
 
-
+            // TODO: Better logic than if the scale is base bc this'll update it when it gets Calculated to the default
             if(scaleVal == defaultBaseScale) scaleVal = getNewScale(scaleName, defaultBaseScale, isBoss)
 
 
 
 
-
+            // Add the calculated scale to the pokemon's PersistentData
             if(entity.type.toString() == "entity.cobblemon.pokemon"){
-
                 val compatemonData = CompoundTag()
-
                 compatemonData.put(CompatemonDataKeys.MOD_ID_COMPATEMON, CompoundTag())
                 compatemonData.getCompound(CompatemonDataKeys.MOD_ID_COMPATEMON).putFloat(scaleName, scaleVal)
-
                 (entity as PokemonEntity).pokemon.persistentData.merge(compatemonData)
-
                 Compatemon.LOGGER.debug("Size Scale of {} is being set: {}", entity.pokemon.species.name, scaleVal);
             }
             return scaleVal
@@ -96,16 +94,6 @@ open class CompatemonScaleUtils {
 
                 return BigDecimal.valueOf(new_size).setScale(2, RoundingMode.UP).toFloat()
             }
-//            else if (scaleName == COMPAT_SCALE_WEIGHT) {
-//                if (!PehkuiConfig.weight_do_unprovided) return 1.0f
-//                var new_weight = (PehkuiConfig.weight_scale * defaultBaseScale) +
-//                        (CompateUtils.Rand.nextGaussian() * PehkuiConfig.weight_dev)
-//
-//                new_weight = if (new_weight > PehkuiConfig.weight_max_percentage) PehkuiConfig.weight_max_percentage.toDouble() else new_weight
-//                new_weight = if (new_weight < PehkuiConfig.weight_min_percentage) PehkuiConfig.weight_min_percentage.toDouble() else new_weight
-//                new_weight = if (new_weight <= 0.00) 0.25 else new_weight
-//                return BigDecimal.valueOf(new_weight).setScale(2, RoundingMode.UP).toFloat()
-//            }
             return 1.0f
         }
 

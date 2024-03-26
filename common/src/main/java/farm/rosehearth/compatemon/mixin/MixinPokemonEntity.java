@@ -32,19 +32,11 @@ import static farm.rosehearth.compatemon.util.CompatemonDataKeys.*;
  */
 @Mixin(PokemonEntity.class)
 abstract class MixinPokemonEntity extends Entity
-//implements
-//        //IScalablePokemonEntity,
-//        IPokemonEntityExtensions
 {
     @Shadow(remap=false)
     private Pokemon pokemon;
     @Unique
     private float compatemon$sizeScale = 1.0f;
-//    @Shadow(remap=false)
-//    public abstract EntityProperty<?> addEntityProperty(EntityDataAccessor<?> persistentData, Object compoundTag) ;
-//
-    
-    
     
     MixinPokemonEntity(EntityType<?> entityType, Level level){
         super(entityType, level);
@@ -54,46 +46,21 @@ abstract class MixinPokemonEntity extends Entity
             ,at = @At("RETURN")
             ,remap = false)
     public void compatemon$onInit(Level world, Pokemon pokemon, EntityType entityType, CallbackInfo cir){
-        //compatemon$persistentData = (EntityProperty<CompoundTag>) addEntityProperty(PERSISTENT_DATA, pokemon.getPersistentData());
         if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI) && !pokemon.isClient$common()){
             compatemon$sizeScale = CompatemonScaleUtils.Companion.setScale(((PokemonEntity) ((Object) this)), COMPAT_SCALE_SIZE);;
             Compatemon.LOGGER.debug("Size Scale is being generated in the init: {}", compatemon$sizeScale);
-            
         }
     }
-    
-//
-//
-//    @Unique
-//    private static EntityDataAccessor<CompoundTag> PERSISTENT_DATA;// = (EntityProperty<CompoundTag>) addEntityProperty(IPokemonEntityExtensions.Companion.getPERSISTENT_DATA(), new CompoundTag());
-//
-//    @Override
-//    public @NotNull EntityDataAccessor<CompoundTag> getPERSISTENT_DATA(){return PERSISTENT_DATA;    }
-//
-//    @Override
-//    public void setPERSISTENT_DATA(EntityDataAccessor<CompoundTag> p){PERSISTENT_DATA = p;    }
-//
-//    @Unique
-//    private EntityProperty<CompoundTag> compatemon$persistentData;
-//
-//    @Override
-//    public @NotNull EntityProperty<CompoundTag> compatemon$getPersistentData() {        return compatemon$persistentData;    }
-//
-//    @Override
-//    public void compatemon$setPersistentData(EntityProperty<CompoundTag> value) {        compatemon$persistentData = value;    }
-//
     
     @Inject(method="<clinit>"
     ,at=@At("RETURN")
     ,remap=false)
     private static void compatemon$onclinitReturn(CallbackInfo ci){
-        Compatemon.LOGGER.info("In clinit PokemonEntity");
+        Compatemon.LOGGER.debug("In clinit PokemonEntity");
         //PERSISTENT_DATA = SynchedEntityData.defineId(PokemonEntity.class, EntityDataSerializers.COMPOUND_TAG);
     }
     
 
-
-    
     @Inject(at = @At("TAIL")
             ,method="setCustomName"
             ,remap=false)

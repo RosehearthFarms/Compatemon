@@ -14,6 +14,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+/**
+ * Mixin for PokemonDTO class to add passing the pokemon's persistent data with the DTO object
+ */
 @Mixin(PokemonDTO.class)
 abstract class MixinPokemonDTO
 implements IPokemonDTOExtensions {
@@ -35,9 +38,7 @@ implements IPokemonDTOExtensions {
 //	@Inject(at=@At("RETURN")
 //	,remap=false
 //	,method="<init>()V")
-//	public void compatemon$injectIntoDefaultConstructor(CallbackInfo ci){
-//
-//	}
+//	public void compatemon$injectIntoDefaultConstructor(CallbackInfo ci){ }
 	
 	@Inject(at=@At("RETURN")
 			,remap=false
@@ -50,31 +51,31 @@ implements IPokemonDTOExtensions {
 	,remap=false
 	,method="encode")
 	public void compatemon$injectEncode(FriendlyByteBuf buffer, CallbackInfo ci){
-		Compatemon.LOGGER.info("We're encoding the pokemon here!");
+		//Compatemon.LOGGER.debug("We're encoding the pokemon here!");
 		buffer.writeNbt(compatemon$persistentData) ;
-		Compatemon.LOGGER.info(compatemon$persistentData.toString());
+		//Compatemon.LOGGER.debug(compatemon$persistentData.toString());
 	}
 	
 	@Inject(at=@At("RETURN")
 			,remap=false
 			,method="decode")
 	public void compatemon$injectDecode(FriendlyByteBuf buffer, CallbackInfo ci){
-		Compatemon.LOGGER.debug("We're decoding the pokemon here!");
+		//Compatemon.LOGGER.debug("We're decoding the pokemon here!");
 		//compatemon$persistentData = buffer.readNullable(v -> buffer.readNbt());
 		compatemon$persistentData = buffer.readNbt();
-		Compatemon.LOGGER.debug(compatemon$persistentData.toString());
+		//Compatemon.LOGGER.debug(compatemon$persistentData.toString());
 	}
 	
 	@Inject(at=@At("TAIL")
 	,remap=false
 	,method="create")
 	public void compatemon$createPokemon$tail(CallbackInfoReturnable<Pokemon> cir){
-		Compatemon.LOGGER.info("====================================================================");
-		Compatemon.LOGGER.info("We're creating the pokemon here! Here's the entity's NBT Data: ");
+		Compatemon.LOGGER.debug("====================================================================");
+		Compatemon.LOGGER.debug("We're creating the pokemon here! Here's the entity's NBT Data: ");
 		//Compatemon.LOGGER.info(compatemon$persistentData.toString());
 		cir.getReturnValue().getPersistentData().merge(compatemon$persistentData);
 		CompoundTag x = cir.getReturnValue().saveToNBT(new CompoundTag());
-		Compatemon.LOGGER.info(x.toString());
-		Compatemon.LOGGER.info("====================================================================");
+		Compatemon.LOGGER.debug(x.toString());
+		Compatemon.LOGGER.debug("====================================================================");
 	}
 }

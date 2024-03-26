@@ -9,6 +9,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_SENT_POST
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_SENT_PRE
 import farm.rosehearth.compatemon.events.CompatemonEvents.POKEMON_SENT_N_SPAWNED
 import farm.rosehearth.compatemon.modules.pehkui.IScalableFormData
+import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils.Companion.getScale
 import farm.rosehearth.compatemon.modules.pehkui.util.CompatemonScaleUtils.Companion.setScale
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_BOSS
 import farm.rosehearth.compatemon.util.CompatemonDataKeys.APOTH_RARITY_COLOR
@@ -26,7 +27,7 @@ object CompatemonKotlin {
 
         // Occurs when the Pokemon is saved to the world or party
         POKEMON_ENTITY_SAVE.subscribe{ event ->
-            if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){
+            if(Compatemon.ShouldLoadMod(MOD_ID_APOTHEOSIS)){ // Save boss data to the pokemon
                 var isBoss = event.pokemonEntity.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_BOSS);
                 if(isBoss){
                     var rarityKey = event.pokemonEntity.pokemon.persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)
@@ -36,8 +37,10 @@ object CompatemonKotlin {
         }
 
         POKEMON_ENTITY_LOAD.subscribe{ event ->
-            if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)) {
+            if(Compatemon.ShouldLoadMod(MOD_ID_PEHKUI)) { // set the scale when the world is loaded
+                Compatemon.LOGGER.info("We're setting the scale at load time!")
                 var scale = setScale(event.pokemonEntity, COMPAT_SCALE_SIZE)
+                Compatemon.LOGGER.info("WE SET THE load SCALE TO : {}", scale )
               // ( event.pokemonEntity.pokemon.form as IScalableFormData).`compatemon$setSizeScale`(scale)
             }
         }
@@ -48,25 +51,28 @@ object CompatemonKotlin {
 
                 var scale = setScale(event.entity, COMPAT_SCALE_SIZE)
                 Compatemon.LOGGER.info("WE SET THE SPAWNED SCALE TO : {}", scale )
-
             }
-
         }
 
         POKEMON_SENT_PRE.subscribe{event ->
-            Compatemon.LOGGER.info("POKEMON_SENT_PRE  FIRED: {}", event.pokemon.species.name )
+            Compatemon.LOGGER.debug("POKEMON_SENT_PRE  FIRED: {}", event.pokemon.species.name )
         }
         POKEMON_SENT_POST.subscribe{event ->
-            Compatemon.LOGGER.info("POKEMON_SENT_POST FIRED: {}", event.pokemon.species.name )
+            Compatemon.LOGGER.debug("POKEMON_SENT_POST FIRED: {}", event.pokemon.species.name )
         }
 
+        // This occurs after the Sent Pre Event has started and the entity has already been instantiated
+        // Only fires SERVER side
         POKEMON_SENT_N_SPAWNED.subscribe { event ->
-            var scale = 1.0f
+
             Compatemon.LOGGER.info("POKEMON_SENT_N_SPAWNED FIRED: {}", event.pokemon.species.name )
 
-            scale = setScale(event.pokemon.entity as Entity, COMPAT_SCALE_SIZE)
+            var scale = setScale(event.pokemon.entity as Entity, COMPAT_SCALE_SIZE)
+            var nscale = getScale(event.pokemon.entity as Entity, COMPAT_SCALE_SIZE)
+            var escale = getScale(event.pokemonEntity as Entity, COMPAT_SCALE_SIZE)
 
             Compatemon.LOGGER.info("Sent out with a scale of : {}", scale )
+            Compatemon.LOGGER.info("Here are the scales for the pokemon's entity and the pokemonentity: {}, {}", nscale, escale )
 
         }
     }

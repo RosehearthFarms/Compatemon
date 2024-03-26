@@ -57,19 +57,6 @@ public class MixinPokemonClass {
 		}
 	}
 	
-	
-	
-//	@Inject(at=@At(value="RETURN")
-//			,remap=false
-//			,method="getScaleModifier")
-//	public void compatemon$onGetScaleModifier( CallbackInfoReturnable<Float> cir){
-//		if(persistentData.getCompound(MOD_ID_COMPATEMON).contains(COMPAT_SCALE_SIZE)){
-//			float sizeScale = persistentData.getCompound(MOD_ID_COMPATEMON).getFloat(COMPAT_SCALE_SIZE);
-//			Compatemon.LOGGER.debug("In the Pokemon Class, injecting into getScaleModifier {}, {}", cir.getReturnValue(), sizeScale);
-//			//cir.setReturnValue(cir.getReturnValue() );
-//		}
-//	}
-	
 	// ===============================================================
 	// Injections for Nickname things
 	// ===============================================================
@@ -84,7 +71,7 @@ public class MixinPokemonClass {
 		,remap=false
 		,cancellable = true)
 	public void compatemon$getDisplayNameWithColor(CallbackInfoReturnable<Component> cir){
-		if(persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR) ){//cir.setReturnValue(nickname.copy().withStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR)))));
+		if(persistentData.getCompound(MOD_ID_COMPATEMON).contains(APOTH_RARITY_COLOR)){
 			var x = cir.getReturnValue().copy().setStyle(Style.EMPTY.withColor(TextColor.parseColor(persistentData.getCompound(MOD_ID_COMPATEMON).getString(APOTH_RARITY_COLOR))));
 			cir.setReturnValue(x);
 		}
